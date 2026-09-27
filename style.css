@@ -12,10 +12,13 @@ body {
 }
 
 
-/* NAVBAR */
+/* =========================
+   NAVBAR
+========================= */
 
 .navbar {
     height: 70px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -35,6 +38,7 @@ body {
     color: black;
 
     border: none;
+
     padding: 10px 20px;
 
     border-radius: 8px;
@@ -43,8 +47,15 @@ body {
     cursor: pointer;
 }
 
+.login-btn:hover,
+.start-btn:hover {
+    opacity: 0.8;
+}
 
-/* HERO */
+
+/* =========================
+   HERO
+========================= */
 
 .hero {
     min-height: calc(100vh - 70px);
@@ -94,18 +105,236 @@ body {
     cursor: pointer;
 }
 
-.login-btn:hover,
-.start-btn:hover {
-    opacity: 0.8;
+
+/* =========================
+   AUTH OVERLAY
+========================= */
+
+.auth-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    z-index: 1000;
+}
+
+.auth-overlay.active {
+    display: flex;
 }
 
 
-/* MOBILE */
+/* =========================
+   AUTH BOX
+========================= */
+
+.auth-box {
+    width: 100%;
+    max-width: 420px;
+
+    background: #151515;
+
+    border: 1px solid #292929;
+
+    border-radius: 18px;
+
+    padding: 35px;
+
+    position: relative;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.auth-box h2 {
+    font-size: 28px;
+
+    margin-bottom: 8px;
+}
+
+.auth-subtitle {
+    color: #888;
+
+    font-size: 14px;
+
+    margin-bottom: 25px;
+}
+
+
+/* CLOSE */
+
+.close-auth {
+    position: absolute;
+
+    top: 15px;
+    right: 18px;
+
+    background: none;
+
+    border: none;
+
+    color: #888;
+
+    font-size: 28px;
+
+    cursor: pointer;
+}
+
+.close-auth:hover {
+    color: white;
+}
+
+
+/* INPUTS */
+
+.auth-box input {
+    width: 100%;
+
+    background: #0d0d0d;
+
+    color: white;
+
+    border: 1px solid #292929;
+
+    border-radius: 9px;
+
+    padding: 13px 14px;
+
+    margin-bottom: 14px;
+
+    outline: none;
+
+    font-size: 15px;
+}
+
+.auth-box input:focus {
+    border-color: #555;
+}
+
+
+/* PASSWORD */
+
+.password-box {
+    position: relative;
+}
+
+.password-box input {
+    padding-right: 50px;
+}
+
+.password-box button {
+    position: absolute;
+
+    right: 10px;
+    top: 0;
+
+    height: 45px;
+
+    background: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+
+/* AUTH BUTTON */
+
+.auth-submit {
+    width: 100%;
+
+    background: white;
+
+    color: black;
+
+    border: none;
+
+    border-radius: 9px;
+
+    padding: 13px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    margin-top: 5px;
+}
+
+.auth-submit:hover {
+    opacity: 0.85;
+}
+
+
+/* MESSAGE */
+
+.auth-message {
+    min-height: 20px;
+
+    margin-top: 12px;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* SWITCH */
+
+.switch-auth {
+    text-align: center;
+
+    color: #888;
+
+    font-size: 14px;
+
+    margin-top: 22px;
+}
+
+.switch-auth span {
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    margin-left: 4px;
+}
+
+.switch-auth span:hover {
+    text-decoration: underline;
+}
+
+
+/* HIDDEN */
+
+.hidden {
+    display: none;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 600px) {
 
     .navbar {
         padding: 0 20px;
+    }
+
+    .hero {
+        padding: 25px 20px;
     }
 
     .hero h1 {
@@ -114,5 +343,9 @@ body {
 
     .hero p {
         font-size: 16px;
+    }
+
+    .auth-box {
+        padding: 30px 22px;
     }
 }
