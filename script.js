@@ -168,7 +168,7 @@ async function loginUser() {
         .classList.remove("hidden");
 
 }, 700);
-
+}
 // ==============================
 // SIGNUP
 // ==============================
