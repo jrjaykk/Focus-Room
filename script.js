@@ -157,13 +157,17 @@ async function loginUser() {
 
     setTimeout(() => {
 
-        closeLogin();
+    closeLogin();
 
-        alert("Welcome to Focus Room!");
+    document
+        .getElementById("landingPage")
+        .classList.add("hidden");
 
-    }, 700);
-}
+    document
+        .getElementById("dashboardPage")
+        .classList.remove("hidden");
 
+}, 700);
 
 // ==============================
 // SIGNUP
@@ -275,4 +279,22 @@ function clearMessages() {
     if (signupMessage) {
         signupMessage.textContent = "";
     }
+}
+
+
+    // ==============================
+// LOGOUT
+// ==============================
+
+async function logoutUser() {
+
+    await supabaseClient.auth.signOut();
+
+    document
+        .getElementById("dashboardPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("landingPage")
+        .classList.remove("hidden");
 }
