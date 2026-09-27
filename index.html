@@ -11,14 +11,22 @@
 
 <body>
 
+    <!-- NAVBAR -->
+
     <header class="navbar">
-        <div class="logo">Focus Room</div>
+
+        <div class="logo">
+            Focus Room
+        </div>
 
         <button class="login-btn" onclick="openLogin()">
             Login
         </button>
+
     </header>
 
+
+    <!-- HERO -->
 
     <main class="hero">
 
@@ -42,8 +50,142 @@
 
     </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js"></script>
-    
+
+    <!-- AUTH OVERLAY -->
+
+    <div class="auth-overlay" id="authOverlay">
+
+        <div class="auth-box">
+
+            <button class="close-auth" onclick="closeLogin()">
+                ×
+            </button>
+
+
+            <!-- LOGIN -->
+
+            <div id="loginForm">
+
+                <h2>Welcome Back</h2>
+
+                <p class="auth-subtitle">
+                    Login to your Focus Room
+                </p>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Email address"
+                    autocomplete="email"
+                >
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Password"
+                        autocomplete="current-password"
+                    >
+
+                    <button
+                        type="button"
+                        onclick="togglePassword('loginPassword', this)"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+                <button
+                    class="auth-submit"
+                    onclick="loginUser()"
+                >
+                    Login
+                </button>
+
+                <p id="authMessage" class="auth-message"></p>
+
+                <p class="switch-auth">
+                    Don't have an account?
+                    <span onclick="showSignup()">
+                        Create Account
+                    </span>
+                </p>
+
+            </div>
+
+
+            <!-- SIGNUP -->
+
+            <div id="signupForm" class="hidden">
+
+                <h2>Create Account</h2>
+
+                <p class="auth-subtitle">
+                    Create your Focus Room account
+                </p>
+
+                <input
+                    type="text"
+                    id="signupUsername"
+                    placeholder="Username"
+                    autocomplete="username"
+                >
+
+                <input
+                    type="email"
+                    id="signupEmail"
+                    placeholder="Email address"
+                    autocomplete="email"
+                >
+
+                <div class="password-box">
+
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        placeholder="Password"
+                        autocomplete="new-password"
+                    >
+
+                    <button
+                        type="button"
+                        onclick="togglePassword('signupPassword', this)"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+                <button
+                    class="auth-submit"
+                    onclick="signupUser()"
+                >
+                    Create Account
+                </button>
+
+                <p id="signupMessage" class="auth-message"></p>
+
+                <p class="switch-auth">
+                    Already have an account?
+                    <span onclick="showLogin()">
+                        Login
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
