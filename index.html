@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,47 +12,53 @@
 
 <body>
 
-    <!-- NAVBAR -->
+    <!-- =========================
+         LANDING PAGE
+    ========================== -->
 
-    <header class="navbar">
+    <div id="landingPage">
 
-        <div class="logo">
-            Focus Room
-        </div>
+        <header class="navbar">
 
-        <button class="login-btn" onclick="openLogin()">
-            Login
-        </button>
+            <div class="logo">
+                Focus Room
+            </div>
 
-    </header>
-
-
-    <!-- HERO -->
-
-    <main class="hero">
-
-        <div class="hero-content">
-
-            <h1>
-                Focus Together.<br>
-                Study Better.
-            </h1>
-
-            <p>
-                Create your focus room, study with friends,
-                track your progress and build your streak.
-            </p>
-
-            <button class="start-btn" onclick="openLogin()">
-                Get Started
+            <button class="login-btn" onclick="openLogin()">
+                Login
             </button>
 
-        </div>
-
-    </main>
+        </header>
 
 
-    <!-- AUTH OVERLAY -->
+        <main class="hero">
+
+            <div class="hero-content">
+
+                <h1>
+                    Focus Together.<br>
+                    Study Better.
+                </h1>
+
+                <p>
+                    Create your focus room, study with friends,
+                    track your progress and build your streak.
+                </p>
+
+                <button class="start-btn" onclick="openLogin()">
+                    Get Started
+                </button>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- =========================
+         AUTH OVERLAY
+    ========================== -->
 
     <div class="auth-overlay" id="authOverlay">
 
@@ -108,6 +115,7 @@
 
                 <p class="switch-auth">
                     Don't have an account?
+
                     <span onclick="showSignup()">
                         Create Account
                     </span>
@@ -169,6 +177,7 @@
 
                 <p class="switch-auth">
                     Already have an account?
+
                     <span onclick="showLogin()">
                         Login
                     </span>
@@ -181,6 +190,433 @@
     </div>
 
 
+    <!-- =========================
+         DASHBOARD
+    ========================== -->
+
+    <div id="dashboardPage" class="dashboard-page hidden">
+
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+                Focus Room
+            </div>
+
+
+            <nav class="sidebar-menu">
+
+                <button class="sidebar-item active">
+                    <span>🏠</span>
+                    Dashboard
+                </button>
+
+                <button class="sidebar-item">
+                    <span>⏱️</span>
+                    Focus
+                </button>
+
+                <button class="sidebar-item">
+                    <span>🚪</span>
+                    My Rooms
+                </button>
+
+                <button class="sidebar-item">
+                    <span>👥</span>
+                    Friends
+                </button>
+
+                <button class="sidebar-item">
+                    <span>📊</span>
+                    Progress
+                </button>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <button class="sidebar-item">
+                    <span>⚙️</span>
+                    Settings
+                </button>
+
+                <button class="sidebar-item logout-item" onclick="logoutUser()">
+                    <span>🚪</span>
+                    Logout
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN DASHBOARD -->
+
+        <main class="dashboard-main">
+
+
+            <!-- TOP BAR -->
+
+            <header class="dashboard-header">
+
+                <div class="mobile-logo">
+                    Focus Room
+                </div>
+
+                <div class="header-right">
+
+                    <div class="streak-mini">
+                        🔥 <span>0</span> days
+                    </div>
+
+                    <div class="profile-mini">
+
+                        <div class="profile-avatar">
+                            J
+                        </div>
+
+                        <span id="dashboardUsername">
+                            User
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- CONTENT -->
+
+            <section class="dashboard-content">
+
+
+                <!-- WELCOME -->
+
+                <div class="dashboard-welcome">
+
+                    <h1>
+                        Good to see you 👋
+                    </h1>
+
+                    <p>
+                        Ready to focus and get some work done?
+                    </p>
+
+                </div>
+
+
+                <!-- STATS -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            ⏱️
+                        </div>
+
+                        <div>
+
+                            <p>
+                                Today's Focus
+                            </p>
+
+                            <h2>
+                                0m
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            🔥
+                        </div>
+
+                        <div>
+
+                            <p>
+                                Current Streak
+                            </p>
+
+                            <h2>
+                                0 days
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📚
+                        </div>
+
+                        <div>
+
+                            <p>
+                                Sessions
+                            </p>
+
+                            <h2>
+                                0
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            👥
+                        </div>
+
+                        <div>
+
+                            <p>
+                                Friends
+                            </p>
+
+                            <h2>
+                                0
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TIMER + ROOMS -->
+
+                <div class="main-grid">
+
+
+                    <!-- TIMER -->
+
+                    <div class="dashboard-card timer-card">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <p class="card-label">
+                                    FOCUS TIMER
+                                </p>
+
+                                <h2>
+                                    Ready to focus?
+                                </h2>
+
+                            </div>
+
+                            <span class="timer-mode">
+                                Focus
+                            </span>
+
+                        </div>
+
+
+                        <div class="timer-display">
+                            25:00
+                        </div>
+
+
+                        <div class="timer-controls">
+
+                            <button class="timer-start">
+                                Start Focus
+                            </button>
+
+                            <button class="timer-reset">
+                                Reset
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MY ROOMS -->
+
+                    <div class="dashboard-card rooms-card">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <p class="card-label">
+                                    MY ROOMS
+                                </p>
+
+                                <h2>
+                                    Study Rooms
+                                </h2>
+
+                            </div>
+
+                            <button class="small-btn">
+                                + Create
+                            </button>
+
+                        </div>
+
+
+                        <div class="empty-state">
+
+                            <div class="empty-icon">
+                                🚪
+                            </div>
+
+                            <h3>
+                                No rooms yet
+                            </h3>
+
+                            <p>
+                                Create or join a room to study
+                                with friends.
+                            </p>
+
+                            <button class="outline-btn">
+                                Join a Room
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BOTTOM GRID -->
+
+                <div class="bottom-grid">
+
+
+                    <!-- STUDY ACTIVITY -->
+
+                    <div class="dashboard-card">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <p class="card-label">
+                                    TODAY
+                                </p>
+
+                                <h2>
+                                    Study Activity
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="activity-empty">
+
+                            <div class="empty-icon">
+                                📚
+                            </div>
+
+                            <p>
+                                Your study activity will appear here.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PROGRESS -->
+
+                    <div class="dashboard-card">
+
+                        <div class="card-heading">
+
+                            <div>
+
+                                <p class="card-label">
+                                    PROGRESS
+                                </p>
+
+                                <h2>
+                                    This Week
+                                </h2>
+
+                            </div>
+
+                            <span class="progress-value">
+                                0h
+                            </span>
+
+                        </div>
+
+
+                        <div class="progress-chart">
+
+                            <div class="chart-bar">
+                                <span>Mon</span>
+                                <div style="height: 10%"></div>
+                            </div>
+
+                            <div class="chart-bar">
+                                <span>Tue</span>
+                                <div style="height: 10%"></div>
+                            </div>
+
+                            <div class="chart-bar">
+                                <span>Wed</span>
+                                <div style="height: 10%"></div>
+                            </div>
+
+                            <div class="chart-bar">
+                                <span>Thu</span>
+                                <div style="height: 10%"></div>
+                            </div>
+
+                            <div class="chart-bar">
+                                <span>Fri</span>
+                                <div style="height: 10%"></div>
+                            </div>
+
+                            <div class="chart-bar">
+                                <span>Sat</span>
+                                <div style="height: 10%"></div>
+                            </div>
+
+                            <div class="chart-bar">
+                                <span>Sun</span>
+                                <div style="height: 10%"></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
     <!-- SUPABASE -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -188,4 +624,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>
