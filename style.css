@@ -1,0 +1,118 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0b0b0b;
+    color: white;
+    min-height: 100vh;
+}
+
+
+/* NAVBAR */
+
+.navbar {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 7%;
+
+    border-bottom: 1px solid #222;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.login-btn {
+    background: white;
+    color: black;
+
+    border: none;
+    padding: 10px 20px;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+/* HERO */
+
+.hero {
+    min-height: calc(100vh - 70px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 30px;
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.hero h1 {
+    font-size: 58px;
+    line-height: 1.1;
+
+    margin-bottom: 25px;
+}
+
+.hero p {
+    color: #aaa;
+
+    font-size: 18px;
+    line-height: 1.6;
+
+    margin-bottom: 35px;
+}
+
+.start-btn {
+    background: white;
+    color: black;
+
+    border: none;
+
+    padding: 14px 28px;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.login-btn:hover,
+.start-btn:hover {
+    opacity: 0.8;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+}
