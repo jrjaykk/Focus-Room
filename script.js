@@ -2,7 +2,8 @@
 // SUPABASE CONNECTION
 // ==============================
 
-const SUPABASE_URL = "https://kczoxlotxamqommhgnrv.supabase.co";
+const SUPABASE_URL =
+    "https://kczoxlotxamqommhgnrv.supabase.co";
 
 const SUPABASE_KEY =
     "sb_publishable_FEDDWMPP-wjRyOzEQbcOSQ_49dANp9m";
@@ -83,18 +84,17 @@ function showSignup() {
 
 function togglePassword(inputId, button) {
 
-    const input = document.getElementById(inputId);
+    const input =
+        document.getElementById(inputId);
 
     if (input.type === "password") {
 
         input.type = "text";
-
         button.textContent = "🙈";
 
     } else {
 
         input.type = "password";
-
         button.textContent = "👁";
     }
 }
@@ -107,10 +107,15 @@ function togglePassword(inputId, button) {
 async function loginUser() {
 
     const email =
-        document.getElementById("loginEmail").value.trim();
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
 
     const password =
-        document.getElementById("loginPassword").value;
+        document
+            .getElementById("loginPassword")
+            .value;
 
     const message =
         document.getElementById("authMessage");
@@ -125,7 +130,8 @@ async function loginUser() {
     }
 
 
-    message.textContent = "Logging in...";
+    message.textContent =
+        "Logging in...";
 
 
     const { data, error } =
@@ -150,25 +156,28 @@ async function loginUser() {
         "Login successful!";
 
 
-    console.log("Logged in user:", data.user);
+    console.log(
+        "Logged in user:",
+        data.user
+    );
 
-
-    // Temporary dashboard test
 
     setTimeout(() => {
 
-    closeLogin();
+        closeLogin();
 
-    document
-        .getElementById("landingPage")
-        .classList.add("hidden");
+        document
+            .getElementById("landingPage")
+            .classList.add("hidden");
 
-    document
-        .getElementById("dashboardPage")
-        .classList.remove("hidden");
+        document
+            .getElementById("dashboardPage")
+            .classList.remove("hidden");
 
-}, 700);
+    }, 700);
 }
+
+
 // ==============================
 // SIGNUP
 // ==============================
@@ -191,7 +200,6 @@ async function signupUser() {
         document
             .getElementById("signupPassword")
             .value;
-
 
     const message =
         document.getElementById("signupMessage");
@@ -244,7 +252,10 @@ async function signupUser() {
     }
 
 
-    console.log("Signup user:", data.user);
+    console.log(
+        "Signup user:",
+        data.user
+    );
 
 
     message.textContent =
@@ -273,16 +284,19 @@ function clearMessages() {
 
 
     if (loginMessage) {
+
         loginMessage.textContent = "";
     }
 
+
     if (signupMessage) {
+
         signupMessage.textContent = "";
     }
 }
 
 
-    // ==============================
+// ==============================
 // LOGOUT
 // ==============================
 
@@ -290,9 +304,11 @@ async function logoutUser() {
 
     await supabaseClient.auth.signOut();
 
+
     document
         .getElementById("dashboardPage")
         .classList.add("hidden");
+
 
     document
         .getElementById("landingPage")
