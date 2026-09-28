@@ -530,21 +530,63 @@ async function loadMyRooms() {
         return;
     }
 
-    const { data: rooms, error } =
+    // Rooms created by me
+    const { data: createdRooms, error: createdError } =
         await supabaseClient
             .from("rooms")
             .select("*")
-            .eq("created_by", user.id)
-            .order("created_at", {
-                ascending: false
-            });
+            .eq("created_by", user.id);
 
-    if (error) {
-
-        console.error("Load rooms error:", error);
-
+    if (createdError) {
+        console.error("Load created rooms error:", createdError);
         return;
     }
+
+    // Rooms I joined
+    const { data: memberships, error: memberError } =
+        await supabaseClient
+            .from("room_members")
+            .select("room_id")
+            .eq("user_id", user.id);
+
+    if (memberError) {
+        console.error("Load memberships error:", memberError);
+        return;
+    }
+
+    const joinedRoomIds =
+        memberships.map(member => member.room_id);
+
+    let joinedRooms = [];
+
+    if (joinedRoomIds.length > 0) {
+
+        const { data, error } =
+            await supabaseClient
+                .from("rooms")
+                .select("*")
+                .in("id", joinedRoomIds);
+
+        if (error) {
+            console.error("Load joined rooms error:", error);
+            return;
+        }
+
+        joinedRooms = data || [];
+    }
+
+    // Combine created + joined rooms
+    const allRooms = [
+        ...(createdRooms || []),
+        ...joinedRooms
+    ];
+
+    // Remove duplicate rooms
+    const uniqueRooms = [
+        ...new Map(
+            allRooms.map(room => [room.id, room])
+        ).values()
+    ];
 
     const roomsList =
         document.getElementById("roomsList");
@@ -553,21 +595,39 @@ async function loadMyRooms() {
         return;
     }
 
-    if (!rooms || rooms.length === 0) {
+    if (uniqueRooms.length === 0) {
+        roomsList.innerHTML = 
+            <div class="empty-state">
+                <div class="empty-icon">🚪</div>
+
+                <h3>No rooms yet</h3>
+
+                <p>
+                    Create or join a room to study with friends.
+                </p>
+
+                <button
+                    class="outline-btn"
+                    onclick="joinRoom()"
+                >
+                    Join a Room
+                </button>
+            </div>
+        ;
 
         return;
     }
 
     roomsList.innerHTML = "";
 
-    rooms.forEach(room => {
+    uniqueRooms.forEach(room => {
 
         const roomCard =
             document.createElement("div");
 
         roomCard.className = "room-item";
 
-        roomCard.innerHTML = `
+        roomCard.innerHTML =` 
             <div class="room-item-icon">
                 📚
             </div>
@@ -579,14 +639,14 @@ async function loadMyRooms() {
                 </h3>
 
                 <p>
-                    Code: <strong>${room.room_code}</strong>
+                    Code:
+                    <strong>${room.room_code}</strong>
                 </p>
 
             </div>
         `;
 
         roomsList.appendChild(roomCard);
-
     });
 }
 
