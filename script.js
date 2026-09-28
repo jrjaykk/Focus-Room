@@ -657,16 +657,46 @@ async function joinRoom() {
 
     // Add user to room
 
-    const { error: joinError } =
-        await supabaseClient
-            .from("room_members")
-            .insert({
+   const { data: existingMember, error: memberCheckError } =
+    await supabaseClient
+        .from("room_members")
+        .select("id")
+        .eq("room_id", room.id)
+        .eq("user_id", user.id)
+        .maybeSingle();
 
-                room_id: room.id,
 
-                user_id: user.id
+if (memberCheckError) {
 
-            });
+    console.error(
+        "Membership check error:",
+        memberCheckError
+    );
+
+    alert("Could not check room membership.");
+
+    return;
+}
+
+
+if (existingMember) {
+
+    alert("You are already a member of this room.");
+
+    return;
+}
+
+
+const { error: joinError } =
+    await supabaseClient
+        .from("room_members")
+        .insert({
+
+            room_id: room.id,
+
+            user_id: user.id
+
+        });
 
 
     if (joinError) {
