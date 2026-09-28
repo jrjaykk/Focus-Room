@@ -312,3 +312,5 @@ async function logoutUser() {
         .getElementById("landingPage")
         .classList.remove("hidden");
 }
+
+alert("JavaScript loaded");
