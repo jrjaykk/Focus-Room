@@ -205,7 +205,7 @@ async function signupUser() {
         document.getElementById("signupMessage");
 
 
-    if (!username  !email  !password) {
+    if (!username || !email || !password) {
 
         message.textContent =
             "Please fill all fields.";
