@@ -173,6 +173,7 @@ async function loginUser() {
         document
             .getElementById("dashboardPage")
             .classList.remove("hidden");
+        loadMyRooms();
 
     }, 700);
 }
