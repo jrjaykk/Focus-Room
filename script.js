@@ -507,7 +507,7 @@ async function createRoom() {
 
 
     alert(
-        Room created successfully!\n\nRoom: ${data.name}\nCode: ${data.room_code}
+        `Room created successfully!\n\nRoom: ${data.name}\nCode: ${data.room_code}`
     );
 
 
