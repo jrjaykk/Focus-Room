@@ -313,4 +313,124 @@ async function logoutUser() {
         .classList.remove("hidden");
 }
 
+
+// ==============================
+// FOCUS TIMER
+// ==============================
+
+let timerSeconds = 25 * 60;
+let timerInterval = null;
+let timerRunning = false;
+
+
+// ==============================
+// UPDATE TIMER DISPLAY
+// ==============================
+
+function updateTimerDisplay() {
+
+    const minutes =
+        Math.floor(timerSeconds / 60);
+
+    const seconds =
+        timerSeconds % 60;
+
+    document.getElementById("timerDisplay")
+        .textContent =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+
+// ==============================
+// START / PAUSE TIMER
+// ==============================
+
+function toggleTimer() {
+
+    const button =
+        document.getElementById("timerStart");
+
+
+    if (timerRunning) {
+
+        clearInterval(timerInterval);
+
+        timerRunning = false;
+
+        button.textContent = "Resume Focus";
+
+        return;
+    }
+
+
+    timerRunning = true;
+
+    button.textContent = "Pause";
+
+
+    timerInterval = setInterval(() => {
+
+        if (timerSeconds <= 0) {
+
+            clearInterval(timerInterval);
+
+            timerRunning = false;
+
+            button.textContent = "Start Focus";
+
+            alert("Focus session completed! 🎉");
+
+            timerSeconds = 25 * 60;
+
+            updateTimerDisplay();
+
+            return;
+        }
+
+
+        timerSeconds--;
+
+        updateTimerDisplay();
+
+    }, 1000);
+}
+
+
+// ==============================
+// RESET TIMER
+// ==============================
+
+function resetTimer() {
+
+    clearInterval(timerInterval);
+
+    timerRunning = false;
+
+    timerSeconds = 25 * 60;
+
+    document.getElementById("timerStart")
+        .textContent = "Start Focus";
+
+    updateTimerDisplay();
+}
+
+
+// ==============================
+// TIMER BUTTON EVENTS
+// ==============================
+
+document
+    .getElementById("timerStart")
+    .addEventListener("click", toggleTimer);
+
+
+document
+    .getElementById("timerReset")
+    .addEventListener("click", resetTimer);
+
+
+// Initial display
+
+updateTimerDisplay();
+
 alert("JavaScript loaded");
