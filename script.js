@@ -514,4 +514,79 @@ async function createRoom() {
     console.log("Created room:", data);
 }
 
+// ==============================
+// LOAD MY ROOMS
+// ==============================
+
+async function loadMyRooms() {
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        return;
+    }
+
+    const { data: rooms, error } =
+        await supabaseClient
+            .from("rooms")
+            .select("*")
+            .eq("created_by", user.id)
+            .order("created_at", {
+                ascending: false
+            });
+
+    if (error) {
+
+        console.error("Load rooms error:", error);
+
+        return;
+    }
+
+    const roomsList =
+        document.getElementById("roomsList");
+
+    if (!roomsList) {
+        return;
+    }
+
+    if (!rooms || rooms.length === 0) {
+
+        return;
+    }
+
+    roomsList.innerHTML = "";
+
+    rooms.forEach(room => {
+
+        const roomCard =
+            document.createElement("div");
+
+        roomCard.className = "room-item";
+
+        roomCard.innerHTML = `
+            <div class="room-item-icon">
+                📚
+            </div>
+
+            <div class="room-item-info">
+
+                <h3>
+                    ${room.name}
+                </h3>
+
+                <p>
+                    Code: <strong>${room.room_code}</strong>
+                </p>
+
+            </div>
+        `;
+
+        roomsList.appendChild(roomCard);
+
+    });
+}
+
 alert("JavaScript loaded");
