@@ -596,7 +596,7 @@ async function loadMyRooms() {
     }
 
     if (uniqueRooms.length === 0) {
-        roomsList.innerHTML = 
+        roomsList.innerHTML = `
             <div class="empty-state">
                 <div class="empty-icon">🚪</div>
 
@@ -613,7 +613,7 @@ async function loadMyRooms() {
                     Join a Room
                 </button>
             </div>
-        ;
+        `;
 
         return;
     }
