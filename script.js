@@ -590,4 +590,102 @@ async function loadMyRooms() {
     });
 }
 
+// ==============================
+// JOIN ROOM
+// ==============================
+
+async function joinRoom() {
+
+    const roomCodeInput =
+        prompt("Enter room code:");
+
+    if (!roomCodeInput) {
+        return;
+    }
+
+    const roomCode =
+        roomCodeInput.trim().toUpperCase();
+
+    if (!roomCode) {
+        return;
+    }
+
+
+    // Get logged-in user
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+
+    if (userError || !user) {
+
+        alert("Please login first.");
+
+        return;
+    }
+
+
+    // Find room
+
+    const { data: room, error: roomError } =
+        await supabaseClient
+            .from("rooms")
+            .select("*")
+            .eq("room_code", roomCode)
+            .maybeSingle();
+
+
+    if (roomError) {
+
+        console.error("Find room error:", roomError);
+
+        alert("Could not find the room.");
+
+        return;
+    }
+
+
+    if (!room) {
+
+        alert("Room not found. Please check the code.");
+
+        return;
+    }
+
+
+    // Add user to room
+
+    const { error: joinError } =
+        await supabaseClient
+            .from("room_members")
+            .insert({
+
+                room_id: room.id,
+
+                user_id: user.id
+
+            });
+
+
+    if (joinError) {
+
+        console.error("Join room error:", joinError);
+
+        alert("Could not join the room.");
+
+        return;
+    }
+
+
+    alert(
+        `Successfully joined ${room.name}!`
+    );
+
+
+    console.log("Joined room:", room);
+
+}
+
 alert("JavaScript loaded");
