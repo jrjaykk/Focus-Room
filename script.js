@@ -433,4 +433,85 @@ document
 
 updateTimerDisplay();
 
+
+// ==============================
+// CREATE ROOM
+// ==============================
+
+async function createRoom() {
+
+    const roomName = prompt("Enter your room name:");
+
+    if (!roomName) {
+        return;
+    }
+
+    const name = roomName.trim();
+
+    if (!name) {
+        return;
+    }
+
+
+    // Get logged-in user
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+
+    if (userError || !user) {
+
+        alert("Please login first.");
+
+        return;
+    }
+
+
+    // Generate 6-character room code
+
+    const roomCode =
+        Math.random()
+            .toString(36)
+            .substring(2, 8)
+            .toUpperCase();
+
+
+    // Save room in Supabase
+
+    const { data, error } =
+        await supabaseClient
+            .from("rooms")
+            .insert({
+
+                name: name,
+
+                room_code: roomCode,
+
+                created_by: user.id
+
+            })
+            .select()
+            .single();
+
+
+    if (error) {
+
+        console.error("Create room error:", error);
+
+        alert("Could not create room.");
+
+        return;
+    }
+
+
+    alert(
+        Room created successfully!\n\nRoom: ${data.name}\nCode: ${data.room_code}
+    );
+
+
+    console.log("Created room:", data);
+}
+
 alert("JavaScript loaded");
