@@ -448,10 +448,11 @@ document
     .getElementById("timerReset")
     .addEventListener("click", resetTimer);
 
-document
-    .getElementById("timerEdit")
-    .addEventListener("click", editTimer);
+const timerEditButton = document.getElementById("timerEdit");
 
+if (timerEditButton) {
+    timerEditButton.addEventListener("click", editTimer);
+}
 
 // ==============================
 // INITIAL DISPLAY
