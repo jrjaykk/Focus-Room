@@ -323,6 +323,40 @@ let timerSeconds = 25 * 60;
 let timerInterval = null;
 let timerRunning = false;
 
+// Today's live study time
+
+let todayStudySeconds = 0;
+let progressInterval = null;
+
+// ==============================
+// UPDATE TODAY'S PROGRESS
+// ==============================
+
+function updateTodayProgress() {
+
+    const progressElement =
+        document.getElementById("todayProgress");
+
+    if (!progressElement) return;
+
+    const hours =
+        Math.floor(todayStudySeconds / 3600);
+
+    const minutes =
+        Math.floor((todayStudySeconds % 3600) / 60);
+
+    if (hours > 0) {
+
+        progressElement.textContent =
+            `${hours}h ${minutes}m`;
+
+    } else {
+
+        progressElement.textContent =
+            `${minutes}m`;
+    }
+}
+
 
 // ==============================
 // UPDATE TIMER DISPLAY
