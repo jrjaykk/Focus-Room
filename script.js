@@ -330,14 +330,10 @@ let timerRunning = false;
 
 function updateTimerDisplay() {
 
-    const minutes =
-        Math.floor(timerSeconds / 60);
+    const minutes = Math.floor(timerSeconds / 60);
+    const seconds = timerSeconds % 60;
 
-    const seconds =
-        timerSeconds % 60;
-
-    document.getElementById("timerDisplay")
-        .textContent =
+    document.getElementById("timerDisplay").textContent =
         `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 }
 
@@ -348,9 +344,7 @@ function updateTimerDisplay() {
 
 function toggleTimer() {
 
-    const button =
-        document.getElementById("timerStart");
-
+    const button = document.getElementById("timerStart");
 
     if (timerRunning) {
 
@@ -363,11 +357,9 @@ function toggleTimer() {
         return;
     }
 
-
     timerRunning = true;
 
     button.textContent = "Pause";
-
 
     timerInterval = setInterval(() => {
 
@@ -387,7 +379,6 @@ function toggleTimer() {
 
             return;
         }
-
 
         timerSeconds--;
 
@@ -409,8 +400,37 @@ function resetTimer() {
 
     timerSeconds = 25 * 60;
 
-    document.getElementById("timerStart")
-        .textContent = "Start Focus";
+    document.getElementById("timerStart").textContent = "Start Focus";
+
+    updateTimerDisplay();
+}
+
+
+// ==============================
+// EDIT TIMER
+// ==============================
+
+function editTimer() {
+
+    if (timerRunning) {
+        alert("Please pause the timer before changing the time.");
+        return;
+    }
+
+    const minutes = prompt("Enter focus time in minutes:");
+
+    if (minutes === null) {
+        return;
+    }
+
+    const newMinutes = Number(minutes);
+
+    if (!Number.isFinite(newMinutes) || newMinutes <= 0) {
+        alert("Please enter a valid time.");
+        return;
+    }
+
+    timerSeconds = Math.floor(newMinutes * 60);
 
     updateTimerDisplay();
 }
@@ -424,16 +444,20 @@ document
     .getElementById("timerStart")
     .addEventListener("click", toggleTimer);
 
-
 document
     .getElementById("timerReset")
     .addEventListener("click", resetTimer);
 
+document
+    .getElementById("timerEdit")
+    .addEventListener("click", editTimer);
 
-// Initial display
+
+// ==============================
+// INITIAL DISPLAY
+// ==============================
 
 updateTimerDisplay();
-
 
 // ==============================
 // CREATE ROOM
