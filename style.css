@@ -926,3 +926,177 @@ body {
     transform: scale(1.08);
     background: rgba(255, 255, 255, 0.15);
 }
+
+/* ==============================
+   FOCUS TIME EDIT MODAL
+   ============================== */
+
+.timer-modal {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+
+    padding: 20px;
+}
+
+.timer-modal.show {
+    display: flex;
+}
+
+.timer-modal-box {
+    position: relative;
+
+    width: 100%;
+    max-width: 380px;
+
+    padding: 30px;
+
+    border-radius: 22px;
+
+    background: #151515;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    text-align: center;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.timer-modal-close {
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+
+    font-size: 24px;
+
+    cursor: pointer;
+}
+
+.modal-label {
+    margin: 0 0 8px;
+
+    font-size: 12px;
+    letter-spacing: 2px;
+
+    opacity: 0.6;
+}
+
+.timer-modal-box h2 {
+    margin: 0;
+
+    font-size: 24px;
+}
+
+.modal-subtitle {
+    margin: 8px 0 28px;
+
+    opacity: 0.6;
+    font-size: 14px;
+}
+
+
+/* TIME PICKER */
+
+.time-picker {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 25px;
+
+    margin-bottom: 30px;
+}
+
+.time-adjust {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    background: rgba(255, 255, 255, 0.07);
+    color: white;
+
+    font-size: 26px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.time-adjust:hover {
+    transform: scale(1.08);
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.selected-time {
+    min-width: 100px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.selected-time span {
+    font-size: 42px;
+    font-weight: 700;
+}
+
+.selected-time small {
+    opacity: 0.55;
+    font-size: 13px;
+}
+
+
+/* BUTTONS */
+
+.timer-modal-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.cancel-time,
+.save-time {
+    flex: 1;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+.cancel-time {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    background: transparent;
+    color: white;
+}
+
+.save-time {
+    border: none;
+
+    background: white;
+    color: black;
+
+    font-weight: 600;
+}
