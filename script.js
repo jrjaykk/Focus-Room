@@ -417,23 +417,127 @@ function editTimer() {
         return;
     }
 
-    const minutes = prompt("Enter focus time in minutes:");
+    selectedMinutes = Math.floor(timerSeconds / 60);
 
-    if (minutes === null) {
-        return;
-    }
+    document.getElementById("editMinutes").textContent =
+        selectedMinutes;
 
-    const newMinutes = Number(minutes);
+    document
+        .getElementById("timerEditModal")
+        .classList.add("show");
+}
 
-    if (!Number.isFinite(newMinutes) || newMinutes <= 0) {
-        alert("Please enter a valid time.");
-        return;
-    }
+// ==============================
+// EDIT TIMER MODAL
+// ==============================
 
-    timerSeconds = Math.floor(newMinutes * 60);
+let selectedMinutes = 25;
+
+const timerModal =
+    document.getElementById("timerEditModal");
+
+const editMinutes =
+    document.getElementById("editMinutes");
+
+const decreaseTime =
+    document.getElementById("decreaseTime");
+
+const increaseTime =
+    document.getElementById("increaseTime");
+
+const saveTimerEdit =
+    document.getElementById("saveTimerEdit");
+
+const cancelTimerEdit =
+    document.getElementById("cancelTimerEdit");
+
+const timerModalClose =
+    document.getElementById("timerModalClose");
+
+
+// ==============================
+// OPEN EDIT MODAL
+// ==============================
+
+document
+    .getElementById("timerEdit")
+    .addEventListener("click", editTimer);
+
+
+// ==============================
+// DECREASE TIME
+// ==============================
+
+decreaseTime.addEventListener("click", () => {
+
+    selectedMinutes =
+        Math.max(1, selectedMinutes - 5);
+
+    editMinutes.textContent =
+        selectedMinutes;
+});
+
+
+// ==============================
+// INCREASE TIME
+// ==============================
+
+increaseTime.addEventListener("click", () => {
+
+    selectedMinutes =
+        Math.min(180, selectedMinutes + 5);
+
+    editMinutes.textContent =
+        selectedMinutes;
+});
+
+
+// ==============================
+// SAVE TIME
+// ==============================
+
+saveTimerEdit.addEventListener("click", () => {
+
+    timerSeconds =
+        selectedMinutes * 60;
 
     updateTimerDisplay();
-}
+
+    timerModal.classList.remove("show");
+});
+
+
+// ==============================
+// CANCEL
+// ==============================
+
+cancelTimerEdit.addEventListener("click", () => {
+
+    timerModal.classList.remove("show");
+});
+
+
+// ==============================
+// CLOSE BUTTON
+// ==============================
+
+timerModalClose.addEventListener("click", () => {
+
+    timerModal.classList.remove("show");
+});
+
+
+// ==============================
+// CLICK OUTSIDE MODAL
+// ==============================
+
+timerModal.addEventListener("click", (event) => {
+
+    if (event.target === timerModal) {
+
+        timerModal.classList.remove("show");
+    }
+});
 
 
 // ==============================
