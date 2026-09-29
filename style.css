@@ -898,3 +898,31 @@ body {
         display: none;
     }
 }
+
+/* Timer Edit Button */
+
+.timer-edit {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+
+    font-size: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.timer-edit:hover {
+    transform: scale(1.08);
+    background: rgba(255, 255, 255, 0.15);
+}
