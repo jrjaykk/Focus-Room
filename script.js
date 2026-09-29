@@ -537,6 +537,7 @@ async function loadMyRooms() {
             .select("*")
             .eq("created_by", user.id);
 
+    console.log("Created rooms:", createdRooms);
     if (createdError) {
         console.error("Load created rooms error:", createdError);
         return;
