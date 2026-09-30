@@ -552,6 +552,11 @@ function resetTimer() {
 
     timerRunning = false;
 
+    if (currentSessionSeconds > 0) {
+    saveStudySession(currentSessionSeconds);
+    currentSessionSeconds = 0;
+}
+
     timerSeconds = 25 * 60;
 
     document.getElementById("timerStart").textContent = "Start Focus";
