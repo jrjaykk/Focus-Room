@@ -704,6 +704,34 @@ if (timerEditButton) {
     timerEditButton.addEventListener("click", editTimer);
 }
 
+
+// ==============================
+// SAVE STUDY SESSION
+// ==============================
+
+async function saveStudySession(seconds) {
+
+    if (seconds <= 0) return;
+
+    const {
+        data: { user }
+    } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    const { error } = await supabase
+        .from("study_sessions")
+        .insert({
+            user_id: user.id,
+            study_date: new Date().toISOString().split("T")[0],
+            duration_seconds: seconds
+        });
+
+    if (error) {
+        console.error("Failed to save study session:", error);
+    }
+}
+
 // ==============================
 // INITIAL DISPLAY
 // ==============================
