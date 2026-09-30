@@ -524,6 +524,9 @@ function toggleTimer() {
 
             alert("Focus session completed! 🎉");
 
+            saveStudySession(currentSessionSeconds);
+            currentSessionSeconds = 0;
+
             timerSeconds = 25 * 60;
 
             updateTimerDisplay();
