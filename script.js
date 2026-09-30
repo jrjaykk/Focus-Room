@@ -340,6 +340,57 @@ let weeklyStudySeconds = {
 };
 
 // ==============================
+// UPDATE WEEKLY CHART
+// ==============================
+
+function updateWeeklyChart() {
+
+    const chartBars =
+        document.querySelectorAll(".chart-bar");
+
+    const days = [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+        "Sun"
+    ];
+
+    let maxSeconds = 1;
+
+    days.forEach(day => {
+
+        if (weeklyStudySeconds[day] > maxSeconds) {
+            maxSeconds = weeklyStudySeconds[day];
+        }
+
+    });
+
+    chartBars.forEach((bar, index) => {
+
+        const day = days[index];
+
+        const seconds =
+            weeklyStudySeconds[day];
+
+        const percentage =
+            (seconds / maxSeconds) * 100;
+
+        const barFill =
+            bar.querySelector("div");
+
+        if (barFill) {
+
+            barFill.style.height =
+                `${Math.max(percentage, 10)}%`;
+        }
+
+    });
+}
+
+// ==============================
 // TODAY'S DAY
 // ==============================
 
@@ -453,6 +504,8 @@ function toggleTimer() {
 
         todayStudySeconds++;
         weeklyStudySeconds[todayName]++;
+
+        updateWeeklyChart();
         
         updateTodayProgress();
 
