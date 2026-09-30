@@ -726,13 +726,13 @@ async function saveStudySession(seconds) {
 
     if (seconds <= 0) return;
 
-    const {
-        data: { user }
-    } = await supabase.auth.getUser();
+   const {
+    data: { user }
+   } = await supabaseClient.auth.getUser();
 
     if (!user) return;
 
-    const { error } = await supabase
+    const { error } = await supabaseClient
         .from("study_sessions")
         .insert({
             user_id: user.id,
