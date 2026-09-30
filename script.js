@@ -328,6 +328,34 @@ let timerRunning = false;
 let todayStudySeconds = 0;
 let progressInterval = null;
 
+// Weekly study time
+let weeklyStudySeconds = {
+    Mon: 0,
+    Tue: 0,
+    Wed: 0,
+    Thu: 0,
+    Fri: 0,
+    Sat: 0,
+    Sun: 0
+};
+
+// ==============================
+// TODAY'S DAY
+// ==============================
+
+const dayNames = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+];
+
+const todayName =
+    dayNames[new Date().getDay()];
+
 // ==============================
 // UPDATE TODAY'S PROGRESS
 // ==============================
