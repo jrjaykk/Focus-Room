@@ -337,7 +337,8 @@ function updateTodayProgress() {
     const progressElement =
         document.getElementById("todayProgress");
 
-    if (!progressElement) return;
+    const focusElement =
+        document.getElementById("todayFocus");
 
     const hours =
         Math.floor(todayStudySeconds / 3600);
@@ -345,18 +346,43 @@ function updateTodayProgress() {
     const minutes =
         Math.floor((todayStudySeconds % 3600) / 60);
 
-    if (hours > 0) {
+    const seconds =
+        todayStudySeconds % 60;
 
-        progressElement.textContent =
-            `${hours}h ${minutes}m`;
 
-    } else {
+    // PROGRESS CARD
 
-        progressElement.textContent =
-            `${minutes}m`;
+    if (progressElement) {
+
+        if (hours > 0) {
+
+            progressElement.textContent =
+                `${hours}h ${minutes}m`;
+
+        } else {
+
+            progressElement.textContent =
+                `${minutes}m`;
+        }
+    }
+
+
+    // TODAY'S FOCUS
+
+    if (focusElement) {
+
+        if (hours > 0) {
+
+            focusElement.textContent =
+                `${hours}h ${minutes}m`;
+
+        } else {
+
+            focusElement.textContent =
+                `${minutes}m`;
+        }
     }
 }
-
 
 // ==============================
 // UPDATE TIMER DISPLAY
