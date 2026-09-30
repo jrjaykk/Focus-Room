@@ -327,6 +327,7 @@ let timerRunning = false;
 
 let todayStudySeconds = 0;
 let progressInterval = null;
+let currentSessionSeconds = 0;
 
 // Weekly study time
 let weeklyStudySeconds = {
@@ -491,6 +492,9 @@ function toggleTimer() {
 
         timerRunning = false;
 
+        saveStudySession(currentSessionSeconds);
+        currentSessionSeconds = 0;
+
         button.textContent = "Resume Focus";
 
         return;
@@ -503,6 +507,7 @@ function toggleTimer() {
     timerInterval = setInterval(() => {
 
         todayStudySeconds++;
+        currentSessionSeconds++;
         weeklyStudySeconds[todayName]++;
 
         updateWeeklyChart();
