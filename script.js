@@ -452,6 +452,8 @@ function toggleTimer() {
     timerInterval = setInterval(() => {
 
         todayStudySeconds++;
+        weeklyStudySeconds[todayName]++;
+        
         updateTodayProgress();
 
         if (timerSeconds <= 0) {
