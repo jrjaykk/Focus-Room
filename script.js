@@ -1315,3 +1315,18 @@ const { error: joinError } =
 alert("JavaScript loaded");
 
 restoreSession();
+
+// ==============================
+// STREAK RULES POPUP
+// ==============================
+
+function toggleStreakRules() {
+
+    const rules =
+        document.getElementById("streakRules");
+
+    if (!rules) return;
+
+    rules.classList.toggle("show");
+}
+
