@@ -336,23 +336,31 @@
 
                     <div class="stat-card">
 
-                        <div class="stat-icon">
-                            🔥
-                        </div>
+    <div class="stat-icon">
+        🔥
+    </div>
 
-                        <div>
+    <div>
 
-                            <p>
-                                Current Streak
-                            </p>
+        <p class="streak-title">
+            Current Streak
 
-                            <h2>
-                                0 days
-                            </h2>
+            <button
+                class="streak-info-btn"
+                onclick="toggleStreakRules()"
+                title="Streak rules"
+            >
+                ⓘ
+            </button>
+        </p>
 
-                        </div>
+        <h2 id="currentStreak">
+            0 days
+        </h2>
 
-                    </div>
+    </div>
+
+</div>
 
 
                     <div class="stat-card">
@@ -620,6 +628,45 @@
 
 
             </section>
+
+
+            <!-- STREAK RULES -->
+
+<div class="streak-rules" id="streakRules">
+
+    <div class="streak-rules-box">
+
+        <div class="streak-rules-header">
+
+            <h3>
+                🔥 Streak Rules
+            </h3>
+
+            <button onclick="toggleStreakRules()">
+                ×
+            </button>
+
+        </div>
+
+        <p>
+            • 10 minutes of focused study = 1 streak day
+        </p>
+
+        <p>
+            • One day can count only once
+        </p>
+
+        <p>
+            • Extra study on the same day won't increase the streak
+        </p>
+
+        <p>
+            • Missing a full day resets the streak
+        </p>
+
+    </div>
+
+</div>
 
         </main>
 
