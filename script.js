@@ -177,6 +177,8 @@ currentUser = data.user;
             .classList.remove("hidden");
         loadMyRooms();
 
+        loadStudySessions();
+
     }, 700);
 }
 
@@ -756,6 +758,73 @@ async function saveStudySession(seconds) {
         "seconds"
     );
 }
+
+
+// ==============================
+// LOAD STUDY SESSIONS
+// ==============================
+
+async function loadStudySessions() {
+
+    if (!currentUser) return;
+
+    const { data, error } = await supabaseClient
+        .from("study_sessions")
+        .select("study_date, duration_seconds")
+        .eq("user_id", currentUser.id);
+
+    if (error) {
+        console.error("Failed to load study sessions:", error);
+        return;
+    }
+
+    // Reset values before loading
+    todayStudySeconds = 0;
+
+    weeklyStudySeconds = {
+        Mon: 0,
+        Tue: 0,
+        Wed: 0,
+        Thu: 0,
+        Fri: 0,
+        Sat: 0,
+        Sun: 0
+    };
+
+    const today = new Date();
+
+    const todayDate =
+        today.toISOString().split("T")[0];
+
+    data.forEach(session => {
+
+        const seconds =
+            session.duration_seconds || 0;
+
+        // Today's total
+        if (session.study_date === todayDate) {
+            todayStudySeconds += seconds;
+        }
+
+        // Weekly total
+        const sessionDate =
+            new Date(session.study_date + "T00:00:00");
+
+        const dayName =
+            dayNames[sessionDate.getDay()];
+
+        weeklyStudySeconds[dayName] += seconds;
+    });
+
+    updateTodayProgress();
+    updateWeeklyChart();
+
+    console.log(
+        "Study sessions loaded:",
+        data
+    );
+}
+
 
 // ==============================
 // INITIAL DISPLAY
