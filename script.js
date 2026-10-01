@@ -13,6 +13,8 @@ const supabaseClient = supabase.createClient(
     SUPABASE_KEY
 );
 
+let currentUser = null;
+
 
 // ==============================
 // OPEN LOGIN
@@ -155,7 +157,7 @@ async function loginUser() {
     message.textContent =
         "Login successful!";
 
-
+currentUser = data.user;
     console.log(
         "Logged in user:",
         data.user
@@ -726,23 +728,33 @@ async function saveStudySession(seconds) {
 
     if (seconds <= 0) return;
 
-   const {
-    data: { user }
-   } = await supabaseClient.auth.getUser();
-
-    if (!user) return;
+    if (!currentUser) {
+        console.error("No logged-in user found");
+        return;
+    }
 
     const { error } = await supabaseClient
         .from("study_sessions")
         .insert({
-            user_id: user.id,
+            user_id: currentUser.id,
             study_date: new Date().toISOString().split("T")[0],
             duration_seconds: seconds
         });
 
     if (error) {
-        console.error("Failed to save study session:", error);
+        console.error(
+            "Failed to save study session:",
+            error
+        );
+
+        return;
     }
+
+    console.log(
+        "Study session saved:",
+        seconds,
+        "seconds"
+    );
 }
 
 // ==============================
