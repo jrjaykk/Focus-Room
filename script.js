@@ -959,6 +959,7 @@ async function restoreSession() {
         );
 
         loadStudySessions();
+        await loadStreak();
     }
 }
 
