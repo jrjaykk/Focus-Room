@@ -827,6 +827,35 @@ async function loadStudySessions() {
 
 
 // ==============================
+// RESTORE LOGIN SESSION
+// ==============================
+
+async function restoreSession() {
+
+    const {
+        data: { session },
+        error
+    } = await supabaseClient.auth.getSession();
+
+    if (error) {
+        console.error("Failed to restore session:", error);
+        return;
+    }
+
+    if (session && session.user) {
+
+        currentUser = session.user;
+
+        console.log(
+            "Session restored:",
+            currentUser
+        );
+
+        loadStudySessions();
+    }
+}
+
+// ==============================
 // INITIAL DISPLAY
 // ==============================
 
@@ -1177,3 +1206,5 @@ const { error: joinError } =
 }
 
 alert("JavaScript loaded");
+
+restoreSession();
