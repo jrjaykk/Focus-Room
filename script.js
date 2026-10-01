@@ -1330,3 +1330,65 @@ function toggleStreakRules() {
     rules.classList.toggle("show");
 }
 
+// ==============================
+// LOAD STREAK
+// ==============================
+
+async function loadStreak() {
+
+    if (!currentUser) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("streaks")
+            .select("current_streak, best_streak")
+            .eq("user_id", currentUser.id)
+            .maybeSingle();
+
+    if (error) {
+        console.error(
+            "Failed to load streak:",
+            error
+        );
+        return;
+    }
+
+    const currentStreak =
+        data?.current_streak || 0;
+
+    const bestStreak =
+        data?.best_streak || 0;
+
+
+    // Current streak card
+
+    const currentStreakElement =
+        document.getElementById("currentStreak");
+
+    if (currentStreakElement) {
+
+        currentStreakElement.textContent =
+            `${currentStreak} days`;
+    }
+
+
+    // Top mini streak
+
+    const miniStreak =
+        document.querySelector(
+            ".streak-mini span"
+        );
+
+    if (miniStreak) {
+
+        miniStreak.textContent =
+            currentStreak;
+    }
+
+    console.log(
+        "🔥 Streak loaded:",
+        currentStreak,
+        "| Best:",
+        bestStreak
+    );
+}
