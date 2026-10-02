@@ -1711,14 +1711,15 @@ async function loadFriendRequests() {
 
                 <div>
 
-                    <button
-                        class="small-btn"
-                    >
-                        Accept
-                    </button>
+        <button
+    class="small-btn"
+    onclick="acceptFriendRequest('${request.id}')"
+>
+    Accept
+</button>
 
                     <button
-                        class="small-btn"
+                         class="small-btn"
                     >
                         Decline
                     </button>
@@ -1729,4 +1730,36 @@ async function loadFriendRequests() {
         `;
 
     }).join("");
+}
+
+// =========================
+// ACCEPT FRIEND REQUEST
+// =========================
+
+async function acceptFriendRequest(requestId) {
+
+    const { error } = await supabaseClient
+        .from("friendships")
+        .update({
+            status: "accepted"
+        })
+        .eq("id", requestId);
+
+    if (error) {
+        console.error("Accept request error:", error);
+
+        showToast(
+            "Something went wrong",
+            "Could not accept friend request."
+        );
+
+        return;
+    }
+
+    showToast(
+        "Friend Added 🎉",
+        "You are now friends."
+    );
+
+    loadFriendRequests();
 }
