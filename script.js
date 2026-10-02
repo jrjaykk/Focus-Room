@@ -1546,9 +1546,15 @@ async function sendFriendRequest(friendId) {
     if (existingRequest) {
 
         if (existingRequest.status === "accepted") {
-            alert("You are already friends.");
+           showToast(
+               "Already Friends 👥",
+               "You are already friends."
+           );
         } else {
-            alert("Friend request already exists.");
+            showToast(
+                "Already Exists 📩",
+                "Friend request already exists."
+            );
         }
 
         return;
