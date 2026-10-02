@@ -1613,3 +1613,67 @@ function hideToast() {
     toast.classList.remove("show");
 }
 
+
+// =========================
+// LOAD FRIEND REQUESTS
+// =========================
+
+async function loadFriendRequests() {
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) return;
+
+    const { data, error } = await supabaseClient
+        .from("friendships")
+        .select(`
+            id,
+            status,
+            user_id,
+            profiles:user_id (
+                username
+            )
+        `)
+        .eq("friend_id", user.id)
+        .eq("status", "pending");
+
+    if (error) {
+        console.error("Friend requests error:", error);
+        return;
+    }
+
+    const list = document.getElementById("friendRequestsList");
+
+    if (!data || data.length === 0) {
+        list.innerHTML = `
+            <p class="friends-empty">
+                No friend requests
+            </p>
+        `;
+        return;
+    }
+
+    list.innerHTML = data.map(request => `
+        <div class="friend-result">
+
+            <div>
+                <strong>${request.profiles.username}</strong>
+                <small>Wants to be your friend</small>
+            </div>
+
+            <div>
+                <button class="small-btn">
+                    Accept
+                </button>
+
+                <button class="small-btn">
+                    Decline
+                </button>
+            </div>
+
+        </div>
+    `).join("");
+}
