@@ -1423,3 +1423,90 @@ function closeFriends() {
     }
 
 }
+
+
+// =========================
+// SEARCH FRIEND
+// =========================
+
+async function searchFriend() {
+
+    const input = document.getElementById("friendSearchInput");
+    const result = document.getElementById("friendSearchResult");
+
+    const username = input.value.trim();
+
+    if (!username) {
+        result.innerHTML = `
+            <p class="friends-empty">
+                Please enter a username.
+            </p>
+        `;
+        return;
+    }
+
+    result.innerHTML = `
+        <p class="friends-empty">
+            Searching...
+        </p>
+   ` ;
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        result.innerHTML = `
+            <p class="friends-empty">
+                Please login first.
+            </p>
+        `;
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("profiles")
+        .select("id, username")
+        .ilike("username", %${username}%)
+        .neq("id", user.id);
+
+    if (error) {
+        console.error("Search error:", error);
+
+        result.innerHTML =` 
+            <p class="friends-empty">
+                Unable to search users.
+            </p>
+        `;
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        result.innerHTML = `
+            <p class="friends-empty">
+                No user found.
+            </p>
+        `;
+
+        return;
+    }
+
+    result.innerHTML = data.map(profile =>` 
+        <div class="friend-result">
+
+            <div>
+                <strong>${profile.username}</strong>
+            </div>
+
+            <button
+                class="small-btn"
+                onclick="sendFriendRequest('${profile.id}')"
+            >
+                Add Friend
+            </button>
+
+        </div>
+    `).join("");
+}
