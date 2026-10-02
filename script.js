@@ -1404,14 +1404,14 @@ async function loadStreak() {
 // =========================
 
 function openFriends() {
-
     const modal = document.getElementById("friendsModal");
 
     if (modal) {
         modal.style.display = "flex";
-        loadFriendRequests();
-    }
 
+        loadFriendRequests();
+        loadMyFriends();
+    }
 }
 
 
@@ -1794,3 +1794,80 @@ async function declineFriendRequest(requestId) {
     loadFriendRequests();
 }
 
+// =========================
+// LOAD MY FRIENDS
+// =========================
+
+async function loadMyFriends() {
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) return;
+
+    const { data: friendships, error } =
+        await supabaseClient
+            .from("friendships")
+            .select("id, user_id, friend_id")
+            .or(
+                `user_id.eq.${user.id},friend_id.eq.${user.id}`
+            )
+            .eq("status", "accepted");
+
+    if (error) {
+        console.error("My friends error:", error);
+        return;
+    }
+
+    const list = document.getElementById("friendsList");
+
+    if (!friendships || friendships.length === 0) {
+
+        list.innerHTML = `
+            <p class="friends-empty">
+                You don't have any friends yet.
+            </p>
+       ` ;
+
+        return;
+    }
+
+    const friendIds = friendships.map(friendship => {
+
+        if (friendship.user_id === user.id) {
+            return friendship.friend_id;
+        }
+
+        return friendship.user_id;
+    });
+
+    const { data: profiles, error: profileError } =
+        await supabaseClient
+            .from("profiles")
+            .select("id, username")
+            .in("id", friendIds);
+
+    if (profileError) {
+        console.error("Friends profile error:", profileError);
+        return;
+    }
+
+    list.innerHTML = profiles.map(profile => `
+        <div class="friend-result">
+
+            <div>
+                <div class="friend-avatar">
+                    ${profile.username.charAt(0).toUpperCase()}
+                </div>
+
+                <div>
+                    <strong>${profile.username}</strong>
+                    <small>Focus Room friend</small>
+                </div>
+            </div>
+
+        </div>
+    `).join("");
+}
