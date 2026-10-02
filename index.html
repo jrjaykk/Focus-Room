@@ -727,6 +727,98 @@
 
 </div>
 
+
+    <!-- FRIENDS MODAL -->
+
+<div class="friends-modal" id="friendsModal">
+
+    <div class="friends-modal-box">
+
+        <div class="friends-modal-header">
+
+            <div>
+                <p class="card-label">FRIENDS</p>
+                <h2>My Friends</h2>
+            </div>
+
+            <button onclick="closeFriends()">
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- FIND FRIENDS -->
+
+        <div class="find-friends">
+
+            <h3>
+                🔎 Find Friends
+            </h3>
+
+            <div class="friend-search">
+
+                <input
+                    type="text"
+                    id="friendSearchInput"
+                    placeholder="Enter username"
+                >
+
+                <button
+                    class="small-btn"
+                    onclick="searchFriend()"
+                >
+                    Search
+                </button>
+
+            </div>
+
+            <div id="friendSearchResult"></div>
+
+        </div>
+
+
+        <!-- FRIEND REQUESTS -->
+
+        <div class="friend-requests">
+
+            <h3>
+                📩 Friend Requests
+            </h3>
+
+            <div id="friendRequestsList">
+
+                <p class="friends-empty">
+                    No friend requests
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- MY FRIENDS -->
+
+        <div class="my-friends">
+
+            <h3>
+                👥 My Friends
+            </h3>
+
+            <div id="friendsList">
+
+                <p class="friends-empty">
+                    You don't have any friends yet.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
     <!-- SUPABASE -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
