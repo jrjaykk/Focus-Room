@@ -1510,3 +1510,65 @@ async function searchFriend() {
         </div>
     `).join("");
 }
+
+
+// =========================
+// SEND FRIEND REQUEST
+// =========================
+
+async function sendFriendRequest(friendId) {
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        alert("Please login first.");
+        return;
+    }
+
+    const { data: existingRequest, error: checkError } =
+        await supabaseClient
+            .from("friendships")
+            .select("id, status")
+            .or(
+                `and(user_id.eq.${user.id},friend_id.eq.${friendId}),and(user_id.eq.${friendId},friend_id.eq.${user.id}`)
+            )
+            .maybeSingle();
+
+    if (checkError) {
+        console.error("Friend check error:", checkError);
+        alert("Something went wrong.");
+        return;
+    }
+
+    if (existingRequest) {
+
+        if (existingRequest.status === "accepted") {
+            alert("You are already friends.");
+        } else {
+            alert("Friend request already exists.");
+        }
+
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("friendships")
+        .insert({
+            user_id: user.id,
+            friend_id: friendId,
+            status: "pending"
+        });
+
+    if (error) {
+        console.error("Friend request error:", error);
+        alert("Unable to send friend request.");
+        return;
+    }
+
+    alert("Friend request sent! 🎉");
+
+}
+
