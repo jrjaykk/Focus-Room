@@ -1807,6 +1807,7 @@ async function loadMyFriends() {
 
     if (userError || !user) return;
 
+
     const { data: friendships, error } =
         await supabaseClient
             .from("friendships")
@@ -1816,28 +1817,33 @@ async function loadMyFriends() {
             )
             .eq("status", "accepted");
 
+
     if (error) {
         console.error("My friends error:", error);
         return;
     }
 
-    const list = document.getElementById("friendsList");
-    
+
+    const list =
+        document.getElementById("friendsList");
+
     const friendsCount =
-    document.getElementById("friendsCount");
+        document.getElementById("friendsCount");
 
-   if (!friendships || friendships.length === 0) {
 
-    list.innerHTML = `
-        <p class="friends-empty">
-            You don't have any friends yet.
-        </p>
-    `;
+    if (!friendships || friendships.length === 0) {
 
-    friendsCount.textContent = "0";
+        list.innerHTML = `
+            <p class="friends-empty">
+                You don't have any friends yet.
+            </p>
+        `;
 
-    return;
-}
+        friendsCount.textContent = "0";
+
+        return;
+    }
+
 
     const friendIds = friendships.map(friendship => {
 
@@ -1846,7 +1852,9 @@ async function loadMyFriends() {
         }
 
         return friendship.user_id;
+
     });
+
 
     const { data: profiles, error: profileError } =
         await supabaseClient
@@ -1854,32 +1862,39 @@ async function loadMyFriends() {
             .select("id, username")
             .in("id", friendIds);
 
+
     if (profileError) {
-        console.error("Friends profile error:", profileError);
+        console.error(
+            "Friends profile error:",
+            profileError
+        );
         return;
     }
 
+
     friendsCount.textContent = profiles.length;
 
-   list.innerHTML = profiles.map(profile => `
-    <div class="my-friend-card">
 
-        <div class="my-friend-left">
+    list.innerHTML = profiles.map(profile => `
+        <div class="my-friend-card">
 
-            <div class="friend-avatar">
-                ${profile.username.charAt(0).toUpperCase()}
+            <div class="my-friend-left">
+
+                <div class="friend-avatar">
+                    ${profile.username.charAt(0).toUpperCase()}
+                </div>
+
+                <div class="my-friend-info">
+                    <strong>${profile.username}</strong>
+                    <small>Focus Room friend</small>
+                </div>
+
             </div>
 
-            <div class="my-friend-info">
-                <strong>${profile.username}</strong>
-                <small>Focus Room friend</small>
+            <div class="friend-status">
+                ● Friends
             </div>
 
         </div>
-
-        <div class="friend-status">
-            ● Friends
-        </div>
-
-    </div>
-`).join("");
+    `).join("");
+}
