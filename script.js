@@ -1919,3 +1919,49 @@ async function loadMyFriends() {
         </div>
     `).join("");
 }
+
+
+// =========================
+// REMOVE FRIEND
+// =========================
+
+async function removeFriend(friendId) {
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("friendships")
+        .delete()
+        .or(
+            `and(user_id.eq.${user.id},friend_id.eq.${friendId}),and(user_id.eq.${friendId},friend_id.eq.${user.id})`
+        );
+
+    if (error) {
+
+        console.error(
+            "Remove friend error:",
+            error
+        );
+
+        showToast(
+            "Something went wrong",
+            "Could not remove friend."
+        );
+
+        return;
+    }
+
+    showToast(
+        "Friend Removed",
+        "Friend has been removed."
+    );
+
+    loadMyFriends();
+}
