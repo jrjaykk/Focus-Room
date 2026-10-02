@@ -828,6 +828,45 @@
     <button onclick="hideToast()">×</button>
 </div>
 
+
+    <!-- REMOVE FRIEND MODAL -->
+<div class="remove-modal" id="removeFriendModal">
+
+    <div class="remove-modal-box">
+
+        <div class="remove-modal-icon">
+            👤
+        </div>
+
+        <h3>Remove Friend?</h3>
+
+        <p>
+            Are you sure you want to remove this friend?
+        </p>
+
+        <div class="remove-modal-actions">
+
+            <button
+                class="cancel-remove-btn"
+                onclick="closeRemoveFriendModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="confirm-remove-btn"
+                onclick="confirmRemoveFriend()"
+            >
+                Remove
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+    
+
     <!-- SUPABASE -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
