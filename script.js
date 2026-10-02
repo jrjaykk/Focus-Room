@@ -1398,3 +1398,28 @@ async function loadStreak() {
         bestStreak
     );
 }
+
+// =========================
+// FRIENDS MODAL
+// =========================
+
+function openFriends() {
+
+    const modal = document.getElementById("friendsModal");
+
+    if (modal) {
+        modal.style.display = "flex";
+    }
+
+}
+
+
+function closeFriends() {
+
+    const modal = document.getElementById("friendsModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+
+}
