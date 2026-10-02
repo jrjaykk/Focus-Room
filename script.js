@@ -1409,6 +1409,7 @@ function openFriends() {
 
     if (modal) {
         modal.style.display = "flex";
+        loadFriendRequests();
     }
 
 }
