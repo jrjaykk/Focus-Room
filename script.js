@@ -960,6 +960,11 @@ async function restoreSession() {
 
         loadStudySessions();
         await loadStreak();
+        
+        await loadStreak();
+        setTimeout(() => {
+            loadStreak();
+        }, 500);
     }
 }
 
