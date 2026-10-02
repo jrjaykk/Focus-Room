@@ -1966,3 +1966,77 @@ async function removeFriend(friendId) {
 
     loadMyFriends();
 }
+
+// =========================
+// REMOVE FRIEND
+// =========================
+
+let friendToRemove = null;
+
+function removeFriend(friendId) {
+
+    friendToRemove = friendId;
+
+    const modal =
+        document.getElementById("removeFriendModal");
+
+    if (modal) {
+        modal.style.display = "flex";
+    }
+}
+
+
+function closeRemoveFriendModal() {
+
+    const modal =
+        document.getElementById("removeFriendModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+
+    friendToRemove = null;
+}
+
+
+async function confirmRemoveFriend() {
+
+    if (!friendToRemove) {
+        return;
+    }
+
+    const friendId = friendToRemove;
+
+    const { error } = await supabaseClient
+        .from("friendships")
+        .delete()
+        .or(
+            `and(user_id.eq.${(await supabaseClient.auth.getUser()).data.user.id},friend_id.eq.${friendId}),and(user_id.eq.${friendId},friend_id.eq.${(await supabaseClient.auth.getUser()).data.user.id})`
+        );
+
+    if (error) {
+
+        console.error(
+            "Remove friend error:",
+            error
+        );
+
+        closeRemoveFriendModal();
+
+        showToast(
+            "Something went wrong",
+            "Could not remove friend."
+        );
+
+        return;
+    }
+
+    closeRemoveFriendModal();
+
+    showToast(
+        "Friend Removed",
+        "Friend has been removed."
+    );
+
+    loadMyFriends();
+}
