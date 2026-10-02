@@ -1568,7 +1568,42 @@ async function sendFriendRequest(friendId) {
         return;
     }
 
-    alert("Friend request sent! 🎉");
+    showToast(
+    "Request Sent 🎉",
+    "Friend request sent successfully."
+);
 
+}
+
+// =========================
+// CUSTOM TOAST
+// =========================
+
+let toastTimer;
+
+function showToast(title, message) {
+
+    const toast = document.getElementById("toastNotification");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastMessage = document.getElementById("toastMessage");
+
+    toastTitle.textContent = title;
+    toastMessage.textContent = message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        hideToast();
+    }, 3000);
+}
+
+
+function hideToast() {
+
+    const toast = document.getElementById("toastNotification");
+
+    toast.classList.remove("show");
 }
 
