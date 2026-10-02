@@ -1468,7 +1468,7 @@ async function searchFriend() {
     const { data, error } = await supabaseClient
         .from("profiles")
         .select("id, username")
-        .ilike("username", %${username}%)
+        .ilike("username", `%${username}%`)
         .neq("id", user.id);
 
     if (error) {
