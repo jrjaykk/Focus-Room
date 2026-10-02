@@ -1712,17 +1712,16 @@ async function loadFriendRequests() {
                 <div>
 
         <button
-    class="small-btn"
-    onclick="acceptFriendRequest('${request.id}')"
->
-    Accept
-</button>
+        class="small-btn"
+        onclick="acceptFriendRequest('${request.id}')">
+        Accept
+        </button>
 
-                    <button
-                         class="small-btn"
-                    >
-                        Decline
-                    </button>
+                   <button
+                   class="small-btn"
+                   onclick="declineFriendRequest('${request.id}')">
+                   Decline
+                   </button>
 
                 </div>
 
@@ -1763,3 +1762,35 @@ async function acceptFriendRequest(requestId) {
 
     loadFriendRequests();
 }
+
+
+// =========================
+// DECLINE FRIEND REQUEST
+// =========================
+
+async function declineFriendRequest(requestId) {
+
+    const { error } = await supabaseClient
+        .from("friendships")
+        .delete()
+        .eq("id", requestId);
+
+    if (error) {
+        console.error("Decline request error:", error);
+
+        showToast(
+            "Something went wrong",
+            "Could not decline friend request."
+        );
+
+        return;
+    }
+
+    showToast(
+        "Request Declined",
+        "Friend request has been declined."
+    );
+
+    loadFriendRequests();
+}
+
