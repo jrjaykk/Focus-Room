@@ -1822,17 +1822,22 @@ async function loadMyFriends() {
     }
 
     const list = document.getElementById("friendsList");
+    
+    const friendsCount =
+    document.getElementById("friendsCount");
 
-    if (!friendships || friendships.length === 0) {
+   if (!friendships || friendships.length === 0) {
 
-        list.innerHTML = `
-            <p class="friends-empty">
-                You don't have any friends yet.
-            </p>
-       ` ;
+    list.innerHTML = `
+        <p class="friends-empty">
+            You don't have any friends yet.
+        </p>
+    `;
 
-        return;
-    }
+    friendsCount.textContent = "0";
+
+    return;
+}
 
     const friendIds = friendships.map(friendship => {
 
@@ -1853,6 +1858,8 @@ async function loadMyFriends() {
         console.error("Friends profile error:", profileError);
         return;
     }
+
+    friendsCount.textContent = profiles.length;
 
     list.innerHTML = profiles.map(profile => `
         <div class="friend-result">
