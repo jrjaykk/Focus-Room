@@ -1314,3 +1314,100 @@ body {
     font-size: 14px;
     padding: 12px 0;
 }
+
+
+/* =========================
+    CUSTOM TOAST NOTIFICATION
+ ========================= */
+
+.toast-notification {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+
+    width: 330px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 15px 16px;
+
+    background: #181818;
+    border: 1px solid #333;
+    border-radius: 16px;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+
+    z-index: 10000;
+
+    transform: translateX(120%);
+    opacity: 0;
+
+    transition: all 0.35s ease;
+}
+
+.toast-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-icon {
+    width: 38px;
+    height: 38px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #242424;
+    border: 1px solid #3a3a3a;
+
+    font-size: 18px;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-content strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.toast-content p {
+    margin: 0;
+    color: #999;
+    font-size: 13px;
+}
+
+.toast-notification button {
+    background: transparent;
+    border: none;
+    color: #777;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+.toast-notification button:hover {
+    color: white;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .toast-notification {
+        top: 18px;
+        left: 18px;
+        right: 18px;
+
+        width: auto;
+    }
+
+}
