@@ -1459,3 +1459,70 @@ body {
     color: #8fd19e;
     white-space: nowrap;
 }
+
+
+/* =========================
+   FIND FRIEND RESULT
+========================= */
+
+.friend-result {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 14px 16px;
+    margin-top: 12px;
+
+    background: #1c1c1c;
+    border: 1px solid #2d2d2d;
+    border-radius: 14px;
+
+    transition: 0.2s ease;
+}
+
+.friend-result:hover {
+    border-color: #444;
+    transform: translateY(-1px);
+}
+
+.friend-result > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.friend-result .friend-avatar {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #292929;
+    border: 1px solid #3a3a3a;
+
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.friend-result strong {
+    display: block;
+    font-size: 15px;
+}
+
+.friend-result small {
+    display: block;
+    margin-top: 4px;
+
+    color: #888;
+    font-size: 12px;
+}
+
+.friend-result .small-btn {
+    padding: 8px 14px;
+    border-radius: 10px;
+
+    font-size: 12px;
+}
