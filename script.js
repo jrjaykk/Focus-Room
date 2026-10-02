@@ -1861,20 +1861,25 @@ async function loadMyFriends() {
 
     friendsCount.textContent = profiles.length;
 
-    list.innerHTML = profiles.map(profile => `
-        <div class="friend-result">
+   list.innerHTML = profiles.map(profile => `
+    <div class="my-friend-card">
 
-            <div>
-                <div class="friend-avatar">
-                    ${profile.username.charAt(0).toUpperCase()}
-                </div>
+        <div class="my-friend-left">
 
-                <div>
-                    <strong>${profile.username}</strong>
-                    <small>Focus Room friend</small>
-                </div>
+            <div class="friend-avatar">
+                ${profile.username.charAt(0).toUpperCase()}
+            </div>
+
+            <div class="my-friend-info">
+                <strong>${profile.username}</strong>
+                <small>Focus Room friend</small>
             </div>
 
         </div>
-    `).join("");
-}
+
+        <div class="friend-status">
+            ● Friends
+        </div>
+
+    </div>
+`).join("");
