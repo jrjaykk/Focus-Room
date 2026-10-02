@@ -1558,3 +1558,123 @@ body {
     background: #242424;
     color: #bbb;
 }
+
+/* =========================
+   REMOVE FRIEND MODAL
+========================= */
+
+.remove-modal {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    backdrop-filter: blur(6px);
+
+    z-index: 10001;
+}
+
+.remove-modal-box {
+    width: 340px;
+    max-width: calc(100% - 40px);
+
+    padding: 26px;
+
+    background: #181818;
+    border: 1px solid #303030;
+    border-radius: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+    animation: removeModalIn 0.2s ease;
+}
+
+.remove-modal-icon {
+    width: 52px;
+    height: 52px;
+
+    margin: 0 auto 14px;
+
+    display: grid;
+    place-items: center;
+
+    background: #242424;
+    border: 1px solid #383838;
+
+    border-radius: 50%;
+
+    font-size: 22px;
+}
+
+.remove-modal-box h3 {
+    margin: 0 0 8px;
+
+    font-size: 19px;
+}
+
+.remove-modal-box p {
+    margin: 0;
+
+    color: #888;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.remove-modal-actions {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 22px;
+}
+
+.remove-modal-actions button {
+    flex: 1;
+
+    padding: 11px;
+
+    border-radius: 11px;
+
+    font-size: 13px;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.cancel-remove-btn {
+    background: #222;
+    border: 1px solid #353535;
+    color: #bbb;
+}
+
+.cancel-remove-btn:hover {
+    background: #2b2b2b;
+    color: white;
+}
+
+.confirm-remove-btn {
+    background: #242424;
+    border: 1px solid #444;
+    color: white;
+}
+
+.confirm-remove-btn:hover {
+    background: #303030;
+}
+
+@keyframes removeModalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
