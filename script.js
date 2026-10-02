@@ -1901,9 +1901,20 @@ async function loadMyFriends() {
 
             </div>
 
-            <div class="friend-status">
-                ● Friends
-            </div>
+           <div class="friend-actions">
+
+    <span class="friend-status">
+        ● Friends
+    </span>
+
+    <button
+        class="remove-friend-btn"
+        onclick="removeFriend('${profile.id}')"
+    >
+        Remove
+    </button>
+
+</div>
 
         </div>
     `).join("");
