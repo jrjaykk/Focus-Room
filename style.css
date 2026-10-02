@@ -1526,3 +1526,35 @@ body {
 
     font-size: 12px;
 }
+
+/* =========================
+   FRIEND REQUEST BUTTONS
+========================= */
+
+.friend-result > div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.friend-result > div:last-child .small-btn:first-child {
+    background: #242424;
+    border: 1px solid #3d3d3d;
+    color: #fff;
+}
+
+.friend-result > div:last-child .small-btn:first-child:hover {
+    background: #303030;
+    border-color: #555;
+}
+
+.friend-result > div:last-child .small-btn:last-child {
+    background: transparent;
+    border: 1px solid #333;
+    color: #888;
+}
+
+.friend-result > div:last-child .small-btn:last-child:hover {
+    background: #242424;
+    color: #bbb;
+}
