@@ -1927,6 +1927,14 @@ async function loadMyFriends() {
 
 async function removeFriend(friendId) {
 
+    const confirmed = confirm(
+    "Are you sure you want to remove this friend?"
+);
+
+if (!confirmed) {
+    return;
+}
+
     const {
         data: { user },
         error: userError
