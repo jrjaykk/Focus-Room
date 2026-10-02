@@ -1695,39 +1695,49 @@ async function loadFriendRequests() {
                 p => p.id === request.user_id
             );
 
-
         return `
-            <div class="friend-result">
+        
+    <div class="friend-result">
 
-                <div>
-                    <strong>
-                        ${profile ? profile.username : "User"}
-                    </strong>
+        <div>
 
-                    <small>
-                        Wants to be your friend
-                    </small>
-                </div>
-
-                <div>
-
-        <button
-        class="small-btn"
-        onclick="acceptFriendRequest('${request.id}')">
-        Accept
-        </button>
-
-                   <button
-                   class="small-btn"
-                   onclick="declineFriendRequest('${request.id}')">
-                   Decline
-                   </button>
-
-                </div>
-
+            <div class="friend-avatar">
+                ${(profile ? profile.username : "User").charAt(0).toUpperCase()}
             </div>
-        `;
 
+            <div>
+                <strong>
+                    ${profile ? profile.username : "User"}
+                </strong>
+
+                <small>
+                    Wants to be your friend
+                </small>
+            </div>
+
+        </div>
+
+        <div>
+
+            <button
+                class="small-btn"
+                onclick="acceptFriendRequest('${request.id}')"
+            >
+                Accept
+            </button>
+
+            <button
+                class="small-btn"
+                onclick="declineFriendRequest('${request.id}')"
+            >
+                Decline
+            </button>
+
+        </div>
+
+    </div>
+`;
+        
     }).join("");
 }
 
