@@ -1628,53 +1628,105 @@ async function loadFriendRequests() {
 
     if (userError || !user) return;
 
-    const { data, error } = await supabaseClient
-        .from("friendships")
-        .select(`
-            id,
-            status,
-            user_id,
-            profiles:user_id (
-                username
-            )
-        `)
-        .eq("friend_id", user.id)
-        .eq("status", "pending");
 
-    if (error) {
-        console.error("Friend requests error:", error);
+    // Get pending requests
+    const { data: requests, error: requestError } =
+        await supabaseClient
+            .from("friendships")
+            .select("id, user_id, status")
+            .eq("friend_id", user.id)
+            .eq("status", "pending");
+
+
+    if (requestError) {
+
+        console.error(
+            "Friend requests error:",
+            requestError
+        );
+
         return;
     }
 
-    const list = document.getElementById("friendRequestsList");
 
-    if (!data || data.length === 0) {
+    const list =
+        document.getElementById("friendRequestsList");
+
+
+    if (!requests || requests.length === 0) {
+
         list.innerHTML = `
             <p class="friends-empty">
                 No friend requests
             </p>
         `;
+
         return;
     }
 
-    list.innerHTML = data.map(request => `
-        <div class="friend-result">
 
-            <div>
-                <strong>${request.profiles.username}</strong>
-                <small>Wants to be your friend</small>
+    // Get usernames
+    const userIds =
+        requests.map(request => request.user_id);
+
+
+    const { data: profiles, error: profileError } =
+        await supabaseClient
+            .from("profiles")
+            .select("id, username")
+            .in("id", userIds);
+
+
+    if (profileError) {
+
+        console.error(
+            "Profile error:",
+            profileError
+        );
+
+        return;
+    }
+
+
+    list.innerHTML = requests.map(request => {
+
+        const profile =
+            profiles.find(
+                p => p.id === request.user_id
+            );
+
+
+        return `
+            <div class="friend-result">
+
+                <div>
+                    <strong>
+                        ${profile ? profile.username : "User"}
+                    </strong>
+
+                    <small>
+                        Wants to be your friend
+                    </small>
+                </div>
+
+                <div>
+
+                    <button
+                        class="small-btn"
+                    >
+                        Accept
+                    </button>
+
+                    <button
+                        class="small-btn"
+                    >
+                        Decline
+                    </button>
+
+                </div>
+
             </div>
+        `;
 
-            <div>
-                <button class="small-btn">
-                    Accept
-                </button>
-
-                <button class="small-btn">
-                    Decline
-                </button>
-            </div>
-
-        </div>
-    `).join("");
+    }).join("");
 }
