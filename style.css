@@ -1678,3 +1678,127 @@ body {
         transform: scale(1);
     }
 }
+
+
+/* =========================
+   AVATAR PICKER
+========================= */
+
+.avatar-modal {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+
+    z-index: 10002;
+}
+
+.avatar-modal-box {
+    width: 380px;
+    max-width: calc(100% - 40px);
+
+    padding: 24px;
+
+    background: #181818;
+    border: 1px solid #303030;
+    border-radius: 20px;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+    animation: avatarModalIn 0.2s ease;
+}
+
+.avatar-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.avatar-modal-header h2 {
+    margin: 4px 0 0;
+    font-size: 20px;
+}
+
+.avatar-modal-header button {
+    background: transparent;
+    border: none;
+
+    color: #777;
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+.avatar-modal-header button:hover {
+    color: white;
+}
+
+.avatar-subtitle {
+    margin: 8px 0 20px;
+
+    color: #888;
+    font-size: 13px;
+}
+
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.avatar-option {
+    width: 100%;
+    aspect-ratio: 1;
+
+    display: grid;
+    place-items: center;
+
+    background: #222;
+    border: 1px solid #333;
+    border-radius: 15px;
+
+    font-size: 27px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.avatar-option:hover {
+    background: #2b2b2b;
+    border-color: #555;
+    transform: translateY(-2px);
+}
+
+@keyframes avatarModalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .avatar-modal-box {
+        width: 330px;
+        padding: 20px;
+    }
+
+    .avatar-grid {
+        gap: 10px;
+    }
+
+    .avatar-option {
+        font-size: 24px;
+    }
+}
