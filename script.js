@@ -1054,6 +1054,7 @@ async function createRoom() {
 
 
     console.log("Created room:", data);
+    openRoom(data.id);
 }
 
 // ==============================
