@@ -2546,3 +2546,41 @@ async function editRoom(roomId, oldName) {
     await loadMyRooms();
 
 }
+
+// ==============================
+// ROOM HUB
+// ==============================
+
+function showAllRooms() {
+
+    loadAllRooms();
+
+}
+
+
+function showRoomProgress() {
+
+    const content =
+        document.getElementById("roomHubContent");
+
+    if (!content) {
+        return;
+    }
+
+    content.innerHTML = `
+        <div class="room-hub-welcome">
+
+            <div class="welcome-icon">
+                📊
+            </div>
+
+            <h2>Room Progress</h2>
+
+            <p>
+                Select a room to see this week's
+                study progress.
+            </p>
+
+        </div>
+    `;
+}
