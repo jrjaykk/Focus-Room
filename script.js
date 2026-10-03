@@ -2519,9 +2519,6 @@ async function loadAllRooms() {
     document.getElementById("allRoomsList");
 
 
-    const allRoomsList =
-        document.getElementById("allRoomsList");
-
 
     uniqueRooms.forEach(room => {
 
