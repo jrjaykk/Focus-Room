@@ -2278,3 +2278,60 @@ body {
     }
 
 }
+
+
+/* ============================== */
+/* EXPLORE ROOM PAGE */
+/* ============================== */
+
+.explore-page-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+
+.circle-back-btn {
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(255,255,255,0.1);
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.06);
+
+    color: inherit;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+
+.circle-back-btn:hover {
+    transform: translateX(-3px);
+    background: rgba(255,255,255,0.12);
+}
+
+
+.explore-page-header h2 {
+    margin: 4px 0 5px;
+    font-size: 26px;
+}
+
+
+.explore-subtitle {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.55;
+}
