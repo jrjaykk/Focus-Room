@@ -1010,33 +1010,106 @@
 </div>
 
 
-    <!-- ============================== -->
-<!-- MY ROOMS PAGE -->
+<!-- ============================== -->
+<!-- ROOM HUB PAGE -->
 <!-- ============================== -->
 
 <div id="myRoomsPage" style="display: none;">
 
-    <div class="my-rooms-header">
+    <div class="room-hub-header">
 
         <button class="back-btn" onclick="closeMyRooms()">
             ← Back
         </button>
 
         <div>
-            <h1>My Rooms</h1>
-            <p>Manage your study rooms</p>
+            <h1>Study Rooms</h1>
+            <p>Study together. Stay focused.</p>
         </div>
-
-        <button class="primary-btn" onclick="createRoom()">
-            + Create Room
-        </button>
 
     </div>
 
 
-    <div id="allRoomsList" class="all-rooms-list">
+    <!-- ROOM HUB OPTIONS -->
 
-        <!-- Rooms will appear here -->
+    <div class="room-hub-options">
+
+        <div class="room-hub-option" onclick="createRoom()">
+
+            <div class="hub-icon">
+                ➕
+            </div>
+
+            <div>
+                <h3>Create Room</h3>
+                <p>Create your own study room</p>
+            </div>
+
+        </div>
+
+
+        <div class="room-hub-option" onclick="joinRoom()">
+
+            <div class="hub-icon">
+                🔗
+            </div>
+
+            <div>
+                <h3>Join Room</h3>
+                <p>Join using a room code</p>
+            </div>
+
+        </div>
+
+
+        <div class="room-hub-option" onclick="showAllRooms()">
+
+            <div class="hub-icon">
+                🏠
+            </div>
+
+            <div>
+                <h3>All Rooms</h3>
+                <p>View your study rooms</p>
+            </div>
+
+        </div>
+
+
+        <div class="room-hub-option" onclick="showRoomProgress()">
+
+            <div class="hub-icon">
+                📊
+            </div>
+
+            <div>
+                <h3>Room Progress</h3>
+                <p>See weekly member progress</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ROOM CONTENT -->
+
+    <div id="roomHubContent">
+
+        <div class="room-hub-welcome">
+
+            <div class="welcome-icon">
+                📚
+            </div>
+
+            <h2>Your Study Rooms</h2>
+
+            <p>
+                Create or join a room and study
+                together with your friends.
+            </p>
+
+        </div>
 
     </div>
 
