@@ -2040,3 +2040,51 @@ async function confirmRemoveFriend() {
 
     loadMyFriends();
 }
+
+
+// =========================
+// AVATAR PICKER
+// =========================
+
+let selectedAvatar = null;
+
+function openAvatarPicker() {
+
+    const modal =
+        document.getElementById("avatarModal");
+
+    if (modal) {
+        modal.style.display = "flex";
+    }
+}
+
+
+function closeAvatarPicker() {
+
+    const modal =
+        document.getElementById("avatarModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+
+function selectAvatar(avatar) {
+
+    selectedAvatar = avatar;
+
+    const profileAvatar =
+        document.getElementById("profileAvatar");
+
+    if (profileAvatar) {
+        profileAvatar.textContent = avatar;
+    }
+
+    localStorage.setItem(
+        "focusRoomAvatar",
+        avatar
+    );
+
+    closeAvatarPicker();
+}
