@@ -2047,32 +2047,7 @@ async function confirmRemoveFriend() {
 // AVATAR PICKER
 // =========================
 
-let selectedAvatar = null;
-
-
-function openAvatarPicker() {
-
-    const modal =
-        document.getElementById("avatarModal");
-
-    if (modal) {
-        modal.style.display = "flex";
-    }
-}
-
-
-function closeAvatarPicker() {
-
-    const modal =
-        document.getElementById("avatarModal");
-
-    if (modal) {
-        modal.style.display = "none";
-    }
-}
-
-
-function selectAvatar(avatar) {
+async function selectAvatar(avatar) {
 
     console.log("Selected avatar:", avatar);
 
@@ -2085,6 +2060,42 @@ function selectAvatar(avatar) {
         profileAvatar.textContent = avatar;
     }
 
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        showToast(
+            "Login Required",
+            "Please login first."
+        );
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from("profiles")
+            .update({
+                avatar: avatar
+            })
+            .eq("id", user.id);
+
+    if (error) {
+
+        console.error(
+            "Avatar save error:",
+            error
+        );
+
+        showToast(
+            "Something went wrong",
+            "Could not save avatar."
+        );
+
+        return;
+    }
+
     localStorage.setItem(
         "focusRoomAvatar",
         avatar
@@ -2094,11 +2105,9 @@ function selectAvatar(avatar) {
 
     showToast(
         "Avatar Updated 🎉",
-        "Your avatar has been updated."
+        "Your avatar has been saved."
     );
 }
-
-
 // =========================
 // LOAD SAVED AVATAR
 // =========================
