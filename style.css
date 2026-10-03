@@ -2480,28 +2480,3 @@ body {
 }
 
 
-/* ===== FIX: 4 DASHBOARD CARDS SAME SIZE ===== */
-
-.dashboard-cards,
-.stats-grid,
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
-    width: 100%;
-}
-
-.dashboard-cards > *,
-.stats-grid > *,
-.dashboard-grid > * {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
-}
-
-/* Keep all four cards equal */
-.dashboard-cards > *,
-.stats-grid > *,
-.dashboard-grid > * {
-    min-height: 220px;
-}
