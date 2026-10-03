@@ -177,6 +177,7 @@ currentUser = data.user;
             .classList.remove("hidden");
 
         loadSavedAvatar();
+        loadDashboardUsername();
         loadMyRooms();
         loadStudySessions();
 
@@ -2191,3 +2192,42 @@ async function confirmRemoveFriend() {
 
      }
  }
+
+// -----------------------------------//
+//------------------------------------//
+// Load Dashboard Username //
+
+async function loadDashboardUsername() {
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        return;
+    }
+
+    const { data: profile, error } =
+        await supabaseClient
+            .from("profiles")
+            .select("username")
+            .eq("id", user.id)
+            .single();
+
+    if (error) {
+        console.error(
+            "Username load error:",
+            error
+        );
+        return;
+    }
+
+    const usernameElement =
+        document.getElementById("dashboardUsername");
+
+    if (usernameElement && profile?.username) {
+        usernameElement.textContent =
+            profile.username;
+    }
+}
