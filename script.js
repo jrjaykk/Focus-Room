@@ -2073,9 +2073,9 @@ function closeAvatarPicker() {
 
 function selectAvatar(avatar) {
 
-    async function selectAvatar(avatar) {
+   async function selectAvatar(avatar) {
 
-    selectedAvatar = avatar;
+    console.log("Selected avatar:", avatar);
 
     const profileAvatar =
         document.getElementById("profileAvatar");
@@ -2084,49 +2084,14 @@ function selectAvatar(avatar) {
         profileAvatar.textContent = avatar;
     }
 
-    localStorage.setItem(
-        "focusRoomAvatar",
-        avatar
-    );
-
-    const {
-        data: { user },
-        error: userError
-    } = await supabaseClient.auth.getUser();
-
-    if (userError || !user) {
-        return;
-    }
-
-    const { error } = await supabaseClient
-        .from("profiles")
-        .update({
-            avatar: avatar
-        })
-        .eq("id", user.id);
-
-    if (error) {
-
-        console.error(
-            "Avatar save error:",
-            error
-        );
-
-        showToast(
-            "Something went wrong",
-            "Could not save avatar."
-        );
-
-        return;
-    }
-
     closeAvatarPicker();
 
     showToast(
         "Avatar Updated 🎉",
-        "Your new avatar has been saved."
+        "Avatar selected successfully."
     );
 }
+
     
 }
 
