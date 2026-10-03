@@ -464,7 +464,7 @@
 
                     <!-- MY S -->
 
-                    <div class="dashboard-card s-card">
+                    <div class="dashboard-card s-card" onclick="openMyRooms()">
 
                         <div class="card-heading">
 
@@ -480,9 +480,9 @@
 
                             </div>
 
-                           <button class="small-btn" onclick="createRoom()">
-                               + Create
-                           </button>
+                          <button class="small-btn" onclick="event.stopPropagation(); createRoom()">
+                              + Create
+                          </button>
 
                             <div id="roomsList"></div>
 
