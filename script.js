@@ -2375,6 +2375,10 @@ function closeMyRooms() {
 // LOAD ALL ROOMS
 // ==============================
 
+// ==============================
+// LOAD ALL ROOMS
+// ==============================
+
 async function loadAllRooms() {
 
     const {
@@ -2386,7 +2390,6 @@ async function loadAllRooms() {
         return;
     }
 
-
     // Get rooms created by me
     const { data: createdRooms, error: createdError } =
         await supabaseClient
@@ -2395,47 +2398,89 @@ async function loadAllRooms() {
             .eq("created_by", user.id)
             .order("created_at", { ascending: false });
 
-
     if (createdError) {
-
-        console.error("Load all rooms error:", createdError);
-
+        console.error("Load created rooms error:", createdError);
         return;
     }
 
 
-    const allRoomsList =
-        document.getElementById("allRoomsList");
+    // Get rooms I joined
+    const { data: memberships, error: memberError } =
+        await supabaseClient
+            .from("room_members")
+            .select("room_id")
+            .eq("user_id", user.id);
 
-
-    if (!allRoomsList) {
+    if (memberError) {
+        console.error("Load memberships error:", memberError);
         return;
     }
 
 
-    if (!createdRooms || createdRooms.length === 0) {
+    const joinedRoomIds =
+        memberships.map(member => member.room_id);
 
-        allRoomsList.innerHTML = `
-            <div class="empty-state">
 
-                <div class="empty-icon">
+    let joinedRooms = [];
+
+
+    if (joinedRoomIds.length > 0) {
+
+        const { data, error } =
+            await supabaseClient
+                .from("rooms")
+                .select("*")
+                .in("id", joinedRoomIds);
+
+        if (error) {
+            console.error("Load joined rooms error:", error);
+            return;
+        }
+
+        joinedRooms = data || [];
+    }
+
+
+    // Combine rooms
+    const allRooms = [
+        ...(createdRooms || []),
+        ...joinedRooms
+    ];
+
+
+    // Remove duplicates
+    const uniqueRooms = [
+        ...new Map(
+            allRooms.map(room => [room.id, room])
+        ).values()
+    ];
+
+
+    const content =
+        document.getElementById("roomHubContent");
+
+
+    if (!content) {
+        return;
+    }
+
+
+    // No rooms
+    if (uniqueRooms.length === 0) {
+
+        content.innerHTML = `
+            <div class="room-hub-welcome">
+
+                <div class="welcome-icon">
                     🚪
                 </div>
 
-                <h3>
-                    No rooms yet
-                </h3>
+                <h2>No rooms yet</h2>
 
                 <p>
-                    Create your first study room.
+                    Create or join a study room
+                    to get started.
                 </p>
-
-                <button
-                    class="primary-btn"
-                    onclick="createRoom()"
-                >
-                    + Create Room
-                </button>
 
             </div>
         `;
@@ -2444,33 +2489,72 @@ async function loadAllRooms() {
     }
 
 
-    allRoomsList.innerHTML = "";
+    // Rooms heading
+    content.innerHTML = `
+
+        <div class="explore-rooms-header">
+
+            <div>
+                <p class="card-label">
+                    YOUR ROOMS
+                </p>
+
+                <h2>
+                    Explore Rooms
+                </h2>
+            </div>
+
+            <span class="room-count">
+                ${uniqueRooms.length} room${uniqueRooms.length === 1 ? "" : "s"}
+            </span>
+
+        </div>
+
+        <div class="all-rooms-grid" id="allRoomsList"></div>
+    `;
 
 
-    createdRooms.forEach(room => {
+    const allRoomsList =
+        document.getElementById("allRoomsList");
+
+
+    uniqueRooms.forEach(room => {
 
         const roomCard =
             document.createElement("div");
 
-        roomCard.className = "all-room-card";
+
+        roomCard.className =
+            "all-room-card";
+
+
+        const isOwner =
+            room.created_by === user.id;
 
 
         roomCard.innerHTML = `
-            
+
             <div class="all-room-icon">
                 📚
             </div>
 
+
             <div class="all-room-info">
 
-                <h2>
+                <h3>
                     ${room.name}
-                </h2>
+                </h3>
 
                 <p>
                     Room Code:
-                    <strong>${room.room_code}</strong>
+                    <strong>
+                        ${room.room_code}
+                    </strong>
                 </p>
+
+                <span class="room-role">
+                    ${isOwner ? "Your Room" : "Joined Room"}
+                </span>
 
             </div>
 
@@ -2484,66 +2568,38 @@ async function loadAllRooms() {
                     Open
                 </button>
 
-                <button
-                    class="room-edit-btn"
-                    onclick="event.stopPropagation(); editRoom('${room.id}', '${room.name.replace(/'/g, "\\'")}')"
-                >
-                    ✏️
-                </button>
+                ${
+                    isOwner
+                    ? `
+                        <button
+                            class="room-edit-btn"
+                            onclick="event.stopPropagation(); editRoom('${room.id}', '${room.name.replace(/'/g, "\\'")}')"
+                        >
+                            ✏️
+                        </button>
 
-                <button
-                    class="room-delete-btn"
-                    onclick="event.stopPropagation(); deleteRoom('${room.id}')"
-                >
-                    🗑️
-                </button>
+                        <button
+                            class="room-delete-btn"
+                            onclick="event.stopPropagation(); deleteRoom('${room.id}')"
+                        >
+                            🗑️
+                        </button>
+                    `
+                    : ""
+                }
 
             </div>
-
         `;
+
+
+        roomCard.onclick = function () {
+            openRoom(room.id);
+        };
 
 
         allRoomsList.appendChild(roomCard);
 
     });
-
-}
-
-async function editRoom(roomId, oldName) {
-
-    const newName = prompt("Enter new room name:", oldName);
-
-    if (!newName) {
-        return;
-    }
-
-    const name = newName.trim();
-
-    if (!name) {
-        return;
-    }
-
-    const { error } =
-        await supabaseClient
-            .from("rooms")
-            .update({
-                name: name
-            })
-            .eq("id", roomId);
-
-
-    if (error) {
-
-        console.error("Edit room error:", error);
-
-        alert("Could not update room.");
-
-        return;
-    }
-
-
-    await loadAllRooms();
-    await loadMyRooms();
 
 }
 
