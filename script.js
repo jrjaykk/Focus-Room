@@ -175,8 +175,9 @@ currentUser = data.user;
         document
             .getElementById("dashboardPage")
             .classList.remove("hidden");
-        loadMyRooms();
 
+        loadSavedAvatar();
+        loadMyRooms();
         loadStudySessions();
 
     }, 700);
