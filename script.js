@@ -329,6 +329,8 @@ let timerSeconds = 25 * 60;
 let timerInterval = null;
 let timerRunning = false;
 
+let currentRoomId = null;
+
 // Today's live study time
 
 let todayStudySeconds = 0;
@@ -2238,6 +2240,8 @@ async function loadDashboardUsername() {
 // ==============================
 
 async function openRoom(roomId) {
+
+   currentRoomId = roomId;
 
     const {
         data: room,
