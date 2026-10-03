@@ -2897,52 +2897,31 @@ async function deleteRoom(roomId) {
         return;
     }
 
+    console.log("Trying to delete room:", roomId);
 
-    // Delete room members first
-    const { error: membersError } =
-        await supabaseClient
-            .from("room_members")
-            .delete()
-            .eq("room_id", roomId);
-
-
-    if (membersError) {
-
-        console.error(
-            "Delete room members error:",
-            membersError
-        );
-
-        alert("Could not delete room.");
-
-        return;
-    }
-
-
-    // Delete the room
-    const { error: roomError } =
+    const { data, error } =
         await supabaseClient
             .from("rooms")
             .delete()
-            .eq("id", roomId);
+            .eq("id", roomId)
+            .select();
 
+    console.log("Delete result:", data);
+    console.log("Delete error:", error);
 
-    if (roomError) {
-
-        console.error(
-            "Delete room error:",
-            roomError
-        );
-
-        alert("Could not delete room.");
-
+    if (error) {
+        console.error("DELETE ROOM ERROR:", error);
         return;
     }
 
+    if (!data || data.length === 0) {
+        console.warn("No room was deleted. RLS may be blocking the delete.");
+        return;
+    }
 
-    // Refresh rooms
+    console.log("Room deleted successfully:", data);
+
     await loadAllRooms();
-
 }
 
 
