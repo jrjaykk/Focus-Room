@@ -2044,113 +2044,150 @@ async function confirmRemoveFriend() {
 
 
 // =========================
-// AVATAR PICKER
-// =========================
+ // AVATAR PICKER
+ // =========================
 
-async function selectAvatar(avatar) {
-
-    console.log("Selected avatar:", avatar);
-
-    selectedAvatar = avatar;
-
-    const profileAvatar =
-        document.getElementById("profileAvatar");
-
-    if (profileAvatar) {
-        profileAvatar.textContent = avatar;
-    }
-
-    const {
-        data: { user },
-        error: userError
-    } = await supabaseClient.auth.getUser();
-
-    if (userError || !user) {
-        showToast(
-            "Login Required",
-            "Please login first."
-        );
-        return;
-    }
-
-    const { error } =
-        await supabaseClient
-            .from("profiles")
-            .update({
-                avatar: avatar
-            })
-            .eq("id", user.id);
-
-    if (error) {
-
-        console.error(
-            "Avatar save error:",
-            error
-        );
-
-        showToast(
-            "Something went wrong",
-            "Could not save avatar."
-        );
-
-        return;
-    }
-
-    localStorage.setItem(
-        "focusRoomAvatar",
-        avatar
-    );
-
-    closeAvatarPicker();
-
-    showToast(
-        "Avatar Updated 🎉",
-        "Your avatar has been saved."
-    );
-}
-// =========================
-// LOAD SAVED AVATAR
-// =========================
-
-async function loadSavedAvatar() {
-
-    const {
-        data: { user },
-        error: userError
-    } = await supabaseClient.auth.getUser();
-
-    if (userError || !user) {
-        return;
-    }
+ let selectedAvatar = null;
 
 
-    const { data: profile, error } =
-        await supabaseClient
-            .from("profiles")
-            .select("avatar")
-            .eq("id", user.id)
-            .single();
+ function openAvatarPicker() {
+
+     const modal =
+         document.getElementById("avatarModal");
+
+     if (modal) {
+         modal.style.display = "flex";
+     }
+ }
 
 
-    if (error) {
+ function closeAvatarPicker() {
 
-        console.error(
-            "Load avatar error:",
-            error
-        );
+     const modal =
+         document.getElementById("avatarModal");
 
-        return;
-    }
-
-
-    const profileAvatar =
-        document.getElementById("profileAvatar");
+     if (modal) {
+         modal.style.display = "none";
+     }
+ }
 
 
-    if (profileAvatar && profile?.avatar) {
+ async function selectAvatar(avatar) {
 
-        profileAvatar.textContent =
-            profile.avatar;
+     console.log("Selected avatar:", avatar);
 
-    }
-}
+     selectedAvatar = avatar;
+
+     const profileAvatar =
+         document.getElementById("profileAvatar");
+
+     if (profileAvatar) {
+         profileAvatar.textContent = avatar;
+     }
+
+
+     const {
+         data: { user },
+         error: userError
+     } = await supabaseClient.auth.getUser();
+
+
+     if (userError || !user) {
+
+         showToast(
+             "Login Required",
+             "Please login first."
+         );
+
+         return;
+     }
+
+
+     const { error } =
+         await supabaseClient
+             .from("profiles")
+             .update({
+                 avatar: avatar
+             })
+             .eq("id", user.id);
+
+
+     if (error) {
+
+         console.error(
+             "Avatar save error:",
+             error
+         );
+
+         showToast(
+             "Something went wrong",
+             "Could not save avatar."
+         );
+
+         return;
+     }
+
+
+     localStorage.setItem(
+         "focusRoomAvatar",
+         avatar
+     );
+
+
+     closeAvatarPicker();
+
+
+     showToast(
+         "Avatar Updated 🎉",
+         "Your avatar has been saved."
+     );
+ }
+
+
+ // =========================
+ // LOAD SAVED AVATAR
+ // =========================
+
+ async function loadSavedAvatar() {
+
+     const {
+         data: { user },
+         error: userError
+     } = await supabaseClient.auth.getUser();
+
+
+     if (userError || !user) {
+         return;
+     }
+
+
+     const { data: profile, error } =
+         await supabaseClient
+             .from("profiles")
+             .select("avatar")
+             .eq("id", user.id)
+             .single();
+
+
+     if (error) {
+
+         console.error(
+             "Load avatar error:",
+             error
+         );
+
+         return;
+     }
+
+
+     const profileAvatar =
+         document.getElementById("profileAvatar");
+
+
+     if (profileAvatar && profile?.avatar) {
+
+         profileAvatar.textContent =
+             profile.avatar;
+
+     }
+ }
