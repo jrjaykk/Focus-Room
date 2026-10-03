@@ -2644,3 +2644,61 @@ function showRoomProgress() {
         </div>
     `;
 }
+
+
+async function deleteRoom(roomId) {
+
+    const confirmed =
+        confirm("Are you sure you want to delete this room?");
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    // Delete room members first
+    const { error: membersError } =
+        await supabaseClient
+            .from("room_members")
+            .delete()
+            .eq("room_id", roomId);
+
+
+    if (membersError) {
+
+        console.error(
+            "Delete room members error:",
+            membersError
+        );
+
+        alert("Could not delete room.");
+
+        return;
+    }
+
+
+    // Delete the room
+    const { error: roomError } =
+        await supabaseClient
+            .from("rooms")
+            .delete()
+            .eq("id", roomId);
+
+
+    if (roomError) {
+
+        console.error(
+            "Delete room error:",
+            roomError
+        );
+
+        alert("Could not delete room.");
+
+        return;
+    }
+
+
+    // Refresh rooms
+    await loadAllRooms();
+
+}
