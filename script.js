@@ -2072,6 +2072,8 @@ function closeAvatarPicker() {
 
 function selectAvatar(avatar) {
 
+    async function selectAvatar(avatar) {
+
     selectedAvatar = avatar;
 
     const profileAvatar =
@@ -2086,5 +2088,44 @@ function selectAvatar(avatar) {
         avatar
     );
 
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        return;
+    }
+
+    const { error } = await supabaseClient
+        .from("profiles")
+        .update({
+            avatar: avatar
+        })
+        .eq("id", user.id);
+
+    if (error) {
+
+        console.error(
+            "Avatar save error:",
+            error
+        );
+
+        showToast(
+            "Something went wrong",
+            "Could not save avatar."
+        );
+
+        return;
+    }
+
     closeAvatarPicker();
+
+    showToast(
+        "Avatar Updated 🎉",
+        "Your new avatar has been saved."
+    );
 }
+    
+}
+
