@@ -2663,7 +2663,11 @@ function showExploreRooms() {
 // ROOM PROGRESS
 // ==============================
 
-function showRoomProgress() {
+// ==============================
+// ROOM PROGRESS
+// ==============================
+
+async function showRoomProgress() {
 
     const content =
         document.getElementById("roomHubContent");
@@ -2672,22 +2676,217 @@ function showRoomProgress() {
         return;
     }
 
-    content.innerHTML = `
-        <div class="room-hub-welcome">
 
-            <div class="welcome-icon">
+    content.innerHTML = `
+
+        <div class="explore-page-header">
+
+            <button
+                class="circle-back-btn"
+                onclick="openMyRooms()"
+            >
+                ←
+            </button>
+
+            <div>
+
+                <p class="card-label">
+                    WEEKLY STATS
+                </p>
+
+                <h2>
+                    Room Progress
+                </h2>
+
+                <p class="explore-subtitle">
+                    Select a room to see this week's progress.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div id="progressRoomsList"></div>
+
+    `;
+
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+
+    if (userError || !user) {
+        return;
+    }
+
+
+    // Created rooms
+    const { data: createdRooms, error: createdError } =
+        await supabaseClient
+            .from("rooms")
+            .select("*")
+            .eq("created_by", user.id);
+
+
+    if (createdError) {
+
+        console.error(
+            "Progress rooms error:",
+            createdError
+        );
+
+        return;
+    }
+
+
+    // Joined rooms
+    const { data: memberships, error: memberError } =
+        await supabaseClient
+            .from("room_members")
+            .select("room_id")
+            .eq("user_id", user.id);
+
+
+    if (memberError) {
+
+        console.error(
+            "Progress memberships error:",
+            memberError
+        );
+
+        return;
+    }
+
+
+    const joinedRoomIds =
+        memberships.map(member => member.room_id);
+
+
+    let joinedRooms = [];
+
+
+    if (joinedRoomIds.length > 0) {
+
+        const { data, error } =
+            await supabaseClient
+                .from("rooms")
+                .select("*")
+                .in("id", joinedRoomIds);
+
+
+        if (error) {
+
+            console.error(
+                "Progress joined rooms error:",
+                error
+            );
+
+            return;
+        }
+
+
+        joinedRooms = data || [];
+    }
+
+
+    // Combine rooms
+    const allRooms = [
+        ...(createdRooms || []),
+        ...joinedRooms
+    ];
+
+
+    // Remove duplicates
+    const uniqueRooms = [
+        ...new Map(
+            allRooms.map(room => [room.id, room])
+        ).values()
+    ];
+
+
+    const list =
+        document.getElementById("progressRoomsList");
+
+
+    if (!list) {
+        return;
+    }
+
+
+    if (uniqueRooms.length === 0) {
+
+        list.innerHTML = `
+
+            <div class="room-hub-welcome">
+
+                <div class="welcome-icon">
+                    📊
+                </div>
+
+                <h2>
+                    No rooms yet
+                </h2>
+
+                <p>
+                    Create or join a room first.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    uniqueRooms.forEach(room => {
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "all-room-card";
+
+
+        card.innerHTML = `
+
+            <div class="all-room-icon">
                 📊
             </div>
 
-            <h2>Room Progress</h2>
+            <div class="all-room-info">
 
-            <p>
-                Select a room to see this week's
-                study progress.
-            </p>
+                <h3>
+                    ${room.name}
+                </h3>
 
-        </div>
-    `;
+                <p>
+                    View this week's study progress
+                </p>
+
+            </div>
+
+            <div class="room-actions">
+
+                <button
+                    class="room-open-btn"
+                    onclick="openRoomProgress('${room.id}', '${room.name.replace(/'/g, "\\'")}')"
+                >
+                    View
+                </button>
+
+            </div>
+
+        `;
+
+
+        list.appendChild(card);
+
+    });
+
 }
 
 
