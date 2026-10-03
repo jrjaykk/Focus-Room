@@ -2370,3 +2370,141 @@ function closeMyRooms() {
     }
 }
 
+
+// ==============================
+// LOAD ALL ROOMS
+// ==============================
+
+async function loadAllRooms() {
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        return;
+    }
+
+
+    // Get rooms created by me
+    const { data: createdRooms, error: createdError } =
+        await supabaseClient
+            .from("rooms")
+            .select("*")
+            .eq("created_by", user.id)
+            .order("created_at", { ascending: false });
+
+
+    if (createdError) {
+
+        console.error("Load all rooms error:", createdError);
+
+        return;
+    }
+
+
+    const allRoomsList =
+        document.getElementById("allRoomsList");
+
+
+    if (!allRoomsList) {
+        return;
+    }
+
+
+    if (!createdRooms || createdRooms.length === 0) {
+
+        allRoomsList.innerHTML = `
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🚪
+                </div>
+
+                <h3>
+                    No rooms yet
+                </h3>
+
+                <p>
+                    Create your first study room.
+                </p>
+
+                <button
+                    class="primary-btn"
+                    onclick="createRoom()"
+                >
+                    + Create Room
+                </button>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    allRoomsList.innerHTML = "";
+
+
+    createdRooms.forEach(room => {
+
+        const roomCard =
+            document.createElement("div");
+
+        roomCard.className = "all-room-card";
+
+
+        roomCard.innerHTML = `
+            
+            <div class="all-room-icon">
+                📚
+            </div>
+
+            <div class="all-room-info">
+
+                <h2>
+                    ${room.name}
+                </h2>
+
+                <p>
+                    Room Code:
+                    <strong>${room.room_code}</strong>
+                </p>
+
+            </div>
+
+
+            <div class="room-actions">
+
+                <button
+                    class="room-open-btn"
+                    onclick="event.stopPropagation(); openRoom('${room.id}')"
+                >
+                    Open
+                </button>
+
+                <button
+                    class="room-edit-btn"
+                    onclick="event.stopPropagation(); editRoom('${room.id}', '${room.name.replace(/'/g, "\\'")}')"
+                >
+                    ✏️
+                </button>
+
+                <button
+                    class="room-delete-btn"
+                    onclick="event.stopPropagation(); deleteRoom('${room.id}')"
+                >
+                    🗑️
+                </button>
+
+            </div>
+
+        `;
+
+
+        allRoomsList.appendChild(roomCard);
+
+    });
+
+}
