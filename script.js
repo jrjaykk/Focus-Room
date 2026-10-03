@@ -2239,12 +2239,15 @@ async function loadDashboardUsername() {
 
 async function openRoom(roomId) {
 
-    const { data: room, error } =
-        await supabaseClient
-            .from("rooms")
-            .select("*")
-            .eq("id", roomId)
-            .single();
+    const {
+        data: room,
+        error
+    } = await supabaseClient
+        .from("rooms")
+        .select("*")
+        .eq("id", roomId)
+        .single();
+
 
     if (error) {
 
@@ -2255,9 +2258,56 @@ async function openRoom(roomId) {
         return;
     }
 
+
     console.log("Opened room:", room);
 
-    alert(
-        `Room: ${room.name}\nCode: ${room.room_code}`
-    );
+
+    // Hide dashboard
+    const dashboardPage =
+        document.getElementById("dashboardPage");
+
+    if (dashboardPage) {
+        dashboardPage.style.display = "none";
+    }
+
+
+    // Show study room
+    const studyRoomPage =
+        document.getElementById("studyRoomPage");
+
+    if (studyRoomPage) {
+        studyRoomPage.style.display = "block";
+    }
+
+
+    // Set room information
+    document.getElementById("studyRoomName").textContent =
+        room.name;
+
+    document.getElementById("studyRoomCode").textContent =
+        room.room_code;
+}
+
+
+// ==============================
+// CLOSE ROOM
+// ==============================
+
+function closeRoom() {
+
+    const studyRoomPage =
+        document.getElementById("studyRoomPage");
+
+    const dashboardPage =
+        document.getElementById("dashboardPage");
+
+
+    if (studyRoomPage) {
+        studyRoomPage.style.display = "none";
+    }
+
+
+    if (dashboardPage) {
+        dashboardPage.style.display = "block";
+    }
 }
