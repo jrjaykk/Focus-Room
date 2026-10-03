@@ -2129,3 +2129,42 @@ function selectAvatar(avatar) {
     
 }
 
+// =========================
+// LOAD SAVED AVATAR
+// =========================
+
+async function loadSavedAvatar() {
+
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        return;
+    }
+
+    const { data: profile, error } =
+        await supabaseClient
+            .from("profiles")
+            .select("avatar")
+            .eq("id", user.id)
+            .single();
+
+    if (error) {
+
+        console.error(
+            "Load avatar error:",
+            error
+        );
+
+        return;
+    }
+
+    const profileAvatar =
+        document.getElementById("profileAvatar");
+
+    if (profileAvatar && profile?.avatar) {
+        profileAvatar.textContent = profile.avatar;
+    }
+}
