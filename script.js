@@ -846,6 +846,7 @@ async function saveStudySession(seconds) {
     }
 
     const { error } = await supabaseClient
+        .from("study_sessions")
         .insert({
     user_id: currentUser.id,
     study_date: new Date().toISOString().split("T")[0],
