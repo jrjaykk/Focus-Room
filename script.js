@@ -2551,12 +2551,16 @@ async function editRoom(roomId, oldName) {
 // ROOM HUB
 // ==============================
 
-function showAllRooms() {
+function showExploreRooms() {
 
     loadAllRooms();
 
 }
 
+
+// ==============================
+// ROOM PROGRESS
+// ==============================
 
 function showRoomProgress() {
 
