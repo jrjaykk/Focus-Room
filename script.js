@@ -2232,3 +2232,32 @@ async function loadDashboardUsername() {
             profile.username;
     }
 }
+
+// ==============================
+// OPEN ROOM
+// ==============================
+
+async function openRoom(roomId) {
+
+    const { data: room, error } =
+        await supabaseClient
+            .from("rooms")
+            .select("*")
+            .eq("id", roomId)
+            .single();
+
+    if (error) {
+
+        console.error("Open room error:", error);
+
+        alert("Could not open room.");
+
+        return;
+    }
+
+    console.log("Opened room:", room);
+
+    alert(
+        `Room: ${room.name}\nCode: ${room.room_code}`
+    );
+}
