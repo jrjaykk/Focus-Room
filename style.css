@@ -1966,3 +1966,108 @@ body {
     }
 
 }
+
+/* ============================== */
+/* STUDY ROOMS DASHBOARD CARD */
+/* ============================== */
+
+.s-card {
+    cursor: pointer;
+    overflow: hidden;
+}
+
+
+.room-preview {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 24px;
+}
+
+
+.room-preview-icon {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.07);
+
+    font-size: 28px;
+}
+
+
+.room-preview-content {
+    flex: 1;
+    min-width: 0;
+}
+
+
+.room-preview-content .card-label {
+    margin-bottom: 6px;
+}
+
+
+.room-preview-content h2 {
+    margin: 0 0 7px;
+    font-size: 21px;
+}
+
+
+.room-preview-text {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.55;
+    line-height: 1.5;
+}
+
+
+.room-preview-arrow {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.06);
+
+    font-size: 20px;
+
+    transition: 0.25s ease;
+}
+
+
+.s-card:hover .room-preview-arrow {
+    transform: translateX(5px);
+}
+
+
+@media (max-width: 500px) {
+
+    .room-preview {
+        padding: 20px;
+        gap: 14px;
+    }
+
+    .room-preview-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .room-preview-content h2 {
+        font-size: 18px;
+    }
+
+}
