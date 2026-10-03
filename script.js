@@ -2311,3 +2311,12 @@ function closeRoom() {
         dashboardPage.style.display = "block";
     }
 }
+
+// Load rooms when dashboard opens
+supabaseClient.auth.onAuthStateChange((event, session) => {
+
+    if (session) {
+        loadMyRooms();
+    }
+
+});
