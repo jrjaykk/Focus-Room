@@ -2334,7 +2334,6 @@ function openMyRooms() {
     const myRoomsPage =
         document.getElementById("myRoomsPage");
 
-
     if (dashboardPage) {
         dashboardPage.style.display = "none";
     }
@@ -2343,10 +2342,32 @@ function openMyRooms() {
         myRoomsPage.style.display = "block";
     }
 
+    // Show Room Hub welcome screen
+    const content =
+        document.getElementById("roomHubContent");
 
-    loadAllRooms();
+    if (content) {
+
+        content.innerHTML = `
+            <div class="room-hub-welcome">
+
+                <div class="welcome-icon">
+                    📚
+                </div>
+
+                <h2>Your Study Rooms</h2>
+
+                <p>
+                    Create or join a room and study
+                    together with your friends.
+                </p>
+
+            </div>
+        `;
+
+    }
+
 }
-
 
 // ==============================
 // CLOSE MY ROOMS PAGE
@@ -2490,28 +2511,8 @@ async function loadAllRooms() {
 
 
     // Rooms heading
-    content.innerHTML = `
-
-        <div class="explore-rooms-header">
-
-            <div>
-                <p class="card-label">
-                    YOUR ROOMS
-                </p>
-
-                <h2>
-                    Explore Rooms
-                </h2>
-            </div>
-
-            <span class="room-count">
-                ${uniqueRooms.length} room${uniqueRooms.length === 1 ? "" : "s"}
-            </span>
-
-        </div>
-
-        <div class="all-rooms-grid" id="allRoomsList"></div>
-    `;
+    const allRoomsList =
+    document.getElementById("allRoomsList");
 
 
     const allRoomsList =
@@ -2608,6 +2609,46 @@ async function loadAllRooms() {
 // ==============================
 
 function showExploreRooms() {
+
+    const content =
+        document.getElementById("roomHubContent");
+
+    if (!content) {
+        return;
+    }
+
+    content.innerHTML = `
+
+        <div class="explore-page-header">
+
+            <button
+                class="circle-back-btn"
+                onclick="openMyRooms()"
+            >
+                ←
+            </button>
+
+            <div>
+
+                <p class="card-label">
+                    STUDY ROOMS
+                </p>
+
+                <h2>
+                    Explore Rooms
+                </h2>
+
+                <p class="explore-subtitle">
+                    Choose a room and start studying together.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div id="allRoomsList"></div>
+
+    `;
 
     loadAllRooms();
 
