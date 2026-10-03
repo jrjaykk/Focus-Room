@@ -2445,3 +2445,36 @@ body {
     }
 
 }
+
+
+/* ==============================
+   DESKTOP DASHBOARD CARD FIX
+   ============================== */
+
+@media (min-width: 901px) {
+
+    .main-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .bottom-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .main-grid .dashboard-card,
+    .bottom-grid .dashboard-card {
+        min-height: 300px;
+        height: 300px;
+    }
+
+    .timer-card {
+        min-height: 300px;
+        height: 300px;
+    }
+
+    .room-preview {
+        height: 100%;
+    }
+}
