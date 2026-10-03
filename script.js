@@ -2612,50 +2612,39 @@ async function loadAllRooms() {
 
 function showExploreRooms() {
 
-    const content =
-        document.getElementById("roomHubContent");
+    const myRoomsPage =
+        document.getElementById("myRoomsPage");
 
-    if (!content) {
-        return;
+    const exploreRoomsPage =
+        document.getElementById("exploreRoomsPage");
+
+    if (myRoomsPage) {
+        myRoomsPage.style.display = "none";
     }
 
-    content.innerHTML = `
-
-        <div class="explore-page-header">
-
-            <button
-                class="circle-back-btn"
-                onclick="openMyRooms()"
-            >
-                ←
-            </button>
-
-            <div>
-
-                <p class="card-label">
-                    STUDY ROOMS
-                </p>
-
-                <h2>
-                    Explore Rooms
-                </h2>
-
-                <p class="explore-subtitle">
-                    Choose a room and start studying together.
-                </p>
-
-            </div>
-
-        </div>
-
-        <div id="allRoomsList"></div>
-
-    `;
+    if (exploreRoomsPage) {
+        exploreRoomsPage.style.display = "block";
+    }
 
     loadAllRooms();
-
 }
 
+function closeExploreRooms() {
+
+    const exploreRoomsPage =
+        document.getElementById("exploreRoomsPage");
+
+    const myRoomsPage =
+        document.getElementById("myRoomsPage");
+
+    if (exploreRoomsPage) {
+        exploreRoomsPage.style.display = "none";
+    }
+
+    if (myRoomsPage) {
+        myRoomsPage.style.display = "block";
+    }
+}
 
 // ==============================
 // ROOM PROGRESS
