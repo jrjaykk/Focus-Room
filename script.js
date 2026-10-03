@@ -2946,3 +2946,326 @@ async function deleteRoom(roomId) {
     await loadAllRooms();
 
 }
+
+
+// ==============================
+// OPEN ROOM PROGRESS
+// ==============================
+
+async function openRoomProgress(roomId, roomName) {
+
+    const content =
+        document.getElementById("roomHubContent");
+
+    if (!content) {
+        return;
+    }
+
+
+    content.innerHTML = `
+
+        <div class="explore-page-header">
+
+            <button
+                class="circle-back-btn"
+                onclick="showRoomProgress()"
+            >
+                ←
+            </button>
+
+            <div>
+
+                <p class="card-label">
+                    THIS WEEK
+                </p>
+
+                <h2>
+                    ${roomName}
+                </h2>
+
+                <p class="explore-subtitle">
+                    Weekly study progress
+                </p>
+
+            </div>
+
+        </div>
+
+        <div id="roomProgressData">
+
+            <div class="room-hub-welcome">
+
+                <div class="welcome-icon">
+                    ⏳
+                </div>
+
+                <h2>
+                    Loading progress...
+                </h2>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    // Get Monday of current week
+
+    const today =
+        new Date();
+
+    const day =
+        today.getDay();
+
+    const diff =
+        day === 0 ? -6 : 1 - day;
+
+
+    const monday =
+        new Date(today);
+
+    monday.setDate(
+        today.getDate() + diff
+    );
+
+
+    const mondayDate =
+        monday.toISOString()
+            .split("T")[0];
+
+
+    const sunday =
+        new Date(monday);
+
+    sunday.setDate(
+        monday.getDate() + 6
+    );
+
+
+    const sundayDate =
+        sunday.toISOString()
+            .split("T")[0];
+
+
+    // Get study sessions for this room
+
+    const { data: sessions, error: sessionError } =
+        await supabaseClient
+            .from("study_sessions")
+            .select("user_id, duration_seconds, study_date")
+            .eq("room_id", roomId)
+            .gte("study_date", mondayDate)
+            .lte("study_date", sundayDate);
+
+
+    if (sessionError) {
+
+        console.error(
+            "Room progress error:",
+            sessionError
+        );
+
+        document.getElementById("roomProgressData").innerHTML = `
+
+            <div class="room-hub-welcome">
+
+                <div class="welcome-icon">
+                    ⚠️
+                </div>
+
+                <h2>
+                    Could not load progress
+                </h2>
+
+                <p>
+                    Please try again.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const progressData = {};
+
+
+    (sessions || []).forEach(session => {
+
+        if (!progressData[session.user_id]) {
+            progressData[session.user_id] = 0;
+        }
+
+        progressData[session.user_id] +=
+            session.duration_seconds;
+
+    });
+
+
+    const userIds =
+        Object.keys(progressData);
+
+
+    const progressContainer =
+        document.getElementById("roomProgressData");
+
+
+    if (userIds.length === 0) {
+
+        progressContainer.innerHTML = `
+
+            <div class="room-hub-welcome">
+
+                <div class="welcome-icon">
+                    📚
+                </div>
+
+                <h2>
+                    No study data yet
+                </h2>
+
+                <p>
+                    Start studying in this room
+                    to see weekly progress here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    // Get usernames
+
+    const { data: profiles, error: profileError } =
+        await supabaseClient
+            .from("profiles")
+            .select("id, username")
+            .in("id", userIds);
+
+
+    if (profileError) {
+
+        console.error(
+            "Profile loading error:",
+            profileError
+        );
+
+        return;
+    }
+
+
+    const profileMap = {};
+
+
+    (profiles || []).forEach(profile => {
+
+        profileMap[profile.id] =
+            profile.username || "User";
+
+    });
+
+
+    // Create progress cards
+
+    progressContainer.innerHTML = `
+
+        <div class="weekly-progress-list">
+        <div class="progress-list-header">
+
+                <h3>
+                    👥 Members
+                </h3>
+
+                <span>
+                    ${userIds.length} studying
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    const list =
+        progressContainer.querySelector(
+            ".weekly-progress-list"
+        );
+
+
+    userIds.forEach(userId => {
+
+        const seconds =
+            progressData[userId];
+
+
+        const hours =
+            Math.floor(seconds / 3600);
+
+
+        const minutes =
+            Math.floor(
+                (seconds % 3600) / 60
+            );
+
+
+        let timeText;
+
+
+        if (hours > 0) {
+
+            timeText =
+                `${hours}h ${minutes}m`;
+
+        } else {
+
+            timeText =
+                `${minutes}m`;
+
+        }
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "member-progress-card";
+
+
+        card.innerHTML = `
+
+            <div class="member-progress-avatar">
+                👤
+            </div>
+
+            <div class="member-progress-info">
+
+                <h3>
+                    ${profileMap[userId] || "User"}
+                </h3>
+
+                <p>
+                    Studied this week
+                </p>
+
+            </div>
+
+            <div class="member-progress-time">
+                ${timeText}
+            </div>
+
+        `;
+
+
+        list.appendChild(card);
+
+    });
+
+}
