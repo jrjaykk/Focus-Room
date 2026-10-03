@@ -2049,6 +2049,7 @@ async function confirmRemoveFriend() {
 
 let selectedAvatar = null;
 
+
 function openAvatarPicker() {
 
     const modal =
@@ -2073,9 +2074,9 @@ function closeAvatarPicker() {
 
 function selectAvatar(avatar) {
 
-   async function selectAvatar(avatar) {
-
     console.log("Selected avatar:", avatar);
+
+    selectedAvatar = avatar;
 
     const profileAvatar =
         document.getElementById("profileAvatar");
@@ -2084,16 +2085,19 @@ function selectAvatar(avatar) {
         profileAvatar.textContent = avatar;
     }
 
+    localStorage.setItem(
+        "focusRoomAvatar",
+        avatar
+    );
+
     closeAvatarPicker();
 
     showToast(
         "Avatar Updated 🎉",
-        "Avatar selected successfully."
+        "Your avatar has been updated."
     );
 }
 
-    
-}
 
 // =========================
 // LOAD SAVED AVATAR
@@ -2110,12 +2114,14 @@ async function loadSavedAvatar() {
         return;
     }
 
+
     const { data: profile, error } =
         await supabaseClient
             .from("profiles")
             .select("avatar")
             .eq("id", user.id)
             .single();
+
 
     if (error) {
 
@@ -2127,10 +2133,15 @@ async function loadSavedAvatar() {
         return;
     }
 
+
     const profileAvatar =
         document.getElementById("profileAvatar");
 
+
     if (profileAvatar && profile?.avatar) {
-        profileAvatar.textContent = profile.avatar;
+
+        profileAvatar.textContent =
+            profile.avatar;
+
     }
 }
