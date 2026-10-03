@@ -2508,3 +2508,41 @@ async function loadAllRooms() {
     });
 
 }
+
+async function editRoom(roomId, oldName) {
+
+    const newName = prompt("Enter new room name:", oldName);
+
+    if (!newName) {
+        return;
+    }
+
+    const name = newName.trim();
+
+    if (!name) {
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from("rooms")
+            .update({
+                name: name
+            })
+            .eq("id", roomId);
+
+
+    if (error) {
+
+        console.error("Edit room error:", error);
+
+        alert("Could not update room.");
+
+        return;
+    }
+
+
+    await loadAllRooms();
+    await loadMyRooms();
+
+}
