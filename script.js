@@ -2320,3 +2320,53 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
     }
 
 });
+
+
+// ==============================
+// OPEN MY ROOMS PAGE
+// ==============================
+
+function openMyRooms() {
+
+    const dashboardPage =
+        document.getElementById("dashboardPage");
+
+    const myRoomsPage =
+        document.getElementById("myRoomsPage");
+
+
+    if (dashboardPage) {
+        dashboardPage.style.display = "none";
+    }
+
+    if (myRoomsPage) {
+        myRoomsPage.style.display = "block";
+    }
+
+
+    loadAllRooms();
+}
+
+
+// ==============================
+// CLOSE MY ROOMS PAGE
+// ==============================
+
+function closeMyRooms() {
+
+    const myRoomsPage =
+        document.getElementById("myRoomsPage");
+
+    const dashboardPage =
+        document.getElementById("dashboardPage");
+
+
+    if (myRoomsPage) {
+        myRoomsPage.style.display = "none";
+    }
+
+    if (dashboardPage) {
+        dashboardPage.style.display = "block";
+    }
+}
+
