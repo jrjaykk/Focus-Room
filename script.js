@@ -3313,15 +3313,18 @@ function closeProfileMenu() {
 
     const menu = document.getElementById("profileMenu");
 
+    if (!menu) return;
 
-    // ==============================
+    menu.style.display = "none";
+}
+
+
+// ==============================
 // CHANGE USERNAME
 // ==============================
 
 function changeUsername() {
-    alert("Change Username clicked");
-}
-    if (!menu) return;
 
-    menu.style.display = "none";
+    alert("Change Username clicked");
+
 }
