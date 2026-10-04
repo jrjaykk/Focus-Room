@@ -1384,18 +1384,16 @@ async function loadStreak() {
     }
 
 
-    // Top mini streak
+    // Profile popup streak
 
-    const miniStreak =
-        document.querySelector(
-            ".streak-mini span"
-        );
+const profileStreak =
+    document.getElementById("profileMenuStreak");
 
-    if (miniStreak) {
+if (profileStreak) {
 
-        miniStreak.textContent =
-            currentStreak;
-    }
+    profileStreak.textContent =
+        `${currentStreak} ${currentStreak === 1 ? "day" : "days"}`;
+}
 
     console.log(
         "🔥 Streak loaded:",
