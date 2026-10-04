@@ -3333,8 +3333,65 @@ function closeProfileMenu() {
 // CHANGE USERNAME
 // ==============================
 
-function changeUsername() {
+async function changeUsername() {
 
-    alert("Change Username clicked");
+    const newUsername =
+        prompt("Enter your new username:");
 
+    if (!newUsername) return;
+
+    const username =
+        newUsername.trim();
+
+    if (username.length < 3) {
+        alert("Username must be at least 3 characters.");
+        return;
+    }
+
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+    const { error } =
+        await supabaseClient
+            .from("profiles")
+            .update({
+                username: username
+            })
+            .eq("id", user.id);
+
+    if (error) {
+
+        console.error(
+            "Username update error:",
+            error
+        );
+
+        return;
+    }
+
+    const dashboardUsername =
+        document.getElementById("dashboardUsername");
+
+    const profileMenuUsername =
+        document.getElementById("profileMenuUsername");
+
+    if (dashboardUsername) {
+        dashboardUsername.textContent =
+            username;
+    }
+
+    if (profileMenuUsername) {
+        profileMenuUsername.textContent =
+            username;
+    }
+
+    closeProfileMenu();
+
+    console.log(
+        "✅ Username updated:",
+        username
+    );
 }
