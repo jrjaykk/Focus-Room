@@ -2480,3 +2480,117 @@ body {
 }
 
 
+/* =========================
+   PROFILE MENU
+========================= */
+
+.profile-menu {
+    position: fixed;
+    top: 78px;
+    right: 24px;
+    width: 300px;
+    background: #151515;
+    border: 1px solid #2b2b2b;
+    border-radius: 18px;
+    padding: 16px;
+    z-index: 9999;
+
+    display: none;
+
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+}
+
+.profile-menu-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #292929;
+}
+
+.profile-menu-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.profile-menu-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.profile-menu-header p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #888;
+}
+
+.profile-streak {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 5px;
+}
+
+.profile-streak-icon {
+    font-size: 22px;
+}
+
+.profile-streak strong {
+    display: block;
+    font-size: 14px;
+}
+
+.profile-streak small {
+    color: #888;
+    font-size: 11px;
+}
+
+.profile-menu-options {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.profile-menu-options button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 8px;
+    border-radius: 10px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.profile-menu-options button:hover {
+    background: #222;
+}
+
+.profile-menu-options button > span {
+    font-size: 18px;
+}
+
+.profile-menu-options button strong {
+    display: block;
+    font-size: 13px;
+}
+
+.profile-menu-options button small {
+    display: block;
+    color: #777;
+    font-size: 10px;
+    margin-top: 2px;
+}
+
+.profile-menu-options .profile-logout {
+    color: #ff6b6b;
+}
