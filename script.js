@@ -2160,47 +2160,65 @@ if (profileMenuAvatar) {
 
  async function loadSavedAvatar() {
 
-     const {
-         data: { user },
-         error: userError
-     } = await supabaseClient.auth.getUser();
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
 
 
-     if (userError || !user) {
-         return;
-     }
+    if (userError || !user) {
+        return;
+    }
 
 
-     const { data: profile, error } =
-         await supabaseClient
-             .from("profiles")
-             .select("avatar")
-             .eq("id", user.id)
-             .single();
+    const { data: profile, error } =
+        await supabaseClient
+            .from("profiles")
+            .select("avatar")
+            .eq("id", user.id)
+            .single();
 
 
-     if (error) {
+    if (error) {
 
-         console.error(
-             "Load avatar error:",
-             error
-         );
+        console.error(
+            "Load avatar error:",
+            error
+        );
 
-         return;
-     }
-
-
-     const profileAvatar =
-         document.getElementById("profileAvatar");
+        return;
+    }
 
 
-     if (profileAvatar && profile?.avatar) {
+    const profileAvatar =
+        document.getElementById("profileAvatar");
 
-         profileAvatar.textContent =
-             profile.avatar;
+    const profileMenuAvatar =
+        document.getElementById("profileMenuAvatar");
 
-     }
- }
+
+    if (profile?.avatar) {
+
+        if (profileAvatar) {
+
+            profileAvatar.textContent =
+                profile.avatar;
+        }
+
+
+        if (profileMenuAvatar) {
+
+            profileMenuAvatar.textContent =
+                profile.avatar;
+        }
+
+
+        localStorage.setItem(
+            "focusRoomAvatar",
+            profile.avatar
+        );
+    }
+}
 
 // -----------------------------------//
 //------------------------------------//
