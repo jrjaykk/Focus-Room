@@ -210,12 +210,11 @@
                 <div class="mobile-logo">
                     Focus 
                 </div>
-
-        <div class="header-right">
-
-    <div class="streak-mini">
-        🔥 <span>0</span> days
-    </div>
+                
+                <div class="header-right">
+                    <div class="streak-mini">
+                        🔥 <span>0</span> days
+                    </div>
 
     <div class="profile-mini">
 
@@ -231,13 +230,70 @@
         <span id="dashboardUsername">
             User
         </span>
+    </div>
+                </div>
+
+            </header>
+
+
+
+            <!-- PROFILE MENU -->
+
+<div class="profile-menu" id="profileMenu">
+
+    <div class="profile-menu-header">
+
+        <div class="profile-menu-avatar" id="profileMenuAvatar">
+            J
+        </div>
+
+        <div>
+            <h3 id="profileMenuUsername">User</h3>
+            <p>Focus Room member</p>
+        </div>
+
+    </div>
+
+    <div class="profile-streak">
+
+        <span class="profile-streak-icon">🔥</span>
+
+        <div>
+            <strong id="profileMenuStreak">0 days</strong>
+            <small>Current streak</small>
+        </div>
+
+    </div>
+
+    <div class="profile-menu-options">
+
+        <button onclick="changeUsername()">
+            <span>✏️</span>
+            <div>
+                <strong>Change Username</strong>
+                <small>Update your username</small>
+            </div>
+        </button>
+
+        <button onclick="openAvatarPicker(); closeProfileMenu();">
+            <span>🎨</span>
+            <div>
+                <strong>Change Avatar</strong>
+                <small>Choose a new avatar</small>
+            </div>
+        </button>
+
+        <button class="profile-logout" onclick="logoutUser()">
+            <span>🚪</span>
+            <div>
+                <strong>Logout</strong>
+                <small>Sign out of Focus Room</small>
+            </div>
+        </button>
 
     </div>
 
 </div>
-
-            </header>
-
 
             <!-- CONTENT -->
 
