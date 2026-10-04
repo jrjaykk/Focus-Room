@@ -3333,6 +3333,38 @@ function closeProfileMenu() {
 // CHANGE USERNAME
 // ==============================
 
+
+
+function changeUsername() {
+
+    const modal =
+        document.getElementById("usernameModal");
+
+    const input =
+        document.getElementById("newUsernameInput");
+
+    if (!modal || !input) return;
+
+    input.value = "";
+
+    modal.style.display = "flex";
+
+    setTimeout(() => {
+        input.focus();
+    }, 100);
+}
+
+
+function closeUsernameModal() {
+
+    const modal =
+        document.getElementById("usernameModal");
+
+    if (!modal) return;
+
+    modal.style.display = "none";
+}
+
 async function saveNewUsername() {
 
     const input =
