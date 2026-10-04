@@ -2088,6 +2088,13 @@ async function confirmRemoveFriend() {
          profileAvatar.textContent = avatar;
      }
 
+     const profileMenuAvatar =
+    document.getElementById("profileMenuAvatar");
+
+if (profileMenuAvatar) {
+    profileMenuAvatar.textContent = avatar;
+}
+
 
      const {
          data: { user },
