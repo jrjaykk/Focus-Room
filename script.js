@@ -2228,11 +2228,21 @@ async function loadDashboardUsername() {
     const usernameElement =
         document.getElementById("dashboardUsername");
 
-    if (usernameElement && profile?.username) {
+    if (profile?.username) {
+
+    if (usernameElement) {
         usernameElement.textContent =
             profile.username;
     }
 
+    const profileMenuUsername =
+        document.getElementById("profileMenuUsername");
+
+    if (profileMenuUsername) {
+        profileMenuUsername.textContent =
+            profile.username;
+    }
+}
 }
     async function changeUsername() {
 
