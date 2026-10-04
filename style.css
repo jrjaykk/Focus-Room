@@ -2661,3 +2661,136 @@ body {
     border-color: #444;
     transform: scale(1.05);
 }
+
+
+/* =========================
+   CHANGE USERNAME MODAL
+========================= */
+
+.username-modal {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    z-index: 10000;
+}
+
+.username-modal-box {
+    width: 360px;
+    max-width: calc(100% - 32px);
+
+    background: #151515;
+    border: 1px solid #2b2b2b;
+    border-radius: 20px;
+
+    padding: 20px;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+}
+
+.username-modal-header {
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding-right: 40px;
+}
+
+.username-modal-header h2 {
+    margin: 4px 0 0;
+    font-size: 20px;
+}
+
+.username-modal-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid #333;
+    border-radius: 50%;
+
+    background: #202020;
+    color: #aaa;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.username-modal-close:hover {
+    background: #2b2b2b;
+    color: white;
+}
+
+.username-subtitle {
+    color: #888;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 12px 0 18px;
+}
+
+#newUsernameInput {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    border: 1px solid #333;
+    border-radius: 10px;
+
+    background: #202020;
+    color: white;
+
+    outline: none;
+    font-size: 14px;
+}
+
+#newUsernameInput:focus {
+    border-color: #555;
+}
+
+.username-modal-actions {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 16px;
+}
+
+.username-modal-actions button {
+    flex: 1;
+
+    padding: 11px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.username-cancel {
+    border: 1px solid #333;
+    background: #202020;
+    color: #aaa;
+}
+
+.username-save {
+    border: none;
+    background: #fff;
+    color: #111;
+}
+
+.username-save:hover {
+    opacity: 0.9;
+}
