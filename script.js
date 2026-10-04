@@ -2288,7 +2288,7 @@ async function loadDashboardUsername() {
 
     console.log("✅ Username updated:", username);
 }
-}
+
 
 // ==============================
 // OPEN ROOM
