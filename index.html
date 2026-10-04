@@ -299,6 +299,62 @@
 
 </div>
 
+
+            <!-- CHANGE USERNAME MODAL -->
+
+<div class="username-modal" id="usernameModal">
+
+    <div class="username-modal-box">
+
+        <div class="username-modal-header">
+
+            <div>
+                <p class="card-label">PROFILE</p>
+                <h2>Change Username</h2>
+            </div>
+
+            <button
+                class="username-modal-close"
+                onclick="closeUsernameModal()"
+            >
+                X
+            </button>
+
+        </div>
+
+        <p class="username-subtitle">
+            Choose a new username for your Focus Room profile.
+        </p>
+
+        <input
+            type="text"
+            id="newUsernameInput"
+            placeholder="Enter new username"
+            maxlength="20"
+        >
+
+        <div class="username-modal-actions">
+
+            <button
+                class="username-cancel"
+                onclick="closeUsernameModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="username-save"
+                onclick="saveNewUsername()"
+            >
+                Save
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
             <!-- CONTENT -->
 
             <section class="dashboard-content">
