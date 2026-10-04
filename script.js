@@ -3235,3 +3235,31 @@ async function openRoomProgress(roomId, roomName) {
     });
 
 }
+
+
+// =========================
+// PROFILE MENU
+// =========================
+
+function toggleProfileMenu() {
+
+    const menu = document.getElementById("profileMenu");
+
+    if (!menu) return;
+
+    if (menu.style.display === "block") {
+        menu.style.display = "none";
+    } else {
+        menu.style.display = "block";
+    }
+}
+
+
+function closeProfileMenu() {
+
+    const menu = document.getElementById("profileMenu");
+
+    if (!menu) return;
+
+    menu.style.display = "none";
+}
