@@ -3333,65 +3333,32 @@ function closeProfileMenu() {
 // CHANGE USERNAME
 // ==============================
 
-async function changeUsername() {
+function changeUsername() {
 
-    const newUsername =
-        prompt("Enter your new username:");
+    const modal =
+        document.getElementById("usernameModal");
 
-    if (!newUsername) return;
+    const input =
+        document.getElementById("newUsernameInput");
 
-    const username =
-        newUsername.trim();
+    if (!modal || !input) return;
 
-    if (username.length < 3) {
-        alert("Username must be at least 3 characters.");
-        return;
-    }
+    input.value = "";
 
-    const {
-        data: { user }
-    } = await supabaseClient.auth.getUser();
+    modal.style.display = "flex";
 
-    if (!user) return;
+    setTimeout(() => {
+        input.focus();
+    }, 100);
+}
 
-    const { error } =
-        await supabaseClient
-            .from("profiles")
-            .update({
-                username: username
-            })
-            .eq("id", user.id);
 
-    if (error) {
+function closeUsernameModal() {
 
-        console.error(
-            "Username update error:",
-            error
-        );
+    const modal =
+        document.getElementById("usernameModal");
 
-        return;
-    }
+    if (!modal) return;
 
-    const dashboardUsername =
-        document.getElementById("dashboardUsername");
-
-    const profileMenuUsername =
-        document.getElementById("profileMenuUsername");
-
-    if (dashboardUsername) {
-        dashboardUsername.textContent =
-            username;
-    }
-
-    if (profileMenuUsername) {
-        profileMenuUsername.textContent =
-            username;
-    }
-
-    closeProfileMenu();
-
-    console.log(
-        "✅ Username updated:",
-        username
-    );
+    modal.style.display = "none";
 }
