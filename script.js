@@ -1393,7 +1393,7 @@ if (profileStreak) {
 
     profileStreak.textContent =
         `${currentStreak} ${currentStreak === 1 ? "day" : "days"}`;
-}
+ }
 
     console.log(
         "🔥 Streak loaded:",
