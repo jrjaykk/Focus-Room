@@ -3383,7 +3383,10 @@ async function saveNewUsername() {
         input.value.trim();
 
     if (username.length < 3) {
-        alert("Username must be at least 3 characters.");
+        showToast(
+    "Invalid Username",
+    "Username must be at least 3 characters."
+);
         return;
     }
 
@@ -3408,8 +3411,10 @@ async function saveNewUsername() {
             error
         );
 
-        alert("Failed to update username.");
-        return;
+       showToast(
+    "Update Failed",
+    "Could not update your username."
+);
     }
 
     const dashboardUsername =
