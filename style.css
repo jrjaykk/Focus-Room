@@ -2794,3 +2794,313 @@ body {
 .username-save:hover {
     opacity: 0.9;
 }
+
+
+/* =========================
+   PREMIUM PROFILE MENU
+========================= */
+
+.profile-menu {
+    width: 320px;
+    padding: 18px;
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #181818,
+            #111111
+        );
+
+    border: 1px solid #303030;
+
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.02);
+
+    animation: profileMenuIn 0.18s ease;
+}
+
+@keyframes profileMenuIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* PROFILE HEADER */
+
+.profile-menu-header {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 8px 42px 18px 8px;
+
+    border-bottom: 1px solid #292929;
+}
+
+
+/* BIG AVATAR */
+
+.profile-menu-avatar {
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #242424;
+
+    border: 1px solid #3a3a3a;
+
+    font-size: 27px;
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+
+/* USERNAME */
+
+.profile-menu-header h3 {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    letter-spacing: 0.1px;
+}
+
+.profile-menu-header p {
+    margin: 5px 0 0;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+
+/* CLOSE BUTTON */
+
+.profile-menu-close {
+    position: absolute;
+
+    top: 4px;
+    right: 0;
+
+    width: 32px;
+    height: 32px;
+
+    border: 1px solid #353535;
+    border-radius: 50%;
+
+    background: #202020;
+    color: #999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.profile-menu-close:hover {
+    background: #2b2b2b;
+    color: #fff;
+
+    border-color: #4a4a4a;
+
+    transform: rotate(90deg);
+}
+
+
+/* STREAK CARD */
+
+.profile-streak {
+    margin: 15px 0;
+
+    padding: 13px 14px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    border-radius: 14px;
+
+    background: #1d1d1d;
+
+    border: 1px solid #2c2c2c;
+}
+
+.profile-streak-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #252525;
+
+    font-size: 20px;
+}
+
+.profile-streak strong {
+    display: block;
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.profile-streak small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+
+/* MENU OPTIONS */
+
+.profile-menu-options {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+/* OPTION BUTTON */
+
+.profile-menu-options button {
+    width: 100%;
+
+    border: 1px solid transparent;
+
+    background: transparent;
+
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 10px;
+
+    border-radius: 12px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border 0.2s ease,
+        transform 0.2s ease;
+}
+
+.profile-menu-options button:hover {
+    background: #202020;
+
+    border-color: #2c2c2c;
+
+    transform: translateX(2px);
+}
+
+
+/* OPTION ICON */
+
+.profile-menu-options button > span {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #202020;
+
+    font-size: 17px;
+}
+
+
+/* OPTION TEXT */
+
+.profile-menu-options button strong {
+    display: block;
+
+    color: #eee;
+
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.profile-menu-options button small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #707070;
+
+    font-size: 10px;
+}
+
+
+/* LOGOUT */
+
+.profile-menu-options .profile-logout {
+    margin-top: 5px;
+
+    border-top: 1px solid #292929;
+
+    border-radius: 0 0 12px 12px;
+
+    padding-top: 14px;
+
+    color: #ff6b6b;
+}
+
+.profile-menu-options .profile-logout:hover {
+    background: rgba(255, 80, 80, 0.06);
+    border-color: transparent;
+}
+
+.profile-menu-options .profile-logout strong {
+    color: #ff7777;
+}
