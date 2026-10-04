@@ -3441,3 +3441,24 @@ async function saveNewUsername() {
         username
     );
 }
+
+
+document.addEventListener("click", function (event) {
+
+    const menu =
+        document.getElementById("profileMenu");
+
+    const profile =
+        document.querySelector(".profile-mini");
+
+    if (!menu || !profile) return;
+
+    if (
+        menu.style.display === "block" &&
+        !menu.contains(event.target) &&
+        !profile.contains(event.target)
+    ) {
+        closeProfileMenu();
+    }
+
+});
