@@ -2233,7 +2233,7 @@ async function loadDashboardUsername() {
             profile.username;
     }
 
-
+}
     async function changeUsername() {
 
     const newUsername =
