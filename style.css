@@ -3153,3 +3153,50 @@ body {
     }
 
 }
+
+
+
+/* ================================
+   DASHBOARD 4 MAIN CARDS
+   ================================ */
+
+.dashboard-main-cards,
+.dashboard-cards,
+.stats-grid,
+.top-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    align-items: stretch !important;
+}
+
+.dashboard-main-cards > *,
+.dashboard-cards > *,
+.stats-grid > *,
+.top-cards > * {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 100% !important;
+    min-height: 260px !important;
+    box-sizing: border-box !important;
+}
+
+/* Laptop */
+@media (min-width: 769px) {
+    .dashboard-main-cards,
+    .dashboard-cards,
+    .stats-grid,
+    .top-cards {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 18px !important;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .dashboard-main-cards,
+    .dashboard-cards,
+    .stats-grid,
+    .top-cards {
+        grid-template-columns: 1fr !important;
+    }
+}
