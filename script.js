@@ -737,87 +737,198 @@ async function updateStreak() {
     const today =
         new Date().toISOString().split("T")[0];
 
-    // Get existing streak
-    const { data: streak, error: streakError } =
+
+    // Get all study sessions
+    const { data: sessions, error: sessionsError } =
+        await supabaseClient
+            .from("study_sessions")
+            .select("study_date, duration_seconds")
+            .eq("user_id", currentUser.id);
+
+
+    if (sessionsError) {
+
+        console.error(
+            "Failed to load study sessions:",
+            sessionsError
+        );
+
+        return;
+    }
+
+
+    // ==============================
+    // CALCULATE DAILY STUDY TIME
+    // ==============================
+
+    const dailyStudy = {};
+
+
+    (sessions || []).forEach(session => {
+
+        if (!dailyStudy[session.study_date]) {
+            dailyStudy[session.study_date] = 0;
+        }
+
+        dailyStudy[session.study_date] +=
+            Number(session.duration_seconds || 0);
+    });
+
+
+    // ==============================
+    // QUALIFYING DAYS
+    // 10+ MINUTES = VALID STUDY DAY
+    // ==============================
+
+    const qualifyingDates = new Set();
+
+
+    Object.keys(dailyStudy).forEach(date => {
+
+        if (dailyStudy[date] >= 600) {
+
+            qualifyingDates.add(date);
+        }
+    });
+
+
+    // ==============================
+    // TODAY NOT QUALIFIED
+    // ==============================
+
+    if (!qualifyingDates.has(today)) {
+
+        const { data: existingStreak } =
+            await supabaseClient
+                .from("streaks")
+                .select("best_streak")
+                .eq("user_id", currentUser.id)
+                .maybeSingle();
+
+
+        if (!existingStreak) {
+
+            await supabaseClient
+                .from("streaks")
+                .insert({
+                    user_id: currentUser.id,
+                    current_streak: 0,
+                    best_streak: 0,
+                    last_study_date: null
+                });
+
+        } else {
+
+            await supabaseClient
+                .from("streaks")
+                .update({
+                    current_streak: 0,
+                    updated_at: new Date().toISOString()
+                })
+                .eq("user_id", currentUser.id);
+        }
+
+
+        console.log(
+            "🔥 Today has less than 10 minutes. Streak = 0"
+        );
+
+        return;
+    }
+
+
+    // ==============================
+    // CALCULATE CURRENT STREAK
+    // ==============================
+
+    let currentStreak = 0;
+
+    let checkDate =
+        new Date(today + "T00:00:00");
+
+
+    while (true) {
+
+        const dateString =
+            checkDate.toISOString().split("T")[0];
+
+
+        if (!qualifyingDates.has(dateString)) {
+            break;
+        }
+
+
+        currentStreak++;
+
+
+        checkDate.setDate(
+            checkDate.getDate() - 1
+        );
+    }
+
+
+    // ==============================
+    // GET EXISTING BEST STREAK
+    // ==============================
+
+    const { data: existingStreak, error: streakError } =
         await supabaseClient
             .from("streaks")
-            .select("*")
+            .select("best_streak")
             .eq("user_id", currentUser.id)
             .maybeSingle();
 
+
     if (streakError) {
-        console.error("Failed to load streak:", streakError);
-        return;
-    }
 
-    // First study ever
-    if (!streak) {
-
-        const { error } = await supabaseClient
-            .from("streaks")
-            .insert({
-                user_id: currentUser.id,
-                current_streak: 1,
-                best_streak: 1,
-                last_study_date: today
-            });
-
-        if (error) {
-            console.error("Failed to create streak:", error);
-        }
-
-        return;
-    }
-
-    // Already studied today
-    if (streak.last_study_date === today) {
-        return;
-    }
-
-    const todayDate =
-        new Date(today + "T00:00:00");
-
-    const lastDate =
-        new Date(streak.last_study_date + "T00:00:00");
-
-    const difference =
-        Math.floor(
-            (todayDate - lastDate) /
-            (1000 * 60 * 60 * 24)
+        console.error(
+            "Failed to load streak:",
+            streakError
         );
 
-    let newCurrentStreak;
-
-    // Studied yesterday
-    if (difference === 1) {
-
-        newCurrentStreak =
-            streak.current_streak + 1;
-
-    } else {
-
-        // Missed one or more days
-        newCurrentStreak = 1;
+        return;
     }
+
+
+    const oldBest =
+        existingStreak?.best_streak || 0;
+
 
     const newBestStreak =
         Math.max(
-            streak.best_streak,
-            newCurrentStreak
+            oldBest,
+            currentStreak
         );
+
+
+    // ==============================
+    // SAVE STREAK
+    // ==============================
 
     const { error } =
         await supabaseClient
             .from("streaks")
-            .update({
-                current_streak: newCurrentStreak,
-                best_streak: newBestStreak,
-                last_study_date: today,
-                updated_at: new Date().toISOString()
-            })
-            .eq("user_id", currentUser.id);
+            .upsert({
+
+                user_id: currentUser.id,
+
+                current_streak:
+                    currentStreak,
+
+                best_streak:
+                    newBestStreak,
+
+                last_study_date:
+                    today,
+
+                updated_at:
+                    new Date().toISOString()}, {
+                onConflict: "user_id"
+            });
+
 
     if (error) {
+
         console.error(
             "Failed to update streak:",
             error
@@ -826,11 +937,15 @@ async function updateStreak() {
         return;
     }
 
+
     console.log(
         "🔥 Streak updated:",
-        newCurrentStreak
+        currentStreak,
+        "| Best:",
+        newBestStreak
     );
 }
+
 
 // ==============================
 // SAVE STUDY SESSION
