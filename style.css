@@ -3101,7 +3101,32 @@ body {
     color: #ff7777;
 }
 
+/* ==============================
+   EQUAL DASHBOARD BOXES - DESKTOP
+============================== */
 
+@media (min-width: 901px) {
+
+    .main-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .bottom-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .dashboard-card {
+        min-height: 310px;
+        box-sizing: border-box;
+    }
+
+    .timer-card {
+        min-height: 310px;
+    }
+
+}
 
 
 /* ================================
