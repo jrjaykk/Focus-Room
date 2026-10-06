@@ -532,8 +532,7 @@ body {
 .main-grid {
     display: grid;
 
-    grid-template-columns:
-        1.5fr 1fr;
+    grid-template-columns: 1fr 1fr;
 
     gap: 20px;
 
@@ -580,7 +579,9 @@ body {
 /* TIMER */
 
 .timer-card {
+    height: 310px;
     min-height: 310px;
+    box-sizing: border-box;
 }
 
 .timer-mode {
@@ -796,7 +797,20 @@ body {
 
     border-radius: 5px 5px 0 0;
 }
+/* ==============================
+   EQUAL SIZE DASHBOARD CARDS
+============================== */
 
+@media (min-width: 901px) {
+
+    .main-grid .dashboard-card,
+    .bottom-grid .dashboard-card {
+        height: 310px;
+        min-height: 310px;
+        box-sizing: border-box;
+    }
+
+}
 
 /* =========================
    MOBILE
