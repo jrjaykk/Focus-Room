@@ -3132,3 +3132,24 @@ body {
     }
 
 }
+
+
+/* ==============================
+   MAKE ALL 4 MAIN CARDS EQUAL
+============================== */
+
+@media (min-width: 901px) {
+
+    .main-grid,
+    .bottom-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .main-grid .dashboard-card,
+    .bottom-grid .dashboard-card {
+        height: 310px;
+        min-height: 310px;
+        box-sizing: border-box;
+    }
+
+}
