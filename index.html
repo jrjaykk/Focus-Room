@@ -1167,7 +1167,48 @@
 
 
     
+<!-- FOCUS COMPLETE POPUP -->
+    
+    <div class="focus-complete-overlay" id="focusCompleteOverlay"><div class="focus-complete-popup">
 
+    <button
+        class="focus-complete-close"
+        id="focusCompleteClose"
+        onclick="closeFocusCompletePopup()">
+        ×
+    </button>
+
+    <div class="focus-complete-icon">
+        ✓
+    </div>
+
+    <p class="card-label">
+        SESSION COMPLETE
+    </p>
+
+    <h2>
+        Focus Complete! 🎉
+    </h2>
+
+    <p class="focus-complete-message">
+        Great work! You completed your focus session.
+    </p>
+
+    <div class="focus-complete-time" id="focusCompleteTime">
+        25:00
+    </div>
+
+    <button
+        class="focus-complete-button"
+        onclick="closeFocusCompletePopup()">
+        Continue
+    </button>
+
+</div>
+
+</div>
+
+    
     <!-- SUPABASE -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
