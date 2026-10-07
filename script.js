@@ -546,6 +546,8 @@ function toggleTimer() {
 
         updateTimerDisplay();
 
+        showFocusCompletePopup();
+
     }, 1000);
 }
 
@@ -3595,3 +3597,45 @@ document.addEventListener("click", function (event) {
     }
 
 });
+
+
+/* ================================= /
+/ FOCUS COMPLETE POPUP /
+/ ================================= */
+
+function showFocusCompletePopup() {
+
+const overlay = document.getElementById("focusCompleteOverlay");
+const timeElement = document.getElementById("focusCompleteTime");
+
+if (!overlay) return;
+
+/* Show completed session time */
+if (timeElement) {
+
+    const completedSeconds =
+        typeof currentSessionSeconds === "number"
+            ? currentSessionSeconds
+            : 0;
+
+    const minutes = Math.floor(completedSeconds / 60);
+    const seconds = completedSeconds % 60;
+
+    timeElement.textContent =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+overlay.classList.add("show");
+
+}
+
+function closeFocusCompletePopup() {
+
+const overlay =
+    document.getElementById("focusCompleteOverlay");
+
+if (!overlay) return;
+
+overlay.classList.remove("show");
+
+}
