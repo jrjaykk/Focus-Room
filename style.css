@@ -536,18 +536,6 @@ body {
     margin-bottom: 20px;
 }
 
-.main-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.main-grid > .dashboard-card {
-    min-height: 310px;
-    height: 310px;
-    box-sizing: border-box;
-}
 
 .dashboard-card {
     background: #151515;
