@@ -529,13 +529,17 @@ body {
 
 /* CARDS */
 
+
 .main-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+
+    grid-template-columns:
+        1.5fr 1fr;
+
     gap: 20px;
+
     margin-bottom: 20px;
 }
-
 
 .dashboard-card {
     background: #151515;
@@ -3101,49 +3105,50 @@ body {
     color: #ff7777;
 }
 
+/* ==============================
+   EQUAL DASHBOARD BOXES - DESKTOP
+============================== */
 
+@media (min-width: 901px) {
 
-/* ================================
-   DASHBOARD 4 MAIN CARDS
-   ================================ */
-
-.dashboard-main-cards,
-.dashboard-cards,
-.stats-grid,
-.top-cards {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    align-items: stretch !important;
-}
-
-.dashboard-main-cards > *,
-.dashboard-cards > *,
-.stats-grid > *,
-.top-cards > * {
-    width: 100% !important;
-    min-width: 0 !important;
-    height: 100% !important;
-    min-height: 260px !important;
-    box-sizing: border-box !important;
-}
-
-/* Laptop */
-@media (min-width: 769px) {
-    .dashboard-main-cards,
-    .dashboard-cards,
-    .stats-grid,
-    .top-cards {
-        display: grid !important;
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 18px !important;
+    .main-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
     }
+
+    .bottom-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .dashboard-card {
+        min-height: 310px;
+        box-sizing: border-box;
+    }
+
+    .timer-card {
+        min-height: 310px;
+    }
+
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-    .dashboard-main-cards,
-    .dashboard-cards,
-    .stats-grid,
-    .top-cards {
-        grid-template-columns: 1fr !important;
+
+/* ==============================
+   MAKE ALL 4 MAIN CARDS EQUAL
+============================== */
+
+@media (min-width: 901px) {
+
+    .main-grid,
+    .bottom-grid {
+        grid-template-columns: 1fr 1fr;
     }
+
+    .main-grid .dashboard-card,
+    .bottom-grid .dashboard-card {
+        height: 310px;
+        min-height: 310px;
+        box-sizing: border-box;
+    }
+
 }
