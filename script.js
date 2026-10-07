@@ -530,9 +530,9 @@ function toggleTimer() {
 
             button.textContent = "Start Focus";
 
-            alert("Focus session completed! 🎉");
-
             saveStudySession(currentSessionSeconds);
+            showFocusCompletePopup();
+            
             currentSessionSeconds = 0;
 
             timerSeconds = 25 * 60;
@@ -545,8 +545,6 @@ function toggleTimer() {
         timerSeconds--;
 
         updateTimerDisplay();
-
-        showFocusCompletePopup();
 
     }, 1000);
 }
