@@ -3200,3 +3200,269 @@ body {
 .profile-menu-options .profile-logout strong {
     color: #ff7777;
 }
+
+
+/* ================================= /
+/ FOCUS COMPLETE POPUP /
+/ ================================= */
+
+.focus-complete-overlay {
+position: fixed;
+inset: 0;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+background: rgba(0, 0, 0, 0.68);
+backdrop-filter: blur(10px);
+-webkit-backdrop-filter: blur(10px);
+
+z-index: 99999;
+
+opacity: 0;
+visibility: hidden;
+
+transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+
+}
+
+.focus-complete-overlay.show {
+opacity: 1;
+visibility: visible;
+}
+
+/* Popup */
+
+.focus-complete-popup {
+width: min(420px, calc(100% - 32px));
+
+padding: 38px 30px 30px;
+
+position: relative;
+
+text-align: center;
+
+border-radius: 28px;
+
+background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.09),
+        rgba(255,255,255,0.035)
+    );
+
+border: 1px solid rgba(255,255,255,0.13);
+
+box-shadow:
+    0 30px 80px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+
+transform: scale(0.82) translateY(20px);
+
+transition:
+    transform 0.35s cubic-bezier(.2,.8,.2,1);
+
+}
+
+.focus-complete-overlay.show .focus-complete-popup {
+transform: scale(1) translateY(0);
+}
+
+/* Success Icon */
+
+.focus-complete-icon {
+width: 72px;
+height: 72px;
+
+margin: 0 auto 18px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 50%;
+
+background: rgba(255,255,255,0.09);
+
+border: 1px solid rgba(255,255,255,0.14);
+
+font-size: 34px;
+font-weight: 700;
+
+box-shadow:
+    0 0 0 8px rgba(255,255,255,0.025),
+    0 12px 35px rgba(0,0,0,0.25);
+
+animation: focusCompletePulse 1.8s ease-in-out infinite;
+
+}
+
+@keyframes focusCompletePulse {
+
+0%,
+100% {
+    transform: scale(1);
+}
+
+50% {
+    transform: scale(1.07);
+}
+
+}
+
+/* Label */
+
+.focus-complete-popup .card-label {
+margin-bottom: 8px;
+}
+
+/* Heading */
+
+.focus-complete-popup h2 {
+margin: 0;
+
+font-size: 27px;
+line-height: 1.2;
+
+}
+
+/* Message */
+
+.focus-complete-message {
+margin: 12px auto 0;
+
+max-width: 300px;
+
+font-size: 14px;
+line-height: 1.55;
+
+opacity: 0.62;
+
+}
+
+/* Completed Time */
+
+.focus-complete-time {
+margin: 22px auto;
+
+width: fit-content;
+
+padding: 9px 18px;
+
+border-radius: 14px;
+
+background: rgba(255,255,255,0.06);
+
+border: 1px solid rgba(255,255,255,0.08);
+
+font-size: 18px;
+font-weight: 600;
+
+letter-spacing: 1px;
+
+}
+
+/* Continue Button */
+
+.focus-complete-button {
+width: 100%;
+
+border: none;
+
+padding: 13px 20px;
+
+border-radius: 14px;
+
+background: rgba(255,255,255,0.10);
+
+color: inherit;
+
+font-size: 14px;
+font-weight: 600;
+
+cursor: pointer;
+
+transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+
+}
+
+.focus-complete-button:hover {
+background: rgba(255,255,255,0.16);
+
+transform: translateY(-2px);
+
+}
+
+/* Close */
+
+.focus-complete-close {
+position: absolute;
+
+top: 14px;
+right: 16px;
+
+width: 34px;
+height: 34px;
+
+border: none;
+border-radius: 50%;
+
+background: rgba(255,255,255,0.06);
+
+color: inherit;
+
+font-size: 22px;
+line-height: 1;
+
+cursor: pointer;
+
+opacity: 0.65;
+
+transition:
+    opacity 0.2s ease,
+    background 0.2s ease;
+
+}
+
+.focus-complete-close:hover {
+opacity: 1;
+background: rgba(255,255,255,0.11);
+}
+
+/* Mobile */
+
+@media (max-width: 500px) {
+
+.focus-complete-popup {
+    width: calc(100% - 28px);
+
+    padding: 34px 22px 24px;
+
+    border-radius: 24px;
+}
+
+.focus-complete-icon {
+    width: 64px;
+    height: 64px;
+
+    font-size: 30px;
+}
+
+.focus-complete-popup h2 {
+    font-size: 23px;
+}
+
+.focus-complete-message {
+    font-size: 13px;
+}
+
+.focus-complete-time {
+    font-size: 17px;
+}
+
+}
