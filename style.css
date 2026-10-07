@@ -1968,110 +1968,209 @@ body {
 }
 
 /* ============================== */
-/* STUDY ROOMS DASHBOARD CARD */
+/* STUDY TOGETHER CIRCULAR HUB */
 /* ============================== */
 
 .s-card {
     cursor: pointer;
     overflow: hidden;
-}
-
-
-.room-preview {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    padding: 24px;
-}
-
-
-.room-preview-icon {
-    width: 58px;
-    height: 58px;
-
-    flex-shrink: 0;
-
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border-radius: 18px;
-
-    background: rgba(255,255,255,0.07);
-
-    font-size: 28px;
 }
 
+/* Main circle */
 
-.room-preview-content {
-    flex: 1;
-    min-width: 0;
-}
-
-
-.room-preview-content .card-label {
-    margin-bottom: 6px;
-}
-
-
-.room-preview-content h2 {
-    margin: 0 0 7px;
-    font-size: 21px;
-}
-
-
-.room-preview-text {
-    margin: 0;
-    font-size: 13px;
-    opacity: 0.55;
-    line-height: 1.5;
-}
-
-
-.room-preview-arrow {
-    width: 42px;
-    height: 42px;
-
-    flex-shrink: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.room-circle {
+    width: 285px;
+    height: 285px;
 
     border-radius: 50%;
 
-    background: rgba(255,255,255,0.06);
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            rgba(255,255,255,0.10),
+            rgba(255,255,255,0.025) 55%,
+            rgba(255,255,255,0.015) 100%
+        );
 
-    font-size: 20px;
+    border: 1px solid rgba(255,255,255,0.10);
 
-    transition: 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 35px;
+
+    position: relative;
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Hover */
+
+.s-card:hover .room-circle {
+    transform: scale(1.035);
+
+    border-color: rgba(255,255,255,0.20);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.35),
+        inset 0 0 40px rgba(255,255,255,0.025);
+}
+
+/* Icon */
+
+.room-circle-icon {
+    width: 58px;
+    height: 58px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 27px;
+
+    margin-bottom: 14px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Small label */
+
+.room-circle .card-label {
+    margin: 0 0 7px;
+}
+
+/* Heading */
+
+.room-circle h2 {
+    margin: 0;
+
+    font-size: 21px;
+
+    line-height: 1.25;
+}
+
+/* Description */
+
+.room-circle-text {
+    margin: 9px 0 0;
+
+    font-size: 12px;
+
+    line-height: 1.45;
+
+    opacity: 0.55;
+
+    max-width: 185px;
+}
+
+/* Arrow */
+
+.room-circle-arrow {
+    width: 38px;
+    height: 38px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.07);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+
+    margin-top: 14px;
+
+    transition: transform 0.25s ease,
+                background 0.25s ease;
+}
+
+.s-card:hover .room-circle-arrow {
+    transform: translateX(4px);
+
+    background: rgba(255,255,255,0.11);
 }
 
 
-.s-card:hover .room-preview-arrow {
-    transform: translateX(5px);
+/* ============================== */
+/* MOBILE */
+/* ============================== */
+
+@media (max-width: 900px) {
+
+    .room-circle {
+        width: 270px;
+        height: 270px;
+
+        padding: 32px;
+    }
+
 }
 
 
 @media (max-width: 500px) {
 
-    .room-preview {
-        padding: 20px;
-        gap: 14px;
+    .s-card {
+        min-height: 300px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .room-preview-icon {
+    .room-circle {
+        width: 245px;
+        height: 245px;
+
+        padding: 28px;
+    }
+
+    .room-circle-icon {
         width: 50px;
         height: 50px;
-        font-size: 24px;
+
+        font-size: 23px;
+
+        margin-bottom: 11px;
     }
 
-    .room-preview-content h2 {
+    .room-circle h2 {
         font-size: 18px;
     }
 
-}
+    .room-circle-text {
+        font-size: 11px;
 
+        max-width: 170px;
+
+        margin-top: 7px;
+    }
+
+    .room-circle-arrow {
+        width: 34px;
+        height: 34px;
+
+        font-size: 16px;
+
+        margin-top: 11px;
+    }
+
+}
 
 /* ============================== */
 /* EXPLORE ROOMS */
@@ -2474,9 +2573,6 @@ body {
         height: 300px;
     }
 
-    .room-preview {
-        height: 100%;
-    }
 }
 
 
