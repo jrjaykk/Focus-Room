@@ -2866,13 +2866,11 @@ function closeExploreRooms() {
 
 async function showRoomProgress() {
 
-    // Hide other pages
     document.getElementById("dashboardPage")?.style.setProperty("display", "none");
     document.getElementById("exploreRoomsPage")?.style.setProperty("display", "none");
     document.getElementById("studyRoomPage")?.style.setProperty("display", "none");
     document.getElementById("roomHubContent")?.style.setProperty("display", "none");
 
-    // Show dedicated Room Progress page
     const page = document.getElementById("roomProgressPage");
 
     if (!page) {
@@ -2884,15 +2882,18 @@ async function showRoomProgress() {
 
     const list = document.getElementById("progressRoomsList");
 
+    if (!list) {
+        console.error("progressRoomsList not found");
+        return;
+    }
+
     const header = page.querySelector(".explore-page-header");
-if (header) header.style.display = "";
+    if (header) header.style.display = "";
 
-list.style.display = "";
+    list.style.display = "";
 
-const detail = document.getElementById("roomProgressDetail");
-if (detail) detail.style.display = "none";
-
-    if (!list) return;
+    const detail = document.getElementById("roomProgressDetail");
+    if (detail) detail.style.display = "none";
 
     list.innerHTML = "<p>Loading your rooms...</p>";
 
@@ -2906,7 +2907,7 @@ if (detail) detail.style.display = "none";
         return;
     }
 
-    // Get rooms created by this user
+    // Rooms created by this user
     const { data: createdRooms, error: createdError } =
         await supabaseClient
             .from("rooms")
@@ -2919,7 +2920,7 @@ if (detail) detail.style.display = "none";
         return;
     }
 
-    // Get rooms joined by this user
+    // Rooms joined by this user
     const { data: memberships, error: memberError } =
         await supabaseClient
             .from("room_members")
@@ -2953,7 +2954,7 @@ if (detail) detail.style.display = "none";
         joinedRooms = data || [];
     }
 
-    // Combine and remove duplicate rooms
+    // Combine rooms and remove duplicates
     const allRooms = [
         ...(createdRooms || []),
         ...joinedRooms
@@ -2965,31 +2966,31 @@ if (detail) detail.style.display = "none";
         ).values()
     ];
 
-    list.innerHTML = ""; `
+    list.innerHTML = "";
 
     if (uniqueRooms.length === 0) {
-        list.innerHTML = 
+        list.innerHTML = `
             <div class="room-hub-welcome">
                 <div class="welcome-icon">📊</div>
                 <h2>No rooms yet</h2>
                 <p>Create or join a room first.</p>
             </div>
-        `;
+        ` ;
         return;
     }
 
     uniqueRooms.forEach(room => {
+
         const card = document.createElement("div");
         card.className = "all-room-card";
 
         const roomName = String(room.name || "Study Room");
-        const safeName = roomName.replace(/'/g, "\\'");
 
         card.innerHTML = `
             <div class="all-room-icon">📊</div>
 
             <div class="all-room-info">
-                <h3>${roomName}</h3>
+                <h3></h3>
                 <p>View this week's study progress</p>
             </div>
 
@@ -2998,7 +2999,9 @@ if (detail) detail.style.display = "none";
                     View Progress →
                 </button>
             </div>
-        `;
+       ` ;
+
+        card.querySelector(".all-room-info h3").textContent = roomName;
 
         card.querySelector(".room-open-btn").addEventListener(
             "click",
@@ -3007,6 +3010,7 @@ if (detail) detail.style.display = "none";
 
         list.appendChild(card);
     });
+    }
 
 
 // Return to Room Hub from the Room Progress page
@@ -3016,6 +3020,7 @@ function closeRoomProgressPage() {
         "display",
         "none"
     );
+
     document.getElementById("dashboardPage")?.style.setProperty(
         "display",
         "block"
@@ -3025,7 +3030,6 @@ function closeRoomProgressPage() {
         openMyRooms();
     }
 }
-
 
 
 
@@ -3595,3 +3599,4 @@ if (!overlay) return;
 overlay.classList.remove("show");
 
 }
+
