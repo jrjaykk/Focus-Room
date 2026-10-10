@@ -3077,7 +3077,7 @@ async function deleteRoom(roomId) {
 
 async function openRoomProgress(roomId, roomName) {
 
-   async function openRoomProgress(roomId, roomName) {
+   
 
     const page = document.getElementById("roomProgressPage");
 
