@@ -735,7 +735,7 @@ async function updateStreak() {
     if (!currentUser) return;
 
     const today =
-        new Date().toISOString().split("T")[0];
+        getLocalDateString();
 
 
     // Get all study sessions
@@ -849,8 +849,7 @@ async function updateStreak() {
 
     while (true) {
 
-        const dateString =
-            checkDate.toISOString().split("T")[0];
+        const dateString = getLocalDateString(checkDate);
 
 
         if (!qualifyingDates.has(dateString)) {
@@ -947,6 +946,19 @@ async function updateStreak() {
 }
 
 
+
+// ==============================
+// LOCAL DATE — INDIA / DEVICE TIME
+// ==============================
+
+function getLocalDateString(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
 // ==============================
 // SAVE STUDY SESSION
 // ==============================
@@ -964,7 +976,7 @@ async function saveStudySession(seconds) {
         .from("study_sessions")
         .insert({
     user_id: currentUser.id,
-    study_date: new Date().toISOString().split("T")[0],
+    study_date: getLocalDateString(),
     duration_seconds: seconds,
     room_id: currentRoomId
 });
@@ -1020,8 +1032,7 @@ async function loadStudySessions() {
 
     const today = new Date();
 
-    const todayDate =
-        today.toISOString().split("T")[0];
+    const todayDate = getLocalDateString();
 
     data.forEach(session => {
 
@@ -1078,13 +1089,8 @@ async function restoreSession() {
             currentUser
         );
 
-        loadStudySessions();
+        await loadStudySessions();
         await loadStreak();
-        
-        await loadStreak();
-        setTimeout(() => {
-            loadStreak();
-        }, 500);
     }
 }
 
