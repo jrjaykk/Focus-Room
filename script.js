@@ -3007,7 +3007,6 @@ if (detail) detail.style.display = "none";
 
         list.appendChild(card);
     });
-}
 
 
 // Return to Room Hub from the Room Progress page
