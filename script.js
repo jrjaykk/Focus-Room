@@ -2884,6 +2884,14 @@ async function showRoomProgress() {
 
     const list = document.getElementById("progressRoomsList");
 
+    const header = page.querySelector(".explore-page-header");
+if (header) header.style.display = "";
+
+list.style.display = "";
+
+const detail = document.getElementById("roomProgressDetail");
+if (detail) detail.style.display = "none";
+
     if (!list) return;
 
     list.innerHTML = "<p>Loading your rooms...</p>";
@@ -3066,61 +3074,70 @@ async function deleteRoom(roomId) {
 
 async function openRoomProgress(roomId, roomName) {
 
-    const content =
-        document.getElementById("roomHubContent");
+   async function openRoomProgress(roomId, roomName) {
 
-    if (!content) {
+    const page = document.getElementById("roomProgressPage");
+
+    if (!page) {
+        console.error("Room Progress page not found.");
         return;
     }
 
+    page.style.display = "block";
 
-    content.innerHTML = `
+    // Hide the room list and its heading
+    const header = page.querySelector(".explore-page-header");
+    if (header) header.style.display = "none";
 
+    const roomsList = document.getElementById("progressRoomsList");
+    if (roomsList) roomsList.style.display = "none";
+
+    // Create the details area if it doesn't exist
+    let detail = document.getElementById("roomProgressDetail");
+
+    if (!detail) {
+        detail = document.createElement("div");
+        detail.id = "roomProgressDetail";
+        page.appendChild(detail);
+    }
+
+    detail.style.display = "block";
+
+    detail.innerHTML = `
         <div class="explore-page-header">
 
             <button
                 class="circle-back-btn"
                 onclick="showRoomProgress()"
+                aria-label="Back to room list"
             >
                 ←
             </button>
 
             <div>
-
-                <p class="card-label">
-                    THIS WEEK
-                </p>
-
-                <h2>
-                    ${roomName}
-                </h2>
-
+                <p class="card-label">THIS WEEK</p>
+                <h2 id="roomProgressTitle"></h2>
                 <p class="explore-subtitle">
                     Weekly study progress
                 </p>
-
             </div>
 
         </div>
 
         <div id="roomProgressData">
-
             <div class="room-hub-welcome">
-
-                <div class="welcome-icon">
-                    ⏳
-                </div>
-
-                <h2>
-                    Loading progress...
-                </h2>
-
+                <div class="welcome-icon">⏳</div>
+                <h2>Loading progress...</h2>
             </div>
-
         </div>
-
     `;
 
+    document.getElementById("roomProgressTitle").textContent =
+        roomName || "Room Progress";
+
+
+    // Get Monday of current week
+   
 
     // Get Monday of current week
 
