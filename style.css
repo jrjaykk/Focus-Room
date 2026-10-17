@@ -3112,8 +3112,8 @@ background: rgba(255,255,255,0.11);
     .bottom-grid > .dashboard-card {
         width: 100%;
         min-width: 0;
-        height: 320px !important;
-        min-height: 320px !important;
+        height: 310px !important;
+        min-height: 310px !important;
         box-sizing: border-box;
     }
 }
