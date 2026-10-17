@@ -3097,3 +3097,12 @@ background: rgba(255,255,255,0.11);
 }
 
 }
+
+
+/* FIX: THIS WEEK CARD SIZE */
+
+.bottom-grid > .dashboard-card {
+    min-height: 310px;
+    height: 310px;
+}
+
