@@ -2106,43 +2106,6 @@ async function loadDashboardUsername() {
 
 
 
-async function deleteRoom(roomId) {
-
-    const confirmed =
-        confirm("Are you sure you want to delete this room?");
-
-    if (!confirmed) {
-        return;
-    }
-
-    console.log("Trying to delete room:", roomId);
-
-    const { data, error } =
-        await supabaseClient
-            .from("rooms")
-            .delete()
-            .eq("id", roomId)
-            .select();
-
-    console.log("Delete result:", data);
-    console.log("Delete error:", error);
-
-    if (error) {
-        console.error("DELETE ROOM ERROR:", error);
-        return;
-    }
-
-    if (!data || data.length === 0) {
-        console.warn("No room was deleted. RLS may be blocking the delete.");
-        return;
-    }
-
-    console.log("Room deleted successfully:", data);
-
-    await loadAllRooms();
-}
-
-
 
 // =========================
 // PROFILE MENU
