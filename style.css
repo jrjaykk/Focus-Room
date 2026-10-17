@@ -3102,14 +3102,14 @@ background: rgba(255,255,255,0.11);
 /* THIS WEEK — DESKTOP HEIGHT FIX */
 
 @media (min-width: 901px) {
-    .bottom-grid {
+    .main-grid {
         align-items: stretch;
     }
 
     .bottom-grid > .dashboard-card {
-        height: 310px !important;
-        min-height: 310px !important;
-        align-self: stretch;
+        height: 330px !important;
+        min-height: 330px !important;
+        align-self: start;
     }
 }
 
