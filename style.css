@@ -3099,12 +3099,18 @@ background: rgba(255,255,255,0.11);
 }
 
 
-/* THIS WEEK CARD — SIZE FIX */
+/* THIS WEEK — DESKTOP HEIGHT FIX */
 
-.bottom-grid > .dashboard-card {
-    min-height: 310px !important;
-    height: 310px !important;
-    box-sizing: border-box;
+@media (min-width: 901px) {
+    .bottom-grid {
+        align-items: stretch;
+    }
+
+    .bottom-grid > .dashboard-card {
+        height: 310px !important;
+        min-height: 310px !important;
+        align-self: stretch;
+    }
 }
 
 
