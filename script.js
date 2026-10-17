@@ -178,7 +178,6 @@ currentUser = data.user;
 
         loadSavedAvatar();
         loadDashboardUsername();
-        loadMyRooms();
         loadStudySessions();
 
     }, 700);
