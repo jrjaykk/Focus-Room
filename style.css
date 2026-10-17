@@ -3099,23 +3099,3 @@ background: rgba(255,255,255,0.11);
 }
 
 
-/* MATCH BOTTOM CARDS WIDTH AND HEIGHT */
-
-@media (min-width: 901px) {
-    .main-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 24px;
-        width: 100%;
-    }
-
-    .main-grid > .dashboard-card {
-        width: 100%;
-        min-width: 0;
-        height: 310px !important;
-        min-height: 310px !important;
-        box-sizing: border-box;
-    }
-}
-
-
