@@ -976,8 +976,7 @@ async function saveStudySession(seconds) {
         .insert({
     user_id: currentUser.id,
     study_date: getLocalDateString(),
-    duration_seconds: seconds,
-    room_id: currentRoomId
+    duration_seconds: seconds
 });
 
     if (error) {
