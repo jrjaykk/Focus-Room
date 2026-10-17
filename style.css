@@ -3101,7 +3101,7 @@ background: rgba(255,255,255,0.11);
 
 /* THIS WEEK CARD — SIZE FIX */
 
-.bottom-grid .dashboard-card {
+.bottom-grid > .dashboard-card {
     min-height: 310px !important;
     height: 310px !important;
     box-sizing: border-box;
