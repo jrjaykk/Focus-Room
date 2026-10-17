@@ -998,8 +998,8 @@ async function saveStudySession(seconds) {
 
 
 // ==============================
-// LOAD STUDY SESSIONS
-// ==============================
+ // LOAD STUDY SESSIONS
+ // ==============================
 
 async function loadStudySessions() {
 
@@ -1015,7 +1015,6 @@ async function loadStudySessions() {
         return;
     }
 
-    // Reset values before loading
     todayStudySeconds = 0;
 
     weeklyStudySeconds = {
@@ -1029,36 +1028,46 @@ async function loadStudySessions() {
     };
 
     const today = new Date();
-
     const todayDate = getLocalDateString();
+
+    // Find Monday of the current week
+    const monday = new Date(today);
+    monday.setHours(0, 0, 0, 0);
+
+    const day = monday.getDay();
+
+    monday.setDate(
+        monday.getDate() - (day === 0 ? 6 : day - 1)
+    );
+
+    const weekStart = getLocalDateString(monday);
 
     data.forEach(session => {
 
-        const seconds =
-            session.duration_seconds || 0;
+        const seconds = Number(session.duration_seconds || 0);
+        const sessionDate = session.study_date;
 
-        // Today's total
-        if (session.study_date === todayDate) {
+        // Today's focus time
+        if (sessionDate === todayDate) {
             todayStudySeconds += seconds;
         }
 
-        // Weekly total
-        const sessionDate =
-            new Date(session.study_date + "T00:00:00");
+        // Only sessions from Monday through today
+        if (sessionDate >= weekStart && sessionDate <= todayDate) {
 
-        const dayName =
-            dayNames[sessionDate.getDay()];
+            const date = new Date(sessionDate + "T00:00:00");
+            const dayName = dayNames[date.getDay()];
 
-        weeklyStudySeconds[dayName] += seconds;
+            if (weeklyStudySeconds[dayName] !== undefined) {
+                weeklyStudySeconds[dayName] += seconds;
+            }
+        }
     });
 
     updateTodayProgress();
     updateWeeklyChart();
 
-    console.log(
-        "Study sessions loaded:",
-        data
-    );
+    console.log("Weekly study time:", weeklyStudySeconds);
 }
 
 
