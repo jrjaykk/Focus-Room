@@ -4101,7 +4101,5 @@ canvas {
 
 /* Activity box */
 .activity-card {
-    width: 100%;
-    min-height: 310px;
-    height: 310px;
+     min-height: 310px;
 }
