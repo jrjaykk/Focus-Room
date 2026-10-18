@@ -4126,3 +4126,11 @@ canvas {
         font-size: clamp(40px, 11vw, 56px);
     }
 }
+
+
+/* Activity box */
+.activity-card {
+    width: 100%;
+    min-height: 310px;
+    height: 310px;
+}
