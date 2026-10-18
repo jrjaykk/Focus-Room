@@ -527,78 +527,100 @@
               <!-- BOTTOM GRID -->
 
                 <div class="bottom-grid">     
-                    
-
-                    <!-- PROGRESS -->
-
-                    <div class="dashboard-card">
-
-                        <div class="card-heading">
-
-                            <div>
-
-                                <p class="card-label">
-                                    PROGRESS
-                                </p>
-
-                                <h2>
-                                    This Week
-                                </h2>
-
-                            </div>
-
-                            <span class="progress-value"
-                                id="todayProgress">
-                                0h
-                            </span>
-
-                        </div>
 
 
-                        <div class="progress-chart">
+                    <!-- PREMIUM WEEKLY PROGRESS -->
+<div class="dashboard-card weekly-progress-card">
 
-                            <div class="chart-bar">
-                                <span>Mon</span>
-                                <div style="height: 10%"></div>
-                            </div>
+    <div class="card-heading">
+        <div>
+            <p class="card-label">YOUR ACTIVITY</p>
+            <h2>This Week</h2>
+            <p class="weekly-subtitle">Your study journey, day by day</p>
+        </div>
 
-                            <div class="chart-bar">
-                                <span>Tue</span>
-                                <div style="height: 10%"></div>
-                            </div>
+        <div class="weekly-total">
+            <span id="todayProgress">0m</span>
+            <small>THIS WEEK</small>
+        </div>
+    </div>
 
-                            <div class="chart-bar">
-                                <span>Wed</span>
-                                <div style="height: 10%"></div>
-                            </div>
+    <div class="weekly-chart-shell">
+        <div id="weeklyYAxis" class="weekly-y-axis">
+            <span>0m</span>
+        </div>
 
-                            <div class="chart-bar">
-                                <span>Thu</span>
-                                <div style="height: 10%"></div>
-                            </div>
+        <div class="weekly-plot">
+            <div id="weeklyGridLines" class="weekly-grid-lines"></div>
 
-                            <div class="chart-bar">
-                                <span>Fri</span>
-                                <div style="height: 10%"></div>
-                            </div>
-
-                            <div class="chart-bar">
-                                <span>Sat</span>
-                                <div style="height: 10%"></div>
-                            </div>
-
-                            <div class="chart-bar">
-                                <span>Sun</span>
-                                <div style="height: 10%"></div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
+            <div class="progress-chart" id="weeklyChart">
+                <div class="chart-bar" data-day="Mon">
+                    <div class="chart-bar-fill"></div>
+                    <span class="chart-day">Mon</span>
                 </div>
+                <div class="chart-bar" data-day="Tue">
+                    <div class="chart-bar-fill"></div>
+                    <span class="chart-day">Tue</span>
+                </div>
+                <div class="chart-bar" data-day="Wed">
+                    <div class="chart-bar-fill"></div>
+                    <span class="chart-day">Wed</span>
+                </div>
+                <div class="chart-bar" data-day="Thu">
+                    <div class="chart-bar-fill"></div>
+                    <span class="chart-day">Thu</span>
+                </div>
+                <div class="chart-bar" data-day="Fri">
+                    <div class="chart-bar-fill"></div>
+                    <span class="chart-day">Fri</span>
+                </div>
+                <div class="chart-bar" data-day="Sat">
+                    <div class="chart-bar-fill"></div>
+                    <span class="chart-day">Sat</span>
+                </div>
+                <div class="chart-bar" data-day="Sun">
+                    <div class="chart-bar-fill"></div>
+                    <span class="chart-day">Sun</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <p class="chart-hint">
+        <span>↗</span> Tap a day for details · Hold a bar for total time
+    </p>
 
+</div>
+
+<!-- DAILY PROGRESS POPUP -->
+<div id="dayProgressOverlay" class="day-progress-overlay"
+     aria-hidden="true">
+
+    <div class="day-progress-modal" role="dialog"
+         aria-modal="true" aria-labelledby="dayPopupTitle">
+
+        <button type="button" class="day-popup-close"
+                onclick="closeDayProgressPopup()"
+                aria-label="Close">×</button>
+
+        <p class="card-label">DAILY INSIGHTS</p>
+        <h2 id="dayPopupTitle">Sunday's Progress</h2>
+        <p id="dayPopupDate" class="day-popup-date"></p>
+
+        <div class="day-total-panel">
+            <span>Focused study time</span>
+            <strong id="dayPopupTotal">0m</strong>
+            <small id="dayPopupSessionCount">0 study sessions</small>
+        </div>
+
+        <h3 class="day-sessions-heading">Session breakdown</h3>
+        <div id="dayPopupSessions" class="day-popup-sessions"></div>
+
+    </div>
+</div>
+                    
+                </div>
+                    
             </section>
 
 
