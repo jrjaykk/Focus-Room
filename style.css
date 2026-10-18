@@ -3938,3 +3938,28 @@ position: relative;
         padding: 18px;
     }
 }
+
+/* ACTIVITIES - PURE BLACK & WHITE THEME */
+#activitiesPage {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+
+#activitiesPage .activities-header {
+    border-bottom: 1px solid #333333;
+}
+
+#activitiesPage .activities-header h2 {
+    color: #ffffff;
+}
+
+#activitiesPage .activities-close {
+    background: #000000;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+#activitiesPage .activities-close:hover {
+    background: #ffffff;
+    color: #000000;
+}
