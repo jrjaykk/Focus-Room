@@ -3992,6 +3992,202 @@ position: relative;
 }
 
 
+
+
+/* =================================
+   PREMIUM ACTIVITIES PAGE
+================================= */
+
+#activitiesPage {
+    background: #000000 !important;
+    color: #ffffff !important;
+    padding: 28px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+#activitiesPage .activities-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #262626;
+}
+
+#activitiesPage .activities-heading {
+    flex: 1;
+    min-width: 0;
+}
+
+#activitiesPage .activities-heading h2 {
+    margin: 5px 0 0;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+}
+
+#activitiesPage .activity-label {
+    margin: 0 0 8px;
+    color: #999999;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+#activitiesPage .activity-week-total {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    align-items: flex-end;
+    padding: 14px 18px;
+    border: 1px solid #333333;
+    border-radius: 14px;
+    background: #0b0b0b;
+}
+
+#activitiesPage .activity-week-total span {
+    color: #999999;
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    white-space: nowrap;
+}
+
+#activitiesPage .activity-week-total strong {
+    font-size: 25px;
+    letter-spacing: -0.7px;
+    font-variant-numeric: tabular-nums;
+}
+
+#activitiesPage .weekly-performance {
+    max-width: 1000px;
+    margin: 32px auto 0;
+}
+
+#activitiesPage .activity-section-heading h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 650;
+}
+
+#activitiesPage .activity-subtitle {
+    margin: 9px 0 0;
+    color: #999999;
+    font-size: 13px;
+}
+
+#activitiesPage .activity-chart-card {
+    margin-top: 22px;
+    padding: 24px 20px 18px;
+    border: 1px solid #292929;
+    border-radius: 20px;
+    background: #080808;
+}
+
+#activitiesPage .activity-chart {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 12px;
+    align-items: end;
+    min-height: 235px;
+}
+
+#activitiesPage .activity-day-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    min-width: 0;
+    height: 225px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #999999;
+    cursor: pointer;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#activitiesPage .activity-bar-value {
+    min-height: 16px;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#activitiesPage .activity-bar-track {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    height: 160px;
+    border-bottom: 1px solid #333333;
+    background: repeating-linear-gradient(
+        to top,
+        transparent 0,
+        transparent 39px,
+        #202020 40px
+    );
+}
+
+#activitiesPage .activity-bar-fill {
+    width: min(34px, 72%);
+    min-height: 3px;
+    border-radius: 7px 7px 2px 2px;
+    background: #666666;
+    transition: height 0.35s ease, background 0.2s ease;
+}
+
+#activitiesPage .activity-day-bar.is-today .activity-bar-fill,
+#activitiesPage .activity-day-bar.is-selected .activity-bar-fill {
+    background: #ffffff;
+}
+
+#activitiesPage .activity-day-bar:focus-visible {
+    outline: 1px solid #ffffff;
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+#activitiesPage .activity-day-name {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#activitiesPage .activity-day-bar.is-today .activity-day-name {
+    color: #ffffff;
+}
+
+#activitiesPage .activity-chart-hint {
+    margin: 20px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid #242424;
+    color: #888888;
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* DAILY BREAKDOWN POPUP */
+
+#activityDayOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+#activityDayOverlay.active {
+    display: flex;
+}
+
 #activityDayOverlay .activity-day-modal {
     width: 100%;
     max-width: 430px;
