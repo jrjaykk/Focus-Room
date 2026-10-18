@@ -1222,6 +1222,14 @@ async function loadStudySessions() {
     updateWeeklyChart();
 
     console.log("Weekly study time:", weeklyStudySeconds);
+
+    todayStudySeconds += currentSessionSeconds;
+weeklyStudySeconds[todayName] =
+    (weeklyStudySeconds[todayName] || 0) + currentSessionSeconds;
+
+    updateTodayProgress();
+    updateWeeklyChart();
+    
 }
 
 
