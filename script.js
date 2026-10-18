@@ -178,7 +178,8 @@ currentUser = data.user;
 
         loadSavedAvatar();
         loadDashboardUsername();
-        loadStudySessions();
+        await loadStudySessions();
+        restoreTimerState();
 
     }, 700);
 }
@@ -1249,6 +1250,7 @@ async function restoreSession() {
         );
 
         await loadStudySessions();
+        restoreTimerState();
         await loadStreak();
     }
 }
