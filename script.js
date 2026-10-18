@@ -178,8 +178,9 @@ currentUser = data.user;
 
         loadSavedAvatar();
         loadDashboardUsername();
-        await loadStudySessions();
-        restoreTimerState();
+        loadStudySessions().then(() => {
+            restoreTimerState();
+        });
 
     }, 700);
 }
