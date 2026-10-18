@@ -3099,3 +3099,182 @@ background: rgba(255,255,255,0.11);
 }
 
 
+.day-progress-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: rgba(7, 8, 18, 0.8);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.day-progress-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.day-progress-modal {
+    position: relative;
+    width: 100%;
+    max-width: 410px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px;
+    border: 1px solid rgba(167, 139, 250, 0.23);
+    border-radius: 22px;
+    background: #171827;
+    color: #f4f3ff;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45);
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.22s ease;
+}
+
+.day-progress-overlay.active .day-progress-modal {
+    transform: translateY(0) scale(1);
+}
+
+.day-progress-modal .day-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 16px;
+    width: 35px;
+    height: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 23px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.day-progress-modal > .card-label {
+    margin-bottom: 8px;
+    color: #b7a2ff;
+    font-size: 10px;
+    letter-spacing: 1.4px;
+}
+
+.day-progress-modal h2 {
+    padding-right: 25px;
+    font-size: 23px;
+    line-height: 1.35;
+}
+
+.day-progress-modal .day-popup-date {
+    margin-top: 7px;
+    color: #9295a8;
+    font-size: 12px;
+}
+
+.day-progress-modal .day-total-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 24px;
+    padding: 21px;
+    border: 1px solid rgba(167, 139, 250, 0.18);
+    border-radius: 16px;
+    background: linear-gradient(
+        135deg,
+        rgba(139, 92, 246, 0.16),
+        rgba(99, 102, 241, 0.05)
+    );
+}
+
+.day-progress-modal .day-total-panel > span {
+    color: #b5b4c9;
+    font-size: 12px;
+}
+
+.day-progress-modal .day-total-panel strong {
+    color: #c4b5fd;
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.day-progress-modal .day-total-panel small {
+    color: #9295a8;
+    font-size: 11px;
+}
+
+.day-progress-modal .day-sessions-heading {
+    margin: 25px 0 12px;
+    font-size: 14px;
+}
+
+.day-progress-modal .day-popup-sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.day-progress-modal .day-session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.035);
+    font-size: 12px;
+}
+
+.day-progress-modal .day-session-item span {
+    color: #b5b4c9;
+}
+
+.day-progress-modal .day-session-item strong {
+    color: #c4b5fd;
+    font-size: 13px;
+}
+
+.day-progress-modal .day-popup-sessions > p {
+    color: #9295a8;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+    .weekly-progress-card .card-heading {
+        gap: 10px;
+    }
+
+    .weekly-progress-card .weekly-total #todayProgress {
+        font-size: 21px;
+    }
+
+    .weekly-progress-card .weekly-chart-shell {
+        grid-template-columns: 36px minmax(0, 1fr);
+        gap: 7px;
+    }
+
+    .weekly-progress-card #weeklyChart {
+        gap: 4px;
+    }
+
+    .weekly-progress-card #weeklyChart .chart-bar-fill {
+        width: min(22px, 78%);
+    }
+
+    .weekly-progress-card #weeklyChart .chart-day {
+        font-size: 9px;
+    }
+
+    .day-progress-modal {
+        padding: 23px 19px;
+        border-radius: 19px;
+    }
+}
