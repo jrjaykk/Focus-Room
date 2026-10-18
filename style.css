@@ -3697,3 +3697,34 @@ position: relative;
         font-size: 30px;
     }
 }
+
+
+/* Make Weekly Overview wider */
+.bottom-grid {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.weekly-progress-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 380px;
+    box-sizing: border-box;
+}
+
+.weekly-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.weekly-chart-shell {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.weekly-plot {
+    min-width: 0;
+    flex: 1;
+}
