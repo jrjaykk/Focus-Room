@@ -410,6 +410,7 @@ function restoreTimerState() {
         }
 
         updateTimerDisplay();
+        updateTodayProgress();
 
     } catch (error) {
         console.error("Timer recovery failed:", error);
