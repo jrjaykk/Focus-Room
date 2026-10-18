@@ -521,24 +521,34 @@
 
                     
 <!-- BOTTOM GRID -->
-
 <div class="bottom-grid">
 
-    <!-- PREMIUM WEEKLY PROGRESS -->
-
+    <!-- MONOCHROME PREMIUM WEEKLY PROGRESS -->
     <div class="dashboard-card weekly-progress-card">
 
-        <div class="card-heading">
-            <div>
-                <p class="card-label">YOUR ACTIVITY</p>
-                <h2>This Week</h2>
-                
+        <div class="weekly-card-header">
+            <div class="weekly-heading">
+                <p class="card-label">FOCUS ANALYTICS</p>
+                <h2>Weekly Overview</h2>
             </div>
 
-            <div class="weekly-total">
-                <span class="progress-value" id="todayProgress">0m</span>
-                <small>THIS WEEK</small>
+            <div class="weekly-period">
+                <span class="weekly-period-icon">▦</span>
+                <span>7 DAYS</span>
             </div>
+        </div>
+
+        <div class="weekly-total-panel">
+            <div>
+                <p class="weekly-total-label">TOTAL FOCUSED TIME</p>
+                <span class="progress-value" id="todayProgress">0m</span>
+            </div>
+            <div class="weekly-total-icon">◷</div>
+        </div>
+
+        <div class="weekly-chart-heading">
+            <h3>Daily activity</h3>
+            <span>STUDY TIME</span>
         </div>
 
         <div class="weekly-chart-shell">
@@ -593,12 +603,16 @@
             </div>
         </div>
 
-    </div>
+        <div class="weekly-chart-footer">
+            <span class="weekly-footer-dot"></span>
+            <span>Daily focus time</span>
+            <span class="weekly-footer-period">MON — SUN</span>
+        </div>
 
+    </div>
 </div>
 
 <!-- DAILY PROGRESS POPUP -->
-
 <div id="dayProgressOverlay"
      class="day-progress-overlay"
      aria-hidden="true">
@@ -630,12 +644,11 @@
         <div id="dayPopupSessions" class="day-popup-sessions"></div>
 
     </div>
-
 </div>
 
 </section>
 
-                   
+            
             
 
             <!-- STREAK RULES -->
