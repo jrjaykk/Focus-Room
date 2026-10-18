@@ -2189,9 +2189,9 @@ body {
     }
 
     .bottom-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+}
 
     .main-grid .dashboard-card,
     .bottom-grid .dashboard-card {
