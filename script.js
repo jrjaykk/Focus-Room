@@ -435,7 +435,7 @@ function updateWeeklyChart() {
             if (typeof showToast === "function") {
                 showToast("Weekly Study Time", formatTime(totalSeconds));
             } else {
-                alert(Total study time this week: ${formatTime(totalSeconds)});
+                alert(`Total study time this week: ${formatTime(totalSeconds)}`);
             }
         };
 
