@@ -520,109 +520,107 @@
 
 
                     
-<!-- ============================== -->
-<!-- MY STUDY ROOMS -->
-<!-- ============================== -->
-           
-              <!-- BOTTOM GRID -->
-
-                <div class="bottom-grid">     
 
 
-                    <!-- PREMIUM WEEKLY PROGRESS -->
-<div class="dashboard-card weekly-progress-card">
+                    <!-- BOTTOM GRID -->
 
-    <div class="card-heading">
-        <div>
-            <p class="card-label">YOUR ACTIVITY</p>
-            <h2>This Week</h2>
-            <p class="weekly-subtitle">Your study journey, day by day</p>
+<div class="bottom-grid">
+
+    <!-- PREMIUM WEEKLY PROGRESS -->
+
+    <div class="dashboard-card weekly-progress-card">
+
+        <div class="card-heading">
+
+            <div>
+                <p class="card-label">YOUR ACTIVITY</p>
+                <h2>This Week</h2>
+                <p class="weekly-subtitle">
+                    Your study journey, day by day
+                </p>
+            </div>
+
+            <div class="weekly-total">
+                <span class="progress-value" id="todayProgress">0h</span>
+                <span class="weekly-total-label">Total focused</span>
+            </div>
+
         </div>
 
-        <div class="weekly-total">
-            <span id="todayProgress">0m</span>
-            <small>THIS WEEK</small>
-        </div>
-    </div>
-
-    <div class="weekly-chart-shell">
-        <div id="weeklyYAxis" class="weekly-y-axis">
-            <span>0m</span>
-        </div>
-
-        <div class="weekly-plot">
-            <div id="weeklyGridLines" class="weekly-grid-lines"></div>
-
-            <div class="progress-chart" id="weeklyChart">
-                <div class="chart-bar" data-day="Mon">
-                    <div class="chart-bar-fill"></div>
-                    <span class="chart-day">Mon</span>
-                </div>
-                <div class="chart-bar" data-day="Tue">
-                    <div class="chart-bar-fill"></div>
-                    <span class="chart-day">Tue</span>
-                </div>
-                <div class="chart-bar" data-day="Wed">
-                    <div class="chart-bar-fill"></div>
-                    <span class="chart-day">Wed</span>
-                </div>
-                <div class="chart-bar" data-day="Thu">
-                    <div class="chart-bar-fill"></div>
-                    <span class="chart-day">Thu</span>
-                </div>
-                <div class="chart-bar" data-day="Fri">
-                    <div class="chart-bar-fill"></div>
-                    <span class="chart-day">Fri</span>
-                </div>
-                <div class="chart-bar" data-day="Sat">
-                    <div class="chart-bar-fill"></div>
-                    <span class="chart-day">Sat</span>
-                </div>
-                <div class="chart-bar" data-day="Sun">
-                    <div class="chart-bar-fill"></div>
-                    <span class="chart-day">Sun</span>
-                </div>
+        <div class="weekly-chart-summary">
+            <div class="weekly-summary-icon">◷</div>
+            <div>
+                <span class="weekly-summary-label">Weekly progress</span>
+                <p class="weekly-summary-text">
+                    Every focused minute counts.
+                </p>
             </div>
         </div>
-    </div>
 
-    <p class="chart-hint">
-        <span>↗</span> Tap a day for details · Hold a bar for total time
-    </p>
+        <div class="progress-chart" id="weeklyProgressChart">
 
-</div>
+            <div class="chart-bar" data-day="Mon">
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="height: 0%;"></div>
+                </div>
+                <span>Mon</span>
+            </div>
 
-<!-- DAILY PROGRESS POPUP -->
-<div id="dayProgressOverlay" class="day-progress-overlay"
-     aria-hidden="true">
+            <div class="chart-bar" data-day="Tue">
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="height: 0%;"></div>
+                </div>
+                <span>Tue</span>
+            </div>
 
-    <div class="day-progress-modal" role="dialog"
-         aria-modal="true" aria-labelledby="dayPopupTitle">
+            <div class="chart-bar" data-day="Wed">
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="height: 0%;"></div>
+                </div>
+                <span>Wed</span>
+            </div>
 
-        <button type="button" class="day-popup-close"
-                onclick="closeDayProgressPopup()"
-                aria-label="Close">×</button>
+            <div class="chart-bar" data-day="Thu">
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="height: 0%;"></div>
+                </div>
+                <span>Thu</span>
+            </div>
 
-        <p class="card-label">DAILY INSIGHTS</p>
-        <h2 id="dayPopupTitle">Sunday's Progress</h2>
-        <p id="dayPopupDate" class="day-popup-date"></p>
+            <div class="chart-bar" data-day="Fri">
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="height: 0%;"></div>
+                </div>
+                <span>Fri</span>
+            </div>
 
-        <div class="day-total-panel">
-            <span>Focused study time</span>
-            <strong id="dayPopupTotal">0m</strong>
-            <small id="dayPopupSessionCount">0 study sessions</small>
+            <div class="chart-bar" data-day="Sat">
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="height: 0%;"></div>
+                </div>
+                <span>Sat</span>
+            </div>
+
+            <div class="chart-bar" data-day="Sun">
+                <div class="chart-bar-track">
+                    <div class="chart-bar-fill" style="height: 0%;"></div>
+                </div>
+                <span>Sun</span>
+            </div>
+
         </div>
 
-        <h3 class="day-sessions-heading">Session breakdown</h3>
-        <div id="dayPopupSessions" class="day-popup-sessions"></div>
+        <div class="weekly-chart-footer">
+            <span><span class="weekly-legend-dot"></span> Focus time</span>
+            <span>Stay consistent!</span>
+        </div>
 
     </div>
-</div>
-                    
-                </div>
-                    
-            </section>
 
+</div>
+</section>
+
+            
 
             <!-- STREAK RULES -->
 
