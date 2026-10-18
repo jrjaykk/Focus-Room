@@ -2388,3 +2388,143 @@ overlay.classList.remove("show");
 
 }
 
+
+
+// ==============================
+// DAILY PROGRESS POPUP
+// ==============================
+
+async function openDayProgressPopup(day) {
+
+    if (!currentUser) return;
+
+    const overlay = document.getElementById("dayProgressOverlay");
+    const title = document.getElementById("dayPopupTitle");
+    const dateElement = document.getElementById("dayPopupDate");
+    const totalElement = document.getElementById("dayPopupTotal");
+    const countElement = document.getElementById("dayPopupSessionCount");
+    const sessionsElement = document.getElementById("dayPopupSessions");
+
+    if (!overlay || !sessionsElement) {
+        console.error("Daily progress popup HTML not found");
+        return;
+    }
+
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const today = new Date();
+    const monday = new Date(today);
+    monday.setHours(0, 0, 0, 0);
+
+    const offset = (monday.getDay() + 6) % 7;
+    monday.setDate(monday.getDate() - offset);
+
+    const dayIndex = days.indexOf(day);
+
+    if (dayIndex < 0) return;
+
+    const selectedDate = new Date(monday);
+    selectedDate.setDate(monday.getDate() + dayIndex);
+
+    const dateString = getLocalDateString(selectedDate);
+
+    const { data, error } = await supabaseClient
+        .from("study_sessions")
+        .select("study_date, duration_seconds, created_at")
+        .eq("user_id", currentUser.id)
+        .eq("study_date", dateString)
+        .order("created_at", { ascending: true });
+
+    if (error) {
+        console.error("Failed to load daily sessions:", error);
+        sessionsElement.textContent = "Unable to load sessions. Please try again.";
+        return;
+    }
+
+    const sessions = data || [];
+    const totalSeconds = sessions.reduce(
+        (sum, session) => sum + Number(session.duration_seconds || 0),
+        0
+    );
+
+    function formatDuration(seconds) {
+        seconds = Math.max(0, Number(seconds) || 0);
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+
+        return hours > 0
+            ? `${hours}h ${minutes}m`
+            : `${minutes}m`;
+    }
+
+    if (title) {
+        title.textContent = `${day}'s Progress`;
+    }
+
+    if (dateElement) {
+        dateElement.textContent = selectedDate.toLocaleDateString(
+            "en-IN",
+            { day: "numeric", month: "short", year: "numeric" }
+        );
+    }
+
+    if (totalElement) {
+        totalElement.textContent = formatDuration(totalSeconds);
+    }
+
+    if (countElement) {
+        countElement.textContent =
+            `${sessions.length} study session${sessions.length === 1 ? "" : "s"}`;
+    }
+
+    sessionsElement.replaceChildren();
+
+    if (sessions.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.textContent = "No study sessions recorded for this day.";
+        sessionsElement.appendChild(emptyMessage);
+    } else {
+        sessions.forEach((session, index) => {
+            const item = document.createElement("div");
+            item.className = "day-session-item";
+
+            const sessionName = document.createElement("span");
+            sessionName.textContent = `Session ${index + 1}`;
+
+            const duration = document.createElement("strong");
+            duration.textContent = formatDuration(session.duration_seconds);
+
+            item.append(sessionName, duration);
+            sessionsElement.appendChild(item);
+        });
+    }
+
+    overlay.classList.add("active");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+}
+
+function closeDayProgressPopup() {
+    const overlay = document.getElementById("dayProgressOverlay");
+
+    if (!overlay) return;
+
+    overlay.classList.remove("active");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+}
+
+// Close popup when tapping outside the modal
+document.addEventListener("click", function (event) {
+    const overlay = document.getElementById("dayProgressOverlay");
+
+    if (overlay && event.target === overlay) {
+        closeDayProgressPopup();
+    }
+});
+
+// Close popup using Escape key
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        closeDayProgressPopup();
+    }
+});
