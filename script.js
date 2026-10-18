@@ -396,7 +396,7 @@ function restoreTimerState() {
             0,
             Number(state.currentSessionSeconds) || 0
         );
-
+       
         // Refresh ke baad timer paused rahega.
         // Start/Resume dabane par wahi se continue hoga.
         timerRunning = false;
@@ -647,18 +647,22 @@ function toggleTimer() {
         timerInterval = null;
         timerRunning = false;
 
+        button.textContent = "Resume Focus";
         saveTimerState();
 
         if (currentSessionSeconds > 0) {
             const secondsToSave = currentSessionSeconds;
 
-            saveStudySession(secondsToSave).then(() => {
+            saveStudySession(secondsToSave).then(async () => {
                 currentSessionSeconds = 0;
                 saveTimerState();
+
+                await loadStudySessions();
+                updateTodayProgress();
+                updateWeeklyChart();
             });
         }
 
-        button.textContent = "Resume Focus";
         return;
     }
 
@@ -676,10 +680,12 @@ function toggleTimer() {
             const secondsToSave = currentSessionSeconds;
 
             if (secondsToSave > 0) {
-                saveStudySession(secondsToSave).then(() => {
+                saveStudySession(secondsToSave).then(async () => {
                     currentSessionSeconds = 0;
                     timerSeconds = 25 * 60;
                     clearSavedTimerState();
+
+                    await loadStudySessions();
                     updateTimerDisplay();
                 });
             }
