@@ -2528,3 +2528,23 @@ document.addEventListener("keydown", function (event) {
         closeDayProgressPopup();
     }
 });
+
+
+
+/* OPEN ACTIVITIES PAGE */
+function openActivitiesPage() {
+    const page = document.getElementById("activitiesPage");
+
+    if (page) {
+        page.classList.remove("hidden");
+    }
+}
+
+/* CLOSE ACTIVITIES PAGE */
+function closeActivitiesPage() {
+    const page = document.getElementById("activitiesPage");
+
+    if (page) {
+        page.classList.add("hidden");
+    }
+}
