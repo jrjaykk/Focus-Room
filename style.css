@@ -4040,3 +4040,89 @@ canvas {
         gap: 10px;
     }
 }
+
+/* ===== Focus Room: Desktop Layout Fix ===== */
+
+.dashboard-content {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 32px clamp(20px, 3vw, 48px);
+}
+
+.dashboard-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.stat-card {
+    min-width: 0;
+    padding: 22px;
+}
+
+.main-grid {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 22px;
+    align-items: stretch;
+}
+
+.dashboard-card {
+    min-width: 0;
+    width: 100%;
+    padding: 28px;
+}
+
+.card-heading h2 {
+    font-size: clamp(20px, 1.8vw, 28px);
+}
+
+.timer-display {
+    font-size: clamp(54px, 5vw, 76px);
+}
+
+.progress-chart {
+    width: 100%;
+    height: 230px;
+    gap: 8px;
+}
+
+.chart-bar {
+    min-width: 0;
+    font-size: 11px;
+}
+
+/* Laptop aur tablet */
+@media (max-width: 1100px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .main-grid,
+    .bottom-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Mobile */
+@media (max-width: 650px) {
+    .dashboard-content {
+        padding: 20px 14px;
+    }
+
+    .dashboard-card {
+        padding: 18px;
+    }
+
+    .stat-card {
+        padding: 12px;
+    }
+
+    .timer-display {
+        font-size: clamp(40px, 11vw, 56px);
+    }
+}
