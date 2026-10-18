@@ -3772,3 +3772,28 @@ position: relative;
     min-width: 0;
     height: 100% !important;
 }
+
+/* Fix Weekly Overview on laptop only */
+@media (min-width: 769px) {
+    .weekly-progress-card {
+        overflow: hidden;
+        min-width: 0;
+    }
+
+    .weekly-chart-shell {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .weekly-plot {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .progress-chart {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+}
