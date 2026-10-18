@@ -2915,3 +2915,112 @@ document.getElementById("activityDayOverlay")?.addEventListener("click", event =
         closeActivityDayPopup();
     }
 });
+
+
+
+
+/* ==============================
+   LIFETIME SESSIONS
+   Uses existing Supabase data
+============================== */
+
+function closeLifetimeSessions() {
+    document
+        .getElementById("lifetimeSessionsPage")
+        .classList.remove("is-open");
+}
+
+async function openLifetimeSessions() {
+    const page = document.getElementById("lifetimeSessionsPage");
+    const totalElement = document.getElementById("lifetimeTotalTime");
+    const historyElement = document.getElementById("lifetimeHistoryList");
+
+    page.classList.add("is-open");
+    totalElement.textContent = "Loading...";
+    historyElement.innerHTML =
+        '<p class="lifetime-empty">Loading your study history...</p>';
+
+    if (!currentUser) {
+        totalElement.textContent = "Unavailable";
+        historyElement.innerHTML =
+            '<p class="lifetime-empty">Please log in again to view your history.</p>';
+        return;
+    }
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("study_sessions")
+            .select("study_date, duration_seconds")
+            .eq("user_id", currentUser.id);
+
+        if (error) throw error;
+
+        const dailyTotals = {};
+        let lifetimeSeconds = 0;
+
+        (data || []).forEach(session => {
+            const date = session.study_date;
+            const seconds = Number(session.duration_seconds) || 0;
+
+            if (!date || seconds <= 0) return;
+
+            dailyTotals[date] = (dailyTotals[date] || 0) + seconds;
+            lifetimeSeconds += seconds;
+        });
+
+        function formatStudyTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+
+            if (hours > 0 && minutes > 0) {
+                return `${hours}h ${minutes}m`;
+            }
+
+            if (hours > 0) return `${hours}h`;
+            if (minutes > 0) return `${minutes}m`;
+
+            return `${seconds}s`;
+        }
+
+        totalElement.textContent = formatStudyTime(lifetimeSeconds);
+
+        const dates = Object.keys(dailyTotals).sort((a, b) =>
+            b.localeCompare(a)
+        );
+
+        if (dates.length === 0) {
+            historyElement.innerHTML =
+                '<p class="lifetime-empty">No study sessions saved yet. Start focusing to build your history!</p>';
+            return;
+        }
+
+        historyElement.innerHTML = dates.map(date => {
+            const parts = date.split("-").map(Number);
+            const formattedDate = new Date(
+                parts[0], parts[1] - 1, parts[2]
+            ).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric"
+            });
+
+            return `
+                <div class="lifetime-day-row">
+                    <div>
+                        <div class="lifetime-day-date">${formattedDate}</div>
+                        <div class="lifetime-day-label">Total study time</div>
+                    </div>
+                    <div class="lifetime-day-time">
+                        ${formatStudyTime(dailyTotals[date])}
+                    </div>
+                </div>
+            `;
+        }).join("");
+
+    } catch (error) {
+        console.error("Lifetime sessions error:", error);
+        totalElement.textContent = "Unavailable";
+        historyElement.innerHTML =
+            '<p class="lifetime-empty">Could not load history. Please check your connection and try again.</p>';
+    }
+}
