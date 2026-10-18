@@ -3864,3 +3864,34 @@ position: relative;
     font-size: 22px;
     font-weight: 600;
 }
+
+/* Weekly total time: top-right corner */
+.weekly-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.weekly-heading {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+}
+
+.weekly-heading .card-label {
+    margin: 0;
+}
+
+.weekly-heading h2 {
+    margin-top: 6px;
+}
+
+.weekly-heading #todayProgress {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
