@@ -3280,8 +3280,10 @@ background: rgba(255,255,255,0.11);
 }
 
 
-/* Weekly chart overflow fix */
+/* WEEKLY CHART — BOX AND AXIS FIX */
+
 .weekly-progress-card {
+    width: 100%;
     min-width: 0;
     max-width: 100%;
     overflow: hidden;
@@ -3289,52 +3291,70 @@ background: rgba(255,255,255,0.11);
 
 .weekly-chart-shell {
     display: grid;
-    grid-template-columns: 42px minmax(0, 1fr);
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: stretch;
     gap: 10px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .weekly-y-axis {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
     min-width: 0;
-    overflow: hidden;
+    padding: 0 0 24px;
+    box-sizing: border-box;
 }
 
 .weekly-y-axis span {
-    display: block;
-    max-width: 100%;
     white-space: nowrap;
-    font-size: 11px;
+    font-size: 10px;
+    line-height: 1;
 }
 
-.weekly-plot,
-#weeklyChart {
+.weekly-plot {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
     min-width: 0;
     width: 100%;
-    max-width: 100%;
+    overflow: hidden;
 }
 
 #weeklyChart {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: clamp(4px, 1.5vw, 12px);
+    gap: 6px;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 #weeklyChart .chart-bar {
     min-width: 0;
+    max-width: 100%;
 }
 
 #weeklyChart .chart-day {
     display: block;
-    max-width: 100%;
     text-align: center;
     white-space: nowrap;
-    font-size: clamp(9px, 2.5vw, 12px);
+    font-size: 10px;
+}
+
+.weekly-grid-lines {
+    pointer-events: none;
+    overflow: hidden;
 }
 
 .chart-hint {
     max-width: 100%;
-    overflow-wrap: anywhere;
     white-space: normal;
+    overflow-wrap: anywhere;
 }
