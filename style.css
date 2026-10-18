@@ -3877,3 +3877,64 @@ position: relative;
     font-weight: 600;
     color: #a1a1aa;
 }
+
+/* ACTIVITIES BUTTON */
+.timer-mode {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* ACTIVITIES FULL-SCREEN PAGE */
+.activities-page {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #0b0f19;
+    color: #ffffff;
+    padding: 24px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* HEADER */
+.activities-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.activities-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* EXIT BUTTON - UPPER LEFT */
+.activities-close {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    background: #171d2b;
+    color: #ffffff;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.activities-close:hover {
+    background: #293247;
+}
+
+@media (max-width: 600px) {
+    .activities-page {
+        padding: 18px;
+    }
+}
