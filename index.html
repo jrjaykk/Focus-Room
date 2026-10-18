@@ -426,26 +426,29 @@
 </div>
 
 
-                    <div class="stat-card">
-
-                        <div class="stat-icon">
-                            📚
-                        </div>
-
-                        <div>
-
-                            <p>
-                                Sessions
-                            </p>
-
-                            <h2>
-                                0
-                            </h2>
-
-                        </div>
-
-                    </div>
-
+                   <div class="stat-card"
+                       onclick="openLifetimeSessions()"
+                       role="button"
+                       tabindex="0"
+                       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openLifetimeSessions();}">
+                       
+                       <div class="stat-icon">
+                           📚
+                       </div>
+                       
+                       <div>
+                           <p>
+                               Sessions
+                           </p>
+                           
+                           <h2>
+                               0
+                           
+                           </h2>
+                       
+                       </div>
+                   
+                   </div>
 
                     
 
@@ -960,6 +963,50 @@
 
 
         
+</div>
+
+
+
+    <!-- LIFETIME SESSIONS PAGE -->
+<div id="lifetimeSessionsPage" class="lifetime-sessions-page">
+
+    <div class="lifetime-sessions-container">
+
+        <header class="lifetime-sessions-header">
+            <div>
+                <p class="lifetime-eyebrow">YOUR PROGRESS</p>
+                <h1>Study History</h1>
+                <p class="lifetime-subtitle">Every focused minute counts.</p>
+            </div>
+
+            <button class="lifetime-exit-btn"
+                    onclick="closeLifetimeSessions()">
+                ← Dashboard
+            </button>
+        </header>
+
+        <div class="lifetime-total-card">
+            <span class="lifetime-total-icon">📚</span>
+            <p>Total Lifetime Study Time</p>
+            <h2 id="lifetimeTotalTime">Loading...</h2>
+            <span>All your saved study sessions</span>
+        </div>
+
+        <div class="lifetime-history-card">
+            <div class="lifetime-history-heading">
+                <div>
+                    <h2>Daily History</h2>
+                    <p>Your total study time, date by date</p>
+                </div>
+                <span class="lifetime-history-icon">📅</span>
+            </div>
+
+            <div id="lifetimeHistoryList">
+                <p class="lifetime-empty">Loading your study history...</p>
+            </div>
+        </div>
+
+    </div>
 </div>
 
     
