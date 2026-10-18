@@ -348,6 +348,75 @@ let weeklyStudySeconds = {
 };
 
 // ==============================
+// TIMER SESSION RECOVERY
+// ==============================
+
+const TIMER_STORAGE_KEY = "focusRoomTimerSession";
+
+function saveTimerState() {
+    if (!currentUser) return;
+
+    const state = {
+        userId: currentUser.id,
+        timerSeconds: timerSeconds,
+        currentSessionSeconds: currentSessionSeconds,
+        timerRunning: timerRunning,
+        savedAt: Date.now()
+    };
+
+    localStorage.setItem(
+        TIMER_STORAGE_KEY,
+        JSON.stringify(state)
+    );
+}
+
+function clearSavedTimerState() {
+    localStorage.removeItem(TIMER_STORAGE_KEY);
+}
+
+function restoreTimerState() {
+    if (!currentUser) return;
+
+    const saved = localStorage.getItem(TIMER_STORAGE_KEY);
+    if (!saved) return;
+
+    try {
+        const state = JSON.parse(saved);
+
+        if (state.userId !== currentUser.id) return;
+
+        timerSeconds = Math.max(
+            0,
+            Number(state.timerSeconds) || 0
+        );
+
+        currentSessionSeconds = Math.max(
+            0,
+            Number(state.currentSessionSeconds) || 0
+        );
+
+        // Refresh ke baad timer paused rahega.
+        // Start/Resume dabane par wahi se continue hoga.
+        timerRunning = false;
+
+        const button = document.getElementById("timerStart");
+        if (button) {
+            button.textContent =
+                currentSessionSeconds > 0
+                    ? "Resume Focus"
+                    : "Start Focus";
+        }
+
+        updateTimerDisplay();
+
+    } catch (error) {
+        console.error("Timer recovery failed:", error);
+    }
+}
+
+
+
+// ==============================
 // UPDATE WEEKLY CHART
 // ==============================
 
