@@ -2548,3 +2548,277 @@ function closeActivitiesPage() {
         page.classList.add("hidden");
     }
 }
+
+
+/* =========================================
+   ACTIVITIES WEEKLY PERFORMANCE
+========================================= */
+
+function initActivitiesChart() {
+    const chart = document.getElementById("activityWeeklyChart");
+    const totalElement = document.getElementById("activityTotalTime");
+
+    if (!chart || typeof weeklyStudySeconds === "undefined") return;
+
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const values = days.map(day => Number(weeklyStudySeconds[day]) || 0);
+    const total = values.reduce((sum, value) => sum + value, 0);
+    const maxValue = Math.max(...values, 0);
+
+    function formatTime(seconds) {
+        seconds = Math.max(0, Number(seconds) || 0);
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+
+        if (hours > 0) return `${hours}h ${minutes}m`;
+        return `${minutes}m`;
+    }
+
+    if (totalElement) {
+        totalElement.textContent = formatTime(total);
+    }
+
+    const today = new Date();
+    const todayIndex = (today.getDay() + 6) % 7;
+
+    chart.replaceChildren();
+
+    days.forEach((day, index) => {
+        const seconds = values[index];
+        const height = maxValue > 0
+            ? Math.max(3, (seconds / maxValue) * 100)
+            : 3;
+
+        const bar = document.createElement("button");
+        bar.type = "button";
+        bar.className = "activity-day-bar";
+        bar.setAttribute("aria-label", `${day}: ${formatTime(seconds)}`);
+
+        if (index === todayIndex) {
+            bar.classList.add("is-today");
+        }
+
+        const valueLabel = document.createElement("span");
+        valueLabel.className = "activity-bar-value";
+        valueLabel.textContent = formatTime(seconds);
+
+        const track = document.createElement("span");
+        track.className = "activity-bar-track";
+
+        const fill = document.createElement("span");
+        fill.className = "activity-bar-fill";
+        fill.style.height = `${height}%`;
+
+        track.appendChild(fill);
+
+        const dayLabel = document.createElement("span");
+        dayLabel.className = "activity-day-name";
+        dayLabel.textContent = day;
+
+        bar.append(valueLabel, track, dayLabel);
+
+        let holdTimer = null;
+        let longPressTriggered = false;
+
+        bar.addEventListener("pointerdown", () => {
+            longPressTriggered = false;
+
+            holdTimer = setTimeout(() => {
+                longPressTriggered = true;
+                valueLabel.textContent = formatTime(seconds);
+                valueLabel.style.fontSize = "12px";
+                bar.classList.add("is-selected");
+            }, 550);
+        });
+
+        function cancelHold() {
+            if (holdTimer !== null) {
+                clearTimeout(holdTimer);
+                holdTimer = null;
+            }
+        }
+
+        bar.addEventListener("pointerup", cancelHold);
+        bar.addEventListener("pointerleave", cancelHold);
+        bar.addEventListener("pointercancel", cancelHold);
+
+        bar.addEventListener("click", () => {
+            if (longPressTriggered) {
+                longPressTriggered = false;
+                return;
+            }
+
+            if (typeof openActivityDayPopup === "function") {
+                openActivityDayPopup(day, seconds);
+            }
+        });
+
+        bar.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openActivityDayPopup(day, seconds);
+            }
+        });
+
+        chart.appendChild(bar);
+    });
+}
+
+
+/* REFRESH ACTIVITIES WHEN OPENING THE PAGE */
+
+function openActivitiesPage() {
+    const page = document.getElementById("activitiesPage");
+
+    if (!page) return;
+
+    page.classList.remove("hidden");
+
+    if (typeof loadStudySessions === "function") {
+        loadStudySessions();
+    } else {
+        initActivitiesChart();
+    }
+}
+
+
+/* CLOSE ACTIVITIES PAGE */
+
+function closeActivitiesPage() {
+    const page = document.getElementById("activitiesPage");
+    if (page) {
+        page.classList.add("hidden");
+    }
+
+    closeActivityDayPopup();
+}
+
+
+/* DAILY BREAKDOWN POPUP */
+
+async function openActivityDayPopup(day, chartSeconds) {
+    if (!currentUser) return;
+
+    const overlay = document.getElementById("activityDayOverlay");
+    const title = document.getElementById("activityDayTitle");
+    const dateElement = document.getElementById("activityDayDate");
+    const totalElement = document.getElementById("activityDayTotal");
+    const countElement = document.getElementById("activityDaySessionCount");
+    const list = document.getElementById("activityDaySessions");
+
+    if (!overlay || !list) return;
+
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const today = new Date();
+    const monday = new Date(today);
+    monday.setHours(0, 0, 0, 0);
+    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+
+    const dayIndex = days.indexOf(day);
+    if (dayIndex < 0) return;
+
+    const selectedDate = new Date(monday);
+    selectedDate.setDate(monday.getDate() + dayIndex);
+
+    const dateString = getLocalDateString(selectedDate);
+
+    overlay.classList.add("active");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+
+    title.textContent = `${day}'s Progress`;
+    dateElement.textContent = selectedDate.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+
+    totalElement.textContent = "Loading...";
+    countElement.textContent = "";
+    list.replaceChildren();
+
+    const { data, error } = await supabaseClient
+        .from("study_sessions")
+        .select("duration_seconds, created_at")
+        .eq("user_id", currentUser.id)
+        .eq("study_date", dateString)
+        .order("created_at", { ascending: true });
+
+    if (error) {
+        console.error("Failed to load activity sessions:", error);
+        totalElement.textContent = "Unavailable";
+        return;
+    }
+
+    const sessions = data || [];
+    const totalSeconds = sessions.reduce(
+        (sum, session) => sum + Number(session.duration_seconds || 0),
+        0
+    );
+
+    function formatTime(seconds) {
+        seconds = Math.max(0, Number(seconds) || 0);
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+
+        return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+    }
+
+    totalElement.textContent = formatTime(totalSeconds);
+    countElement.textContent =
+        `${sessions.length} study session${sessions.length === 1 ? "" : "s"}`;
+
+    if (sessions.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "activity-empty-message";
+        empty.textContent = "No study sessions recorded for this day.";
+        list.appendChild(empty);
+        return;
+    }
+
+    sessions.forEach((session, index) => {
+        const item = document.createElement("div");
+        item.className = "activity-session-item";
+
+        const label = document.createElement("span");
+        label.textContent = `Session ${index + 1}`;
+
+        const duration = document.createElement("strong");
+        duration.textContent = formatTime(session.duration_seconds);
+
+        item.append(label, duration);
+        list.appendChild(item);
+    });
+}
+
+
+/* CLOSE DAILY BREAKDOWN */
+
+function closeActivityDayPopup() {
+    const overlay = document.getElementById("activityDayOverlay");
+
+    if (!overlay) return;
+
+    overlay.classList.remove("active");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+}
+
+
+/* UPDATE ACTIVITIES CHART AFTER DATA LOAD */
+
+const originalLoadStudySessionsForActivities = loadStudySessions;
+
+loadStudySessions = async function () {
+    await originalLoadStudySessionsForActivities();
+    initActivitiesChart();
+};
+
+
+/* CLOSE DAILY POPUP ON BACKGROUND TAP */
+
+document.getElementById("activityDayOverlay")?.addEventListener("click", event => {
+    if (event.target.id === "activityDayOverlay") {
+        closeActivityDayPopup();
+    }
+});
