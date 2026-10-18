@@ -490,12 +490,13 @@
                             </div>
 
                            <button
-                               class="timer-mode"
-                               id="activitiesBtn"
-                               type="button"
-                               onclick="openActivitiesPage()">
-                               Activities
-                           </button>
+    class="timer-mode activities-arrow-btn"
+    id="activitiesBtn"
+    type="button"
+    onclick="openActivitiesPage()"
+    aria-label="Open Activities">
+    &rarr;
+        </button>
 
                         </div>
 
@@ -572,13 +573,13 @@
 
     <div class="activities-header">
 
+
         <button
-    class="timer-mode activities-arrow-btn"
-    id="activitiesBtn"
-    type="button"
-    onclick="openActivitiesPage()"
-    aria-label="Open Activities">
-    &rarr;
+            type="button"
+            class="activities-close"
+            onclick="closeActivitiesPage()"
+            aria-label="Exit Activities">
+            &times;
         </button>
 
         <h2>Activities</h2>
