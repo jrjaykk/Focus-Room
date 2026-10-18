@@ -489,10 +489,12 @@
 
                             </div>
 
-                           <button class="timer-mode" id="activitiesBtn" type="button">
-                               
+                           <button
+                               class="timer-mode"
+                               id="activitiesBtn"
+                               type="button"
+                               onclick="openActivitiesPage()">
                                Activities
-                               
                            </button>
 
                         </div>
@@ -560,6 +562,25 @@
         <p>
             • Missing a full day resets the streak
         </p>
+
+    </div>
+
+</div>
+
+            <!-- ACTIVITIES PAGE -->
+<div id="activitiesPage" class="activities-page hidden">
+
+    <div class="activities-header">
+
+        <button
+            type="button"
+            class="activities-close"
+            onclick="closeActivitiesPage()"
+            aria-label="Exit Activities">
+            &times;
+        </button>
+
+        <h2>Activities</h2>
 
     </div>
 
