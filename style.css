@@ -3988,94 +3988,39 @@ position: relative;
     }
 }
 
-/* ===== Focus Room: Bigger Responsive Layout ===== */
-
-* {
-    box-sizing: border-box;
-}
-
-html {
-    font-size: 16px;
-}
-
-body {
-    width: 100%;
-    min-width: 320px;
-    margin: 0;
-    overflow-x: hidden;
-}
-
-.dashboard-page {
-    width: 100%;
-    min-height: 100vh;
-}
-
-.dashboard-main {
-    min-width: 0;
-    flex: 1;
-}
+/* Focus Room layout correction */
 
 .dashboard-content {
     width: 100%;
-    max-width: 1800px;
-    margin-inline: auto;
-    padding: clamp(20px, 3vw, 48px);
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 28px;
 }
 
-/* Statistics cards */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(12px, 1.5vw, 24px);
+    gap: 18px;
 }
 
-.stat-card {
-    min-width: 0;
-    padding: clamp(18px, 2vw, 28px);
-}
-
-/* Main timer + analytics */
 .main-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
-    gap: clamp(16px, 2vw, 28px);
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 22px;
     align-items: stretch;
 }
 
 .dashboard-card {
     min-width: 0;
-    padding: clamp(22px, 2.5vw, 36px);
+    width: 100%;
 }
 
-/* Make text more readable */
-h1 {
-    font-size: clamp(28px, 2.4vw, 40px);
-}
-
-h2 {
-    font-size: clamp(22px, 1.8vw, 30px);
-}
-
-.stat-card h3,
-.stat-card p {
-    font-size: clamp(15px, 1.1vw, 19px);
-}
-
-/* Large timer */
-.timer-display {
-    font-size: clamp(52px, 5vw, 84px);
-    line-height: 1.1;
-}
-
-/* Charts should fit their cards */
-canvas,
-img,
-svg {
+canvas {
+    display: block;
     max-width: 100%;
 }
 
-/* Medium screens */
-@media (max-width: 1100px) {
+@media (max-width: 1000px) {
     .stats-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -4085,26 +4030,13 @@ svg {
     }
 }
 
-/* Phones */
-@media (max-width: 650px) {
+@media (max-width: 600px) {
     .dashboard-content {
-        padding: 16px;
+        padding: 14px;
     }
 
     .stats-grid {
-        gap: 12px;
-    }
-
-    .stat-card,
-    .dashboard-card {
-        padding: 16px;
-    }
-
-    .timer-display {
-        font-size: clamp(42px, 12vw, 60px);
-    }
-
-    button {
-        max-width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
     }
 }
