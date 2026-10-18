@@ -276,7 +276,7 @@ body {
 ========================= */
 
 .dashboard-page {
-    min-height: 110vh;
+    min-height: 100vh;
 
     display: flex;
 
