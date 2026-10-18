@@ -636,64 +636,70 @@ function updateTimerDisplay() {
 // ==============================
 
 function toggleTimer() {
-
     const button = document.getElementById("timerStart");
 
+    // PAUSE
     if (timerRunning) {
-
         clearInterval(timerInterval);
-
+        timerInterval = null;
         timerRunning = false;
 
-        saveStudySession(currentSessionSeconds);
-        currentSessionSeconds = 0;
+        saveTimerState();
+
+        if (currentSessionSeconds > 0) {
+            const secondsToSave = currentSessionSeconds;
+
+            saveStudySession(secondsToSave).then(() => {
+                currentSessionSeconds = 0;
+                saveTimerState();
+            });
+        }
 
         button.textContent = "Resume Focus";
-
         return;
     }
 
+    // START / RESUME
     timerRunning = true;
-
     button.textContent = "Pause";
+    saveTimerState();
 
     timerInterval = setInterval(() => {
-
-        todayStudySeconds++;
-        currentSessionSeconds++;
-        weeklyStudySeconds[todayName]++;
-
-        updateWeeklyChart();
-        
-        updateTodayProgress();
-
         if (timerSeconds <= 0) {
-
             clearInterval(timerInterval);
-
+            timerInterval = null;
             timerRunning = false;
 
-            button.textContent = "Start Focus";
+            const secondsToSave = currentSessionSeconds;
 
-            saveStudySession(currentSessionSeconds);
+            if (secondsToSave > 0) {
+                saveStudySession(secondsToSave).then(() => {
+                    currentSessionSeconds = 0;
+                    timerSeconds = 25 * 60;
+                    clearSavedTimerState();
+                    updateTimerDisplay();
+                });
+            }
+
             showFocusCompletePopup();
-            
-            currentSessionSeconds = 0;
-
-            timerSeconds = 25 * 60;
-
-            updateTimerDisplay();
-
+            button.textContent = "Start Focus";
             return;
         }
 
         timerSeconds--;
+        todayStudySeconds++;
+        currentSessionSeconds++;
 
+        weeklyStudySeconds[todayName] =
+            (weeklyStudySeconds[todayName] || 0) + 1;
+
+        saveTimerState();
+
+        updateWeeklyChart();
+        updateTodayProgress();
         updateTimerDisplay();
-
     }, 1000);
 }
-
 
 // ==============================
 // RESET TIMER
