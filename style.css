@@ -3797,3 +3797,70 @@ position: relative;
         box-sizing: border-box;
     }
 }
+
+
+/* Show weekday labels below weekly bars */
+@media (min-width: 901px) {
+    .weekly-chart-shell {
+        overflow: visible !important;
+    }
+
+    .weekly-plot,
+    .progress-chart {
+        overflow: visible !important;
+    }
+
+    .progress-chart {
+        padding-bottom: 28px;
+        box-sizing: border-box;
+    }
+
+    .chart-bar {
+        position: relative;
+        overflow: visible !important;
+    }
+
+    .chart-day {
+        display: block !important;
+        position: absolute;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        color: #aaa;
+        font-size: 12px;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+
+/* Weekly total time: top-right corner */
+.weekly-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.weekly-heading {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+}
+
+.weekly-heading .card-label {
+    margin: 0;
+}
+
+.weekly-heading h2 {
+    margin-top: 6px;
+}
+
+.weekly-heading #todayProgress {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+}
