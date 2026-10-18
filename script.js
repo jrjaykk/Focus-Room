@@ -353,48 +353,123 @@ let weeklyStudySeconds = {
 
 function updateWeeklyChart() {
 
-    const chartBars =
-        document.querySelectorAll(".chart-bar");
+    const chart = document.getElementById("weeklyChart");
+    const yAxis = document.getElementById("weeklyYAxis");
+    const grid = document.getElementById("weeklyGridLines");
 
-    const days = [
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat",
-        "Sun"
-    ];
+    if (!chart  !yAxis  !grid) return;
 
-    let maxSeconds = 1;
+    const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-    days.forEach(day => {
+    const formatTime = (seconds) => {
+        seconds = Math.max(0, Number(seconds) || 0);
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
 
-        if (weeklyStudySeconds[day] > maxSeconds) {
-            maxSeconds = weeklyStudySeconds[day];
-        }
+        if (hours > 0) return `${hours}h ${minutes}m`;
+        return `${minutes}m`;
+    };
 
-    });
+    const values = days.map(day => Number(weeklyStudySeconds[day]) || 0);
+    const maxSeconds = Math.max(...values, 0);
 
-    chartBars.forEach((bar, index) => {
+    // Dynamic Y-axis scale
+    const step = maxSeconds <= 1800 ? 600
+        : maxSeconds <= 7200 ? 1800
+        : maxSeconds <= 18000 ? 3600
+        : maxSeconds <= 36000 ? 7200
+        : 14400;
+
+    const axisMax = Math.max(step * 4, Math.ceil(maxSeconds / step) * step);
+
+    yAxis.innerHTML = "";
+    grid.innerHTML = "";
+
+    for (let i = 4; i >= 0; i--) {
+        const value = step * i;
+
+        const label = document.createElement("span");
+        label.textContent = formatTime(value);
+        yAxis.appendChild(label);
+
+        const line = document.createElement("div");
+        line.className = "weekly-grid-line";
+        grid.appendChild(line);
+    }
+
+    const totalSeconds = values.reduce((sum, value) => sum + value, 0);
+    const totalElement = document.getElementById("todayProgress");
+
+    if (totalElement) totalElement.textContent = formatTime(totalSeconds);
+
+    chart.querySelectorAll(".chart-bar").forEach((bar, index) => {
 
         const day = days[index];
+        const seconds = values[index];
+        const fill = bar.querySelector(".chart-bar-fill");
 
-        const seconds =
-            weeklyStudySeconds[day];
+        if (!fill) return;
 
-        const percentage =
-            (seconds / maxSeconds) * 100;
+        fill.style.height = `${(seconds / axisMax) * 100}%`;
+        fill.title = `${day}: ${formatTime(seconds)}`;
 
-        const barFill =
-            bar.querySelector("div");
+        bar.setAttribute("role", "button");
+        bar.setAttribute("tabindex", "0");
+        bar.setAttribute("aria-label", `${day}: ${formatTime(seconds)}`);
 
-        if (barFill) {
-
-            barFill.style.height =
-                `${Math.max(percentage, 10)}%`;
+        if (day === todayName) {
+            bar.classList.add("is-today");
+        } else {
+            bar.classList.remove("is-today");
         }
 
+        // Prevent duplicate listeners when chart refreshes
+        if (bar.dataset.popupReady === "true") return;
+        bar.dataset.popupReady = "true";
+
+        let holdTimer;
+        let longPressTriggered = false;
+
+        const showTotal = () => {
+            longPressTriggered = true;
+            if (typeof showToast === "function") {
+                showToast("Weekly Study Time", formatTime(totalSeconds));
+            } else {
+                alert(Total study time this week: ${formatTime(totalSeconds)});
+            }
+        };
+
+        const startHold = () => {
+            longPressTriggered = false;
+            holdTimer = setTimeout(showTotal, 600);
+        };
+
+        const cancelHold = () => clearTimeout(holdTimer);
+
+        bar.addEventListener("pointerdown", startHold);
+        bar.addEventListener("pointerup", cancelHold);
+        bar.addEventListener("pointerleave", cancelHold);
+        bar.addEventListener("pointercancel", cancelHold);
+
+        bar.addEventListener("click", () => {
+            if (longPressTriggered) {
+                longPressTriggered = false;
+                return;
+            }
+
+            if (typeof openDayProgressPopup === "function") {
+                openDayProgressPopup(day);
+            }
+        });
+
+        bar.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                if (typeof openDayProgressPopup === "function") {
+                    openDayProgressPopup(day);
+                }
+            }
+        });
     });
 }
 
@@ -412,8 +487,10 @@ const dayNames = [
     "Sat"
 ];
 
-const todayName =
-    dayNames[new Date().getDay()];
+const todayName = dayNames[new Date().getDay()];
+
+
+
 
 // ==============================
 // UPDATE TODAY'S PROGRESS
