@@ -357,7 +357,7 @@ function updateWeeklyChart() {
     const yAxis = document.getElementById("weeklyYAxis");
     const grid = document.getElementById("weeklyGridLines");
 
-    if (!chart  !yAxis  !grid) return;
+    if (!chart || !yAxis || !grid) return;
 
     const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
