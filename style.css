@@ -5260,3 +5260,24 @@ position: relative;
     }
 }
 
+
+/* FR POINTS CLOSE BUTTON FIX */
+
+.fr-points-header {
+    position: relative;
+}
+
+.fr-points-close {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+    color: #ffffff !important;
+    background: #151515 !important;
+    border: 1px solid #555555 !important;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+}
