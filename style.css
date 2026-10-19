@@ -3915,31 +3915,21 @@ position: relative;
 /* EXIT BUTTON - UPPER LEFT */
 /* ACTIVITIES EXIT BUTTON */
 .activities-close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     flex-shrink: 0;
     width: 42px;
     height: 42px;
-    padding: 0;
-    border: 1px solid #555;
+    border: 1px solid #353535;
     border-radius: 12px;
     background: #151515;
     color: #fff;
-    font-size: 28px;
-    line-height: 1;
+    font-size: 26px;
     cursor: pointer;
-    transition: background 0.2s ease,
-            color 0.2s ease,
-            border-color 0.2s ease,
-            transform 0.2s ease;
+    transition: background 0.2s, border-color 0.2s;
 }
 
 .activities-close:hover {
-    background: #ffffff;
-    color: #000000;
-    border-color: #ffffff;
-    transform: translateX(2px);
+    background: #252525;
+    border-color: #777;
 }
 
 @media (max-width: 600px) {
