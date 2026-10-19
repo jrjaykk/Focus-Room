@@ -2918,109 +2918,340 @@ document.getElementById("activityDayOverlay")?.addEventListener("click", event =
 
 
 
+/* =========================================
+   LIFETIME SESSIONS — WEEKLY HISTORY
+========================================= */
 
-/* ==============================
-   LIFETIME SESSIONS
-   Uses existing Supabase data
-============================== */
+function formatLifetimeTime(seconds) {
+    seconds = Math.max(0, Number(seconds) || 0);
 
-function closeLifetimeSessions() {
-    document
-        .getElementById("lifetimeSessionsPage")
-        .classList.remove("is-open");
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+
+    if (hours > 0 && minutes > 0) {
+        return `${hours}h ${minutes}m`;
+    }
+
+    if (hours > 0) return `${hours}h`;
+    if (minutes > 0) return `${minutes}m`;
+
+    return "0m";
+}
+
+function lifetimeDateFromString(dateString) {
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(year, month - 1, day);
+}
+
+function lifetimeDateString(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function lifetimeWeekStart(dateString) {
+    const date = lifetimeDateFromString(dateString);
+    const dayOffset = (date.getDay() + 6) % 7;
+
+    date.setDate(date.getDate() - dayOffset);
+
+    return date;
+}
+
+function lifetimeISOWeekNumber(date) {
+    const utcDate = new Date(Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+    ));
+
+    const dayNumber = utcDate.getUTCDay() || 7;
+    utcDate.setUTCDate(utcDate.getUTCDate() + 4 - dayNumber);
+
+    const yearStart = new Date(Date.UTC(
+        utcDate.getUTCFullYear(),
+        0,
+        1
+    ));
+
+    return Math.ceil(
+        (((utcDate - yearStart) / 86400000) + 1) / 7
+    );
+}
+
+function lifetimeDateRange(startDate) {
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 6);
+
+    const startText = startDate.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short"
+    });
+
+    const endText = endDate.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+
+    return `${startText} – ${endText}`;
+}
+
+async function getLifetimeWeekData() {
+    if (!currentUser) {
+        throw new Error("Please log in again to view your focus history.");
+    }
+
+    const { data, error } = await supabaseClient
+        .from("study_sessions")
+        .select("study_date, duration_seconds")
+        .eq("user_id", currentUser.id);
+
+    if (error) throw error;
+
+    const weekMap = {};
+    let lifetimeSeconds = 0;
+
+    (data || []).forEach(session => {
+        const dateString = session.study_date;
+        const seconds = Number(session.duration_seconds) || 0;
+
+        if (!dateString || seconds <= 0) return;
+
+        lifetimeSeconds += seconds;
+
+        const monday = lifetimeWeekStart(dateString);
+        const weekKey = lifetimeDateString(monday);
+
+        if (!weekMap[weekKey]) {
+            const sunday = new Date(monday);
+            sunday.setDate(sunday.getDate() + 6);
+
+            weekMap[weekKey] = {
+                startDate: monday,
+                endDate: sunday,
+                seconds: 0,
+                weekNumber: lifetimeISOWeekNumber(monday)
+            };
+        }
+
+        weekMap[weekKey].seconds += seconds;
+    });
+
+    const weeks = Object.entries(weekMap)
+        .map(([key, value]) => ({ key, ...value }))
+        .sort((a, b) => b.key.localeCompare(a.key));
+
+    return { weeks, lifetimeSeconds };
+}
+
+function renderLifetimeWeekRow(week) {
+    const row = document.createElement("div");
+    row.className = "lifetime-week-row";
+
+    const info = document.createElement("div");
+    info.className = "lifetime-week-info";
+
+    const title = document.createElement("h3");
+    title.textContent = `Week ${week.weekNumber}`;
+
+    const range = document.createElement("p");
+    range.textContent = lifetimeDateRange(week.startDate);
+
+    const time = document.createElement("div");
+    time.className = "lifetime-week-time";
+    time.textContent = formatLifetimeTime(week.seconds);
+
+    info.append(title, range);
+    row.append(info, time);
+
+    return row;
+}
+
+function renderLifetimeEmpty(container, message) {
+    container.replaceChildren();
+    const empty = document.createElement("p");
+    empty.className = "lifetime-empty";
+    empty.textContent = message;
+
+    container.appendChild(empty);
+}
+
+function renderRecentLifetimeWeeks(weeks) {
+    const list = document.getElementById("lifetimeHistoryList");
+    if (!list) return;
+
+    list.replaceChildren();
+
+    if (weeks.length === 0) {
+        renderLifetimeEmpty(
+            list,
+            "No focus time saved yet. Start focusing to build your history!"
+        );
+        return;
+    }
+
+    weeks.slice(0, 3).forEach(week => {
+        list.appendChild(renderLifetimeWeekRow(week));
+    });
+}
+
+function renderAllLifetimeWeeks(weeks) {
+    const list = document.getElementById("allWeeksHistoryList");
+    const count = document.getElementById("allWeeksCount");
+
+    if (!list) return;
+
+    list.replaceChildren();
+
+    if (count) {
+        count.textContent =
+            `${weeks.length} ${weeks.length === 1 ? "week" : "weeks"} in your history`;
+    }
+
+    if (weeks.length === 0) {
+        renderLifetimeEmpty(
+            list,
+            "Your weekly focus history will appear here."
+        );
+        return;
+    }
+
+    const monthGroups = new Map();
+
+    weeks.forEach(week => {
+        const monthKey =
+            `${week.startDate.getFullYear()}-${String(
+                week.startDate.getMonth() + 1
+            ).padStart(2, "0")}`;
+
+        if (!monthGroups.has(monthKey)) {
+            monthGroups.set(monthKey, []);
+        }
+
+        monthGroups.get(monthKey).push(week);
+    });
+
+    monthGroups.forEach((monthWeeks, monthKey) => {
+        const [year, month] = monthKey.split("-").map(Number);
+
+        const heading = document.createElement("h3");
+        heading.className = "lifetime-month-heading";
+        heading.textContent = new Date(year, month - 1, 1)
+            .toLocaleDateString("en-IN", {
+                month: "long",
+                year: "numeric"
+            });
+
+        list.appendChild(heading);
+
+        monthWeeks.forEach(week => {
+            list.appendChild(renderLifetimeWeekRow(week));
+        });
+    });
 }
 
 async function openLifetimeSessions() {
     const page = document.getElementById("lifetimeSessionsPage");
-    const totalElement = document.getElementById("lifetimeTotalTime");
-    const historyElement = document.getElementById("lifetimeHistoryList");
+    const allWeeksPage = document.getElementById("allWeeksPage");
+    const dashboard = document.getElementById("dashboardPage");
 
-    page.classList.add("is-open");
-    totalElement.textContent = "Loading...";
-    historyElement.innerHTML =
-        '<p class="lifetime-empty">Loading your study history...</p>';
+    if (!page || !allWeeksPage) return;
 
-    if (!currentUser) {
-        totalElement.textContent = "Unavailable";
-        historyElement.innerHTML =
-            '<p class="lifetime-empty">Please log in again to view your history.</p>';
-        return;
+    if (dashboard) dashboard.classList.add("hidden");
+
+    allWeeksPage.style.display = "none";
+    page.style.display = "block";
+
+    document.body.style.overflow = "auto";
+
+    const total = document.getElementById("lifetimeTotalTime");
+    const list = document.getElementById("lifetimeHistoryList");
+
+    if (total) total.textContent = "Loading...";
+    if (list) {
+        renderLifetimeEmpty(list, "Loading your focus history...");
     }
 
     try {
-        const { data, error } = await supabaseClient
-            .from("study_sessions")
-            .select("study_date, duration_seconds")
-            .eq("user_id", currentUser.id);
+        const { weeks, lifetimeSeconds } = await getLifetimeWeekData();
 
-        if (error) throw error;
-
-        const dailyTotals = {};
-        let lifetimeSeconds = 0;
-
-        (data || []).forEach(session => {
-            const date = session.study_date;
-            const seconds = Number(session.duration_seconds) || 0;
-
-            if (!date || seconds <= 0) return;
-
-            dailyTotals[date] = (dailyTotals[date] || 0) + seconds;
-            lifetimeSeconds += seconds;
-        });
-
-        function formatStudyTime(seconds) {
-            const hours = Math.floor(seconds / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-
-            if (hours > 0 && minutes > 0) {
-                return `${hours}h ${minutes}m`;
-            }
-
-            if (hours > 0) return `${hours}h`;
-            if (minutes > 0) return `${minutes}m`;
-
-            return `${seconds}s`;
+        if (total) {
+            total.textContent = formatLifetimeTime(lifetimeSeconds);
         }
 
-        totalElement.textContent = formatStudyTime(lifetimeSeconds);
-
-        const dates = Object.keys(dailyTotals).sort((a, b) =>
-            b.localeCompare(a)
-        );
-
-        if (dates.length === 0) {
-            historyElement.innerHTML =
-                '<p class="lifetime-empty">No study sessions saved yet. Start focusing to build your history!</p>';
-            return;
-        }
-
-        historyElement.innerHTML = dates.map(date => {
-            const parts = date.split("-").map(Number);
-            const formattedDate = new Date(
-                parts[0], parts[1] - 1, parts[2]
-            ).toLocaleDateString("en-GB", {
-                day: "numeric",
-                month: "short",
-                year: "numeric"
-            });
-
-            return `
-                <div class="lifetime-day-row">
-                    <div>
-                        <div class="lifetime-day-date">${formattedDate}</div>
-                        <div class="lifetime-day-label">Total study time</div>
-                    </div>
-                    <div class="lifetime-day-time">
-                        ${formatStudyTime(dailyTotals[date])}
-                    </div>
-                </div>
-            `;
-        }).join("");
-
+        renderRecentLifetimeWeeks(weeks);
     } catch (error) {
-        console.error("Lifetime sessions error:", error);
-        totalElement.textContent = "Unavailable";
-        historyElement.innerHTML =
-            '<p class="lifetime-empty">Could not load history. Please check your connection and try again.</p>';
+        console.error("Lifetime focus history error:", error);
+
+        if (total) total.textContent = "Unavailable";
+
+        if (list) {
+            renderLifetimeEmpty(
+                list,
+                "Could not load your history. Please try again."
+            );
+        }
     }
+}
+
+async function openAllWeeks() {
+    const page = document.getElementById("lifetimeSessionsPage");
+    const allWeeksPage = document.getElementById("allWeeksPage");
+
+    if (!page || !allWeeksPage) return;
+
+    page.style.display = "none";
+    allWeeksPage.style.display = "block";
+
+    const total = document.getElementById("allWeeksTotalTime");
+    const list = document.getElementById("allWeeksHistoryList");
+
+    if (total) total.textContent = "Loading...";
+
+    if (list) {
+        renderLifetimeEmpty(list, "Loading all weeks...");
+    }
+
+    try {
+        const { weeks, lifetimeSeconds } = await getLifetimeWeekData();
+
+        if (total) {
+            total.textContent = formatLifetimeTime(lifetimeSeconds);
+        }
+        renderAllLifetimeWeeks(weeks);
+    } catch (error) {
+        console.error("All weeks history error:", error);
+
+        if (total) total.textContent = "Unavailable";
+
+        if (list) {
+            renderLifetimeEmpty(
+                list,
+                "Could not load your history. Please try again."
+            );
+        }
+    }
+}
+
+function backToLifetimeSessions() {
+    const page = document.getElementById("lifetimeSessionsPage");
+    const allWeeksPage = document.getElementById("allWeeksPage");
+
+    if (allWeeksPage) allWeeksPage.style.display = "none";
+    if (page) page.style.display = "block";
+}
+
+function closeLifetimeSessions() {
+    const page = document.getElementById("lifetimeSessionsPage");
+    const allWeeksPage = document.getElementById("allWeeksPage");
+    const dashboard = document.getElementById("dashboardPage");
+
+    if (page) page.style.display = "none";
+    if (allWeeksPage) allWeeksPage.style.display = "none";
+    if (dashboard) dashboard.classList.remove("hidden");
+
+    document.body.style.overflow = "";
 }
