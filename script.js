@@ -3274,6 +3274,8 @@ function openFRPointsPage() {
 
     frPointsPage.classList.remove("hidden");
 
+    loadFRPointsData();
+
     window.scrollTo(0, 0);
 }
 
@@ -3285,5 +3287,87 @@ function closeFRPointsPage() {
     if (dashboard) dashboard.classList.remove("hidden");
 
     window.scrollTo(0, 0);
+}
+
+
+/* ==============================
+   FR POINTS - DAILY CHECK-IN
+============================== */
+
+async function loadFRPointsData() {
+    if (!currentUser) return;
+
+    // Claim today's check-in (database prevents duplicates)
+    const { data: claimData, error: claimError } =
+        await supabaseClient.rpc("claim_fr_points_checkin");
+
+    if (claimError) {
+        console.error("FR Points check-in error:", claimError);
+    } else {
+        console.log("FR Points check-in:", claimData?.message);
+    }
+
+    // Load lifetime balance
+    const { data: balanceData, error: balanceError } =
+        await supabaseClient
+            .from("fr_points")
+            .select("total_points")
+            .eq("user_id", currentUser.id)
+            .maybeSingle();
+
+    if (balanceError) {
+        console.error("Failed to load FR Points balance:", balanceError);
+    } else {
+        document.getElementById("frPointsBalance").textContent =
+            balanceData?.total_points ?? 0;
+    }
+
+    // Load today's task claims
+    const today = getLocalDateString();
+
+    const { data: tasks, error: tasksError } =
+        await supabaseClient
+            .from("fr_points_daily")
+            .select("task_id, points_earned")
+            .eq("user_id", currentUser.id)
+            .eq("task_date", today);
+
+    if (tasksError) {
+        console.error("Failed to load daily FR tasks:", tasksError);
+        return;
+    }
+
+    const dailyPoints = (tasks || []).reduce(
+        (sum, task) => sum + Number(task.points_earned || 0),
+        0
+    );
+
+    const progress = document.getElementById("frPointsDailyProgress");
+    const fill = document.getElementById("frPointsProgressFill");
+
+    if (progress) {
+        progress.textContent = `${dailyPoints} / 55`;
+    }
+
+    if (fill) {
+        fill.style.width = `${Math.min((dailyPoints / 55) * 100, 100)}%`;
+    }
+
+    // Mark Daily Check-in as claimed
+    const checkinClaimed = (tasks || []).some(
+        task => task.task_id === "daily_checkin"
+    );
+
+    const task5 = document.getElementById("frTask5");
+
+    if (task5) {
+        task5.classList.toggle("completed", checkinClaimed);
+
+        const reward = task5.querySelector(".fr-points-task-reward");
+
+        if (reward) {
+            reward.textContent = checkinClaimed ? "✓ Claimed" : "+5";
+        }
+    }
 }
 
