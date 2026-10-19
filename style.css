@@ -5263,3 +5263,17 @@ position: relative;
 }
 
 
+/* ACTIVITIES EXIT BUTTON HOVER EFFECT */
+#activitiesPage button.activities-close:hover {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: #ffffff !important;
+    transform: translateX(2px) !important;
+}
+
+#activitiesPage button.activities-close {
+    transition: background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease !important;
+}
