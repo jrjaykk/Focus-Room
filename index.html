@@ -967,7 +967,10 @@
 
 
 
-    <!-- LIFETIME SESSIONS PAGE -->
+   <!-- ==============================
+     LIFETIME SESSIONS PAGE
+============================== -->
+
 <div id="lifetimeSessionsPage" class="lifetime-sessions-page">
 
     <div class="lifetime-sessions-container">
@@ -975,40 +978,95 @@
         <header class="lifetime-sessions-header">
             <div>
                 <p class="lifetime-eyebrow">YOUR PROGRESS</p>
-                <h1>Study History</h1>
-                <p class="lifetime-subtitle">Every focused minute counts.</p>
+                <h1>Lifetime Sessions</h1>
+                <p class="lifetime-subtitle">Your focus journey</p>
             </div>
 
             <button class="lifetime-exit-btn"
                     onclick="closeLifetimeSessions()">
-                ← Dashboard
+                &times; Dashboard
             </button>
         </header>
 
         <div class="lifetime-total-card">
-            <span class="lifetime-total-icon">📚</span>
-            <p>Total Lifetime Study Time</p>
+            <span class="lifetime-total-icon">◷</span>
+            <p>Total Lifetime Focus Time</p>
             <h2 id="lifetimeTotalTime">Loading...</h2>
-            <span>All your saved study sessions</span>
+            <span>Every focused minute counts.</span>
         </div>
 
         <div class="lifetime-history-card">
+
             <div class="lifetime-history-heading">
                 <div>
-                    <h2>Daily History</h2>
-                    <p>Your total study time, date by date</p>
+                    <h2>Recent Weeks</h2>
+                    <p>Your latest 3 weeks of focus</p>
                 </div>
-                <span class="lifetime-history-icon">📅</span>
+                <span class="lifetime-history-icon">◫</span>
             </div>
 
             <div id="lifetimeHistoryList">
-                <p class="lifetime-empty">Loading your study history...</p>
+                <p class="lifetime-empty">Loading your focus history...</p>
             </div>
-        </div>
 
+            <button type="button"
+                    class="view-all-weeks-btn"
+                    onclick="openAllWeeks()">
+                View All Weeks
+                <span>&rarr;</span>
+            </button>
+
+        </div>
     </div>
 </div>
 
+
+<!-- ==============================
+     ALL WEEKS PAGE
+============================== -->
+
+<div id="allWeeksPage" class="all-weeks-page">
+
+    <div class="lifetime-sessions-container">
+
+        <header class="lifetime-sessions-header">
+            <div>
+                <p class="lifetime-eyebrow">COMPLETE HISTORY</p>
+                <h1>All Weeks</h1>
+                <p class="lifetime-subtitle">Your complete focus journey</p>
+            </div>
+
+            <button type="button"
+                    class="lifetime-exit-btn"
+                    onclick="backToLifetimeSessions()">
+                &larr; Back
+            </button>
+        </header>
+
+        <div class="lifetime-total-card">
+            <span class="lifetime-total-icon">◷</span>
+            <p>Total Lifetime Focus Time</p>
+            <h2 id="allWeeksTotalTime">Loading...</h2>
+            <span id="allWeeksCount">Your complete weekly history</span>
+        </div>
+
+        <div class="lifetime-history-card">
+
+            <div class="lifetime-history-heading">
+                <div>
+                    <h2>Focus History</h2>
+                    <p>Weeks arranged by month and year</p>
+                </div>
+                <span class="lifetime-history-icon">◫</span>
+            </div>
+
+            <div id="allWeeksHistoryList">
+                <p class="lifetime-empty">Loading all weeks...</p>
+            </div>
+
+        </div>
+    </div>
+</div>
     
     <!-- SUPABASE -->
 
