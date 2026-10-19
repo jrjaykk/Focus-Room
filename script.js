@@ -3255,3 +3255,35 @@ function closeLifetimeSessions() {
 
     document.body.style.overflow = "";
 }
+
+
+
+/* ==============================
+   FR POINTS PAGE NAVIGATION
+============================== */
+
+function openFRPointsPage() {
+    const dashboard = document.getElementById("dashboardPage");
+    const activities = document.getElementById("activitiesPage");
+    const frPointsPage = document.getElementById("frPointsPage");
+
+    if (!frPointsPage) return;
+
+    if (dashboard) dashboard.classList.add("hidden");
+    if (activities) activities.classList.add("hidden");
+
+    frPointsPage.classList.remove("hidden");
+
+    window.scrollTo(0, 0);
+}
+
+function closeFRPointsPage() {
+    const dashboard = document.getElementById("dashboardPage");
+    const frPointsPage = document.getElementById("frPointsPage");
+
+    if (frPointsPage) frPointsPage.classList.add("hidden");
+    if (dashboard) dashboard.classList.remove("hidden");
+
+    window.scrollTo(0, 0);
+}
+
