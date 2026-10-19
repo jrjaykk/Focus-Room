@@ -3929,12 +3929,17 @@ position: relative;
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s;
+    transition: background 0.2s ease,
+            color 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.2s ease;
 }
 
 .activities-close:hover {
-    background: #252525;
-    border-color: #777;
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+    transform: translateX(2px);
 }
 
 @media (max-width: 600px) {
@@ -4906,16 +4911,15 @@ position: relative;
     border: 1px solid #353535;
     border-radius: 12px;
     background: #151515;
-    color: #ffffff;
+    color: #fff;
     font-size: 26px;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition: background 0.2s, border-color 0.2s;
 }
 
 .fr-points-close:hover {
     background: #252525;
-    color: #ffffff
-    border-color: #777777;
+    border-color: #777;
 }
 
 .fr-points-label {
