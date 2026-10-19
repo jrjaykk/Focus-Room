@@ -4556,3 +4556,311 @@ position: relative;
         font-size: 13px;
     }
 }
+
+
+/* =====================================
+   LIFETIME SESSIONS — PREMIUM MONOCHROME
+===================================== */
+
+.lifetime-sessions-page,
+.all-weeks-page {
+    display: none;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 36px 20px 50px;
+    background: #080808;
+    color: #f5f5f5;
+    font-family: inherit;
+}
+
+.lifetime-sessions-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.lifetime-sessions-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.lifetime-eyebrow {
+    margin: 0 0 10px;
+    color: #999;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.lifetime-sessions-header h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(27px, 4vw, 38px);
+    font-weight: 700;
+    letter-spacing: -1.2px;
+}
+
+.lifetime-subtitle {
+    margin: 9px 0 0;
+    color: #929292;
+    font-size: 14px;
+}
+
+.lifetime-exit-btn {
+    flex-shrink: 0;
+    padding: 11px 15px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    background: #111;
+    color: #eee;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+}
+
+.lifetime-exit-btn:hover {
+    background: #1c1c1c;
+    border-color: #666;
+}
+
+.lifetime-total-card {
+    position: relative;
+    overflow: hidden;
+    padding: 30px;
+    margin-bottom: 22px;
+    border: 1px solid #292929;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #191919, #0d0d0d 75%);
+}
+
+.lifetime-total-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 22px;
+    border: 1px solid #353535;
+    border-radius: 13px;
+    background: #222;
+    color: #fff;
+    font-size: 25px;
+}
+
+.lifetime-total-card p {
+    margin: 0 0 10px;
+    color: #aaa;
+    font-size: 13px;
+}
+
+.lifetime-total-card h2 {
+    margin: 0 0 12px;
+    color: #fff;
+    font-size: clamp(30px, 5vw, 46px);
+    font-weight: 700;
+    letter-spacing: -1px;
+    overflow-wrap: anywhere;
+}
+
+.lifetime-total-card > span:last-child {
+    color: #858585;
+    font-size: 12px;
+}
+
+.lifetime-history-card {
+    padding: 25px;
+    border: 1px solid #292929;
+    border-radius: 22px;
+    background: #101010;
+}
+
+.lifetime-history-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.lifetime-history-heading h2 {
+    margin: 0;
+    color: #f5f5f5;
+    font-size: 19px;
+    font-weight: 650;
+}
+
+.lifetime-history-heading p {
+    margin: 7px 0 0;
+    color: #888;
+    font-size: 12px;
+}
+
+.lifetime-history-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: 1px solid #303030;
+    border-radius: 12px;
+    color: #ddd;
+    font-size: 22px;
+}
+
+.lifetime-empty {
+    padding: 24px 10px;
+    color: #929292;
+    font-size: 13px;
+    text-align: center;
+}
+
+.view-all-weeks-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px 18px;
+    border: 1px solid #444;
+    border-radius: 13px;
+    background: #f1f1f1;
+    color: #090909;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.view-all-weeks-btn:hover {
+    background: #fff;
+    transform: translateY(-1px);
+}
+
+.view-all-weeks-btn span {
+    font-size: 20px;
+}
+
+/* Individual weekly rows — populated by JavaScript */
+
+.lifetime-week-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 19px 0;
+    border-bottom: 1px solid #252525;
+}
+
+.lifetime-week-row:last-child {
+    border-bottom: none;
+}
+
+.lifetime-week-info {
+    min-width: 0;
+}
+
+.lifetime-week-info h3 {
+    margin: 0;
+    color: #f2f2f2;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.lifetime-week-info p {
+    margin: 7px 0 0;
+    color: #888;
+    font-size: 12px;
+}
+
+.lifetime-week-time {
+    flex-shrink: 0;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+}
+
+/* Month headings on the All Weeks page */
+
+.lifetime-month-heading {
+    margin: 25px 0 4px;
+    color: #a5a5a5;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.lifetime-month-heading:first-child {
+    margin-top: 0;
+}
+
+/* Mobile layout */
+
+@media (max-width: 600px) {
+    .lifetime-sessions-page,
+    .all-weeks-page {
+        padding: 24px 14px 35px;
+    }
+
+    .lifetime-sessions-header {
+        align-items: flex-start;
+        margin-bottom: 23px;
+        gap: 10px;
+    }
+
+    .lifetime-sessions-header h1 {
+        font-size: 27px;
+        letter-spacing: -.7px;
+    }
+
+    .lifetime-subtitle {
+        font-size: 12px;
+    }
+
+    .lifetime-exit-btn {
+        padding: 10px;
+        font-size: 11px;
+    }
+
+    .lifetime-total-card {
+        padding: 23px 20px;
+        border-radius: 18px;
+    }
+
+    .lifetime-total-card h2 {
+        font-size: 34px;
+    }
+
+    .lifetime-history-card {
+        padding: 19px 16px;
+        border-radius: 18px;
+    }
+
+    .lifetime-history-heading h2 {
+        font-size: 17px;
+    }
+
+    .lifetime-week-row {
+        gap: 10px;
+        padding: 17px 0;
+    }
+
+    .lifetime-week-info h3 {
+        font-size: 13px;
+    }
+
+    .lifetime-week-info p {
+        font-size: 11px;
+    }
+
+    .lifetime-week-time {
+        font-size: 13px;
+    }
+}
