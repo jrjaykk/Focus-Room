@@ -4864,3 +4864,399 @@ position: relative;
         font-size: 13px;
     }
 }
+
+
+/* ==============================
+   FR POINTS PAGE
+============================== */
+
+.fr-points-page {
+    width: 100%;
+    max-width: 1100px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 32px 24px 50px;
+    color: #f5f5f5;
+    background: #080808;
+    box-sizing: border-box;
+}
+
+.fr-points-page.hidden {
+    display: none !important;
+}
+
+.fr-points-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 32px;
+}
+
+.fr-points-close {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #353535;
+    border-radius: 12px;
+    background: #151515;
+    color: #fff;
+    font-size: 26px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.fr-points-close:hover {
+    background: #252525;
+    border-color: #777;
+}
+
+.fr-points-label {
+    margin: 0 0 9px;
+    color: #929292;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.fr-points-header h2 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.fr-points-subtitle {
+    margin: 9px 0 0;
+    color: #999;
+    font-size: 14px;
+}
+
+.fr-points-balance {
+    position: relative;
+    overflow: hidden;
+    padding: 28px;
+    margin-bottom: 32px;
+    border: 1px solid #303030;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #1b1b1b, #0d0d0d);
+}
+
+.fr-points-balance::after {
+    content: "";
+    position: absolute;
+    top: -65px;
+    right: -35px;
+    width: 190px;
+    height: 190px;
+    border: 1px solid #333;
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.fr-points-balance-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 12px 0 8px;
+}
+
+.fr-points-coin {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #555;
+    border-radius: 15px;
+    background: #262626;
+    color: #fff;
+    font-size: 28px;
+}
+
+.fr-points-balance-row strong {
+    color: #fff;
+    font-size: clamp(38px, 6vw, 52px);
+    line-height: 1;
+    font-weight: 750;
+}
+
+.fr-points-balance > p:last-child {
+    margin: 0;
+    color: #999;
+    font-size: 13px;
+}
+
+.fr-points-tasks,
+.fr-points-rewards {
+    margin-bottom: 34px;
+}
+
+.fr-points-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.fr-points-section-heading h3,
+.fr-points-rewards h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 23px;
+    letter-spacing: -0.5px;
+}
+
+.fr-points-section-heading p:not(.fr-points-label),
+.fr-points-rewards-subtitle {
+    margin: 8px 0 0;
+    color: #999;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.fr-points-daily-limit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 84px;
+    padding: 12px;
+    border: 1px solid #303030;
+    border-radius: 13px;
+    background: #141414;
+}
+
+.fr-points-daily-limit strong {
+    color: #fff;
+    font-size: 24px;
+}
+
+.fr-points-daily-limit span {
+    color: #999;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+.fr-points-task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.fr-points-task {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 17px;
+    border: 1px solid #292929;
+    border-radius: 14px;
+    background: #111;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.fr-points-task:hover {
+    border-color: #505050;
+    background: #161616;
+}
+
+.fr-points-task-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #333;
+    border-radius: 12px;
+    background: #1c1c1c;
+    color: #fff;
+    font-size: 21px;
+}
+
+.fr-points-task-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.fr-points-task-info strong {
+    display: block;
+    color: #f5f5f5;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.fr-points-task-info p {
+    margin: 5px 0 0;
+    color: #909090;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.fr-points-task-reward {
+    flex-shrink: 0;
+    padding: 7px 10px;
+    border: 1px solid #393939;
+    border-radius: 9px;
+    background: #202020;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.fr-points-progress {
+    padding: 18px;
+    margin-top: 18px;
+    border: 1px solid #292929;
+    border-radius: 14px;
+    background: #111;
+}
+
+.fr-points-progress-text {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+    color: #aaa;
+    font-size: 12px;
+}
+
+.fr-points-progress-text strong {
+    color: #fff;
+}
+
+.fr-points-progress-track {
+    height: 6px;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #303030;
+}
+
+.fr-points-progress-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: #f0f0f0;
+    transition: width 0.3s ease;
+}
+
+.fr-points-reward-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.fr-points-reward-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid #292929;
+    border-radius: 16px;
+    background: #111;
+}
+
+.fr-points-reward-card > span {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #353535;
+    border-radius: 12px;
+    background: #1d1d1d;
+    color: #fff;
+    font-size: 24px;
+}
+
+.fr-points-reward-card strong {
+    color: #f2f2f2;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.fr-points-reward-card small {
+    color: #929292;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.fr-points-reward-card em {
+    padding: 6px 9px;
+    border: 1px solid #333;
+    border-radius: 7px;
+    color: #aaa;
+    font-size: 10px;
+    font-style: normal;
+}
+
+@media (max-width: 600px) {
+    .fr-points-page {
+        padding: 22px 15px 35px;
+    }
+
+    .fr-points-header {
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+
+    .fr-points-close {
+        width: 38px;
+        height: 38px;
+    }
+
+    .fr-points-balance {
+        padding: 22px 19px;
+        border-radius: 16px;
+    }
+
+    .fr-points-section-heading {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .fr-points-section-heading h3,
+    .fr-points-rewards h3 {
+        font-size: 20px;
+    }
+
+    .fr-points-daily-limit {
+        min-width: 66px;
+        padding: 10px 7px;
+    }
+
+    .fr-points-task {
+        gap: 10px;
+        padding: 13px 11px;
+    }
+
+    .fr-points-task-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
+    .fr-points-task-info strong {
+        font-size: 12px;
+    }
+
+    .fr-points-task-info p {
+        font-size: 11px;
+    }
+
+    .fr-points-task-reward {
+        padding: 6px 7px;
+        font-size: 12px;
+    }
+
+    .fr-points-reward-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .fr-points-reward-card {
+        padding: 16px;
+    }
+}
+
