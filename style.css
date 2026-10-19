@@ -4914,7 +4914,8 @@ position: relative;
 
 .fr-points-close:hover {
     background: #252525;
-    border-color: #777;
+    color: #ffffff
+    border-color: #777777;
 }
 
 .fr-points-label {
