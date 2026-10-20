@@ -3298,15 +3298,7 @@ async function loadFRPointsData() {
     if (!currentUser) return;
 
     // Claim today's check-in
-    const { data: claimData, error: claimError } =
-        await supabaseClient.rpc("claim_fr_points_checkin");
-
-    if (claimError) {
-        console.error("FR Points check-in error:", claimError);
-    } else {
-        console.log("FR Points check-in:", claimData?.message);
-    }
-
+   
     // Load lifetime balance
     const { data: balanceData, error: balanceError } =
         await supabaseClient
