@@ -5310,3 +5310,212 @@ position: relative;
     border-color: #3a3a3a;
     opacity: 1;
 }
+
+
+
+/* ==============================
+   CONCEPT 2 PROFILE POPUP
+============================== */
+
+.concept-profile-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.78);
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+.concept-profile-popup {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    background: #101010;
+    color: #f5f5f5;
+    border: 1px solid #303030;
+    border-radius: 20px;
+    padding: 28px;
+    box-sizing: border-box;
+    font-family: inherit;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+}
+
+.concept-profile-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #333;
+    border-radius: 50%;
+    background: #191919;
+    color: #fff;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.concept-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 8px 35px 25px 0;
+    border-bottom: 1px solid #292929;
+}
+
+.concept-profile-avatar {
+    width: 62px;
+    height: 62px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #454545;
+    border-radius: 50%;
+    background: #202020;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    overflow: hidden;
+}
+
+.concept-profile-identity {
+    min-width: 0;
+}
+
+.concept-profile-identity h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.concept-profile-identity p {
+    margin: 6px 0 0;
+    color: #929292;
+    font-size: 13px;
+}
+
+.concept-profile-activity {
+    margin-top: 25px;
+    padding: 20px;
+    background: #171717;
+    border: 1px solid #2b2b2b;
+    border-radius: 15px;
+}
+
+.concept-profile-label {
+    margin: 0 0 18px;
+    color: #969696;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+}
+
+.concept-profile-weekly {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 19px;
+    color: #bcbcbc;
+    font-size: 13px;
+}
+
+.concept-profile-weekly strong {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: right;
+}
+
+.concept-profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding-top: 18px;
+    border-top: 1px solid #303030;
+}
+
+.concept-profile-stat {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.concept-profile-stat + .concept-profile-stat {
+    padding-left: 15px;
+    border-left: 1px solid #303030;
+}
+
+.concept-profile-stat span {
+    color: #999;
+    font-size: 12px;
+}
+
+.concept-profile-stat strong {
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.concept-profile-balance {
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px solid #303030;
+    border-radius: 15px;
+    background: #131313;
+}
+
+.concept-profile-balance .concept-profile-label {
+    margin-bottom: 14px;
+}
+
+.concept-profile-points {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.concept-profile-points-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #444;
+    border-radius: 11px;
+    color: #fff;
+    font-size: 20px;
+}
+
+.concept-profile-points strong {
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+@media (max-width: 480px) {
+    .concept-profile-popup {
+        padding: 22px;
+        border-radius: 17px;
+    }
+
+    .concept-profile-activity {
+        padding: 16px;
+    }
+
+    .concept-profile-balance {
+        padding: 17px;
+    }
+
+    .concept-profile-identity h2 {
+        font-size: 19px;
+    }
+}
