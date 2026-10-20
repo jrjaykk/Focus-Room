@@ -3459,3 +3459,50 @@ async function claimFRPointsCheckin() {
         console.log(data?.message);
     }
 }
+
+
+
+/* ==============================
+   FR POINTS - CLAIM TASKS
+============================== */
+
+async function claimFRPointsTask(taskId) {
+    if (!currentUser) return;
+
+    const taskButtons = {
+        focus_session: { id: "frTask1Button", points: 10 },
+        study_hour: { id: "frTask2Button", points: 15 },
+        streak_builder: { id: "frTask3Button", points: 10 },
+        three_sessions: { id: "frTask4Button", points: 15 }
+    };
+
+    const task = taskButtons[taskId];
+    if (!task) return;
+
+    const button = document.getElementById(task.id);
+    if (!button || button.disabled) return;
+
+    button.disabled = true;
+    button.textContent = "Claiming...";
+
+    const { data, error } = await supabaseClient.rpc(
+        "claim_fr_points_task",
+        { p_task_id: taskId }
+    );
+
+    if (error) {
+        console.error("FR Points claim failed:", error);
+        button.disabled = false;
+        button.textContent = `Claim +${task.points}`;
+        alert("Points claim nahi hue. Error console mein check karo.");
+        return;
+    }
+
+    await loadFRPointsData();
+
+    if (data?.success) {
+        alert(`Congratulations! You earned ${data.points_earned} FR Points.`);
+    } else {
+        alert(data?.message || "Task abhi complete nahi hua hai.");
+    }
+}
