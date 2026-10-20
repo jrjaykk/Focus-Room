@@ -379,6 +379,81 @@
 </div>
 
 <!-- END CONCEPT 2 PROFILE POPUP -->
+
+
+
+            <!-- FRIEND PROFILE POPUP -->
+
+<div class="concept-profile-overlay" id="friendProfileOverlay" style="display: none;">
+
+    <div class="concept-profile-popup">
+
+        <button
+            type="button"
+            class="concept-profile-close"
+            onclick="closeFriendProfile()"
+            aria-label="Close friend profile"
+        >
+            &times;
+        </button>
+
+        <div class="concept-profile-header">
+            <div class="concept-profile-avatar" id="friendProfileAvatar">
+                🦊
+            </div>
+
+            <div class="concept-profile-identity">
+                <h2 id="friendProfileUsername">Friend</h2>
+                <p>Focus Room Member</p>
+                <small
+                    id="friendProfileMemberSince"
+                    style="color: #999; font-size: 11px;"
+                ></small>
+            </div>
+        </div>
+
+        <div class="concept-profile-activity">
+
+            <p class="concept-profile-label">THEIR ACTIVITY</p>
+
+            <div class="concept-profile-weekly">
+                <span>Focus this week</span>
+                <strong id="friendProfileWeeklyFocus">0m</strong>
+            </div>
+
+            <div class="concept-profile-stats">
+
+                <div class="concept-profile-stat">
+                    <span>Current Streak</span>
+                    <strong id="friendProfileStreak">0 days</strong>
+                </div>
+
+                <div class="concept-profile-stat">
+                    <span>Friends</span>
+                    <strong id="friendProfileFriends">0</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="concept-profile-balance">
+
+            <p class="concept-profile-label">THEIR BALANCE</p>
+
+            <div class="concept-profile-points">
+                <span class="concept-profile-points-symbol">✦</span>
+                <strong id="friendProfileFRPoints">0 FR Points</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- END FRIEND PROFILE POPUP -->
+            
             
 
             <!-- CHANGE USERNAME MODAL -->
