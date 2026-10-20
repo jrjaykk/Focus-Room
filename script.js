@@ -3297,7 +3297,7 @@ function closeFRPointsPage() {
 async function loadFRPointsData() {
     if (!currentUser) return;
 
-    // Claim today's check-in (database prevents duplicates)
+    // Claim today's check-in
     const { data: claimData, error: claimError } =
         await supabaseClient.rpc("claim_fr_points_checkin");
 
@@ -3350,29 +3350,29 @@ async function loadFRPointsData() {
     }
 
     if (fill) {
-        fill.style.width = `${Math.min((dailyPoints / 55) * 100, 100)}%`;
+        fill.style.width =
+            `${Math.min((dailyPoints / 55) * 100, 100)}%`;
     }
 
     // Mark Daily Check-in as claimed
     const checkinClaimed = (tasks || []).some(
-    task => task.task_id === "daily_checkin"
-);
+        task => task.task_id === "daily_checkin"
+    );
 
-const task5 = document.getElementById("frTask5");
-const claimButton = document.getElementById("frCheckinButton");
+    const task5 = document.getElementById("frTask5");
+    const claimButton = document.getElementById("frCheckinButton");
 
-if (task5) {
-    task5.classList.toggle("completed", checkinClaimed);
-}
+    if (task5) {
+        task5.classList.toggle("completed", checkinClaimed);
+    }
 
-if (claimButton) {
-    claimButton.disabled = checkinClaimed;
-    claimButton.textContent = checkinClaimed
-        ? "✓ Claimed"
-        : "Claim +5";
+    if (claimButton) {
+        claimButton.disabled = checkinClaimed;
+        claimButton.textContent = checkinClaimed
+            ? "✓ Claimed"
+            : "Claim +5";
     }
 }
-
 
 
 async function claimFRPointsCheckin() {
