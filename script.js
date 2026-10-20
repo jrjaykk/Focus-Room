@@ -3674,7 +3674,7 @@ function closeFriendProfile() {
 }
 
 async function openFriendProfile(friendId) {
-    if (!friendId  !currentUser  friendId === currentUser.id) return;
+    if (!friendId || !currentUser || friendId === currentUser.id) return;
 
     const overlay = document.getElementById("friendProfileOverlay");
     if (!overlay) return;
