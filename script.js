@@ -3355,18 +3355,50 @@ async function loadFRPointsData() {
 
     // Mark Daily Check-in as claimed
     const checkinClaimed = (tasks || []).some(
-        task => task.task_id === "daily_checkin"
+    task => task.task_id === "daily_checkin"
+);
+
+const task5 = document.getElementById("frTask5");
+const claimButton = document.getElementById("frCheckinButton");
+
+if (task5) {
+    task5.classList.toggle("completed", checkinClaimed);
+}
+
+if (claimButton) {
+    claimButton.disabled = checkinClaimed;
+    claimButton.textContent = checkinClaimed
+        ? "✓ Claimed"
+        : "Claim +5";
+    }
+}
+
+
+
+async function claimFRPointsCheckin() {
+    if (!currentUser) return;
+
+    const button = document.getElementById("frCheckinButton");
+    if (!button || button.disabled) return;
+
+    button.disabled = true;
+    button.textContent = "Claiming...";
+
+    const { data, error } = await supabaseClient.rpc(
+        "claim_fr_points_checkin"
     );
 
-    const task5 = document.getElementById("frTask5");
+    if (error) {
+        console.error("FR Points claim failed:", error);
+        button.disabled = false;
+        button.textContent = "Try Again";
+        return;
+    }
 
-    if (task5) {
-        task5.classList.toggle("completed", checkinClaimed);
-
-        const reward = task5.querySelector(".fr-points-task-reward");
-
-        if (reward) {
-            reward.textContent = checkinClaimed ? "✓ Claimed" : "+5";
-        }
+    if (data?.success) {
+        await loadFRPointsData();
+    } else {
+        await loadFRPointsData();
+        console.log(data?.message);
     }
 }
