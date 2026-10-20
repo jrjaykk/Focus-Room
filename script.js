@@ -3329,7 +3329,9 @@ async function loadFRPointsData() {
         return;
     }
 
-    const dailyPoints = (tasks || []).reduce(
+    const claimedTasks = tasks || [];
+
+    const dailyPoints = claimedTasks.reduce(
         (sum, task) => sum + Number(task.points_earned || 0),
         0
     );
@@ -3345,6 +3347,40 @@ async function loadFRPointsData() {
         fill.style.width =
             `${Math.min((dailyPoints / 55) * 100, 100)}%`;
     }
+
+    // Update claim button states
+    const taskIds = [
+        "focus_session",
+        "study_hour",
+        "streak_builder",
+        "three_sessions",
+        "daily_checkin"
+    ];
+
+    taskIds.forEach((taskId, index) => {
+        const button = document.getElementById(
+            index === 4 ? "frCheckinButton" : `frTask${index + 1}Button`
+        );
+
+        const claimed = claimedTasks.some(
+            task => task.task_id === taskId
+        );
+
+        if (button) {
+            button.disabled = claimed;
+            button.textContent = claimed
+                ? "✓ Claimed"
+                : `Claim +${[10, 15, 10, 15, 5][index]}`;
+        }
+
+        const taskElement = document.getElementById(
+            `frTask${index + 1}`
+        );
+
+        if (taskElement) {
+            taskElement.classList.toggle("completed", claimed);
+        }
+    });
 
     // Mark Daily Check-in as claimed
     const checkinClaimed = (tasks || []).some(
