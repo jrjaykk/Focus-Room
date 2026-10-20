@@ -1850,9 +1850,18 @@ async function loadMyFriends() {
 
             <div class="my-friend-left">
 
-                <div class="friend-avatar">
-                    ${profile.username.charAt(0).toUpperCase()}
-                </div>
+
+            <div
+    class="friend-avatar"
+    role="button"
+    tabindex="0"
+    title="View profile"
+    onclick="openFriendProfile('${profile.id}')"
+    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFriendProfile('${profile.id}');}"
+    style="cursor: pointer;"
+>
+    ${profile.avatar || profile.username.charAt(0).toUpperCase()}
+</div>
 
                 <div class="my-friend-info">
                     <strong>${profile.username}</strong>
