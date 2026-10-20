@@ -1829,7 +1829,7 @@ async function loadMyFriends() {
     const { data: profiles, error: profileError } =
         await supabaseClient
             .from("profiles")
-            .select("id, username")
+            .select("id, username, avatar")
             .in("id", friendIds);
 
 
