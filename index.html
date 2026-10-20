@@ -779,13 +779,19 @@
                 <span class="fr-points-task-reward">+15</span>
             </div>
 
-            <div class="fr-points-task" id="frTask5">
+           <div class="fr-points-task" id="frTask5">
                 <div class="fr-points-task-icon">✦</div>
                 <div class="fr-points-task-info">
                     <strong>Daily Check-in</strong>
                     <p>Visit your FR Points page today</p>
                 </div>
-                <span class="fr-points-task-reward">+5</span>
+                <button
+                    type="button"
+                    class="fr-points-task-reward"
+                    id="frCheckinButton"
+                    onclick="claimFRPointsCheckin()">
+                    Claim +5
+                </button>
             </div>
 
         </div>
