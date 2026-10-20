@@ -3512,3 +3512,142 @@ if (data?.success) {
     );
 }
 }
+
+
+
+/* =========================================
+   CONCEPT 2 PROFILE POPUP
+   Separate functions — existing code untouched
+========================================= */
+
+function closeConceptProfile() {
+    const overlay = document.getElementById("conceptProfileOverlay");
+
+    if (overlay) {
+        overlay.style.display = "none";
+    }
+}
+
+async function openConceptProfile() {
+    const overlay = document.getElementById("conceptProfileOverlay");
+
+    if (!overlay) return;
+
+    overlay.style.display = "flex";
+
+    await loadConceptProfileData();
+}
+
+async function loadConceptProfileData() {
+    if (!currentUser) return;
+
+    const setText = (id, value) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value;
+    };
+
+    // Load the user's own profile
+    const { data: profile, error: profileError } = await supabaseClient
+        .from("profiles")
+        .select("username, avatar")
+        .eq("id", currentUser.id)
+        .maybeSingle();
+
+    if (profileError) {
+        console.error("Profile popup profile error:", profileError);
+    }
+
+    if (profile) {
+        setText("conceptProfileUsername", profile.username || "User");
+        setText("conceptProfileAvatar", profile.avatar || "J");
+    }
+
+    // Load current streak
+    const { data: streakData, error: streakError } = await supabaseClient
+        .from("streaks")
+        .select("current_streak")
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+
+    if (streakError) {
+        console.error("Profile popup streak error:", streakError);
+    }
+
+    const streak = Number(streakData?.current_streak) || 0;
+    setText(
+        "conceptProfileStreak",
+        `${streak} ${streak === 1 ? "day" : "days"}`
+    );
+
+    // Load accepted friends count
+    const { data: friendships, error: friendsError } = await supabaseClient
+        .from("friendships")
+        .select("id")
+        .or(user_id.eq.${currentUser.id},friend_id.eq.${currentUser.id})
+        .eq("status", "accepted");
+
+    if (friendsError) {
+        console.error("Profile popup friends error:", friendsError);
+    } else {
+        setText("conceptProfileFriends", friendships?.length ?? 0);
+    }
+
+    // Load FR Points balance
+    const { data: pointsData, error: pointsError } = await supabaseClient
+        .from("fr_points")
+        .select("total_points")
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+
+    if (pointsError) {
+        console.error("Profile popup points error:", pointsError);
+    } else {
+        setText(
+            "conceptProfileFRPoints",
+            `${Number(pointsData?.total_points) || 0} FR Points`
+        );
+    }
+
+    // Load this week's focus time
+    const { data: sessions, error: sessionsError } = await supabaseClient
+        .from("study_sessions")
+        .select("study_date, duration_seconds")
+        .eq("user_id", currentUser.id);
+
+    if (sessionsError) {
+        console.error("Profile popup sessions error:", sessionsError);
+        return;
+    }
+
+    const now = new Date();
+    const todayString = getLocalDateString();
+
+    const monday = new Date(now);
+    monday.setHours(0, 0, 0, 0);
+
+    const weekday = monday.getDay();
+    monday.setDate(monday.getDate() - (weekday === 0 ? 6 : weekday - 1));
+
+    const weekStart = getLocalDateString(monday);
+
+    let weeklySeconds = 0;
+
+    (sessions || []).forEach(session => {
+        if (session.study_date >= weekStart && session.study_date <= todayString) {
+            weeklySeconds += Number(session.duration_seconds) || 0;
+        }
+    });
+
+    // Include the currently running, unsaved focus session
+    weeklySeconds += Number(currentSessionSeconds) || 0;
+
+    const hours = Math.floor(weeklySeconds / 3600);
+    const minutes = Math.floor((weeklySeconds % 3600) / 60);
+
+    setText(
+        "conceptProfileWeeklyFocus",
+        hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`
+    );
+}
+
+
