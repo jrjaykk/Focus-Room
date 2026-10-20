@@ -3500,9 +3500,15 @@ async function claimFRPointsTask(taskId) {
 
     await loadFRPointsData();
 
-    if (data?.success) {
-        alert(`Congratulations! You earned ${data.points_earned} FR Points.`);
-    } else {
-        alert(data?.message || "Task abhi complete nahi hua hai.");
-    }
+if (data?.success) {
+    showToast(
+        "FR Points Earned!",
+        `+${data.points_earned} points added to your balance.`
+    );
+} else {
+    showToast(
+        "Task Not Ready",
+        data?.message || "Task abhi complete nahi hua hai."
+    );
+}
 }
