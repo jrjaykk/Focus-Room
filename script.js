@@ -3583,7 +3583,7 @@ async function loadConceptProfileData() {
     const { data: friendships, error: friendsError } = await supabaseClient
         .from("friendships")
         .select("id")
-        .or(user_id.eq.${currentUser.id},friend_id.eq.${currentUser.id})
+        .or(`user_id.eq.${currentUser.id},friend_id.eq.${currentUser.id}`)
         .eq("status", "accepted");
 
     if (friendsError) {
