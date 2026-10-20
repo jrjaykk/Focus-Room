@@ -3651,3 +3651,148 @@ async function loadConceptProfileData() {
 }
 
 
+/* =========================================
+   FRIEND PROFILE POPUP
+   Separate functions — existing code untouched
+========================================= */
+
+function closeFriendProfile() {
+    const overlay = document.getElementById("friendProfileOverlay");
+
+    if (overlay) {
+        overlay.style.display = "none";
+    }
+}
+
+async function openFriendProfile(friendId) {
+    if (!friendId  !currentUser  friendId === currentUser.id) return;
+
+    const overlay = document.getElementById("friendProfileOverlay");
+    if (!overlay) return;
+
+    overlay.style.display = "flex";
+
+    const setText = (id, value) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value;
+    };
+
+    // Reset values while loading
+    setText("friendProfileUsername", "Loading...");
+    setText("friendProfileMemberSince", "");
+    setText("friendProfileAvatar", "👤");
+    setText("friendProfileWeeklyFocus", "0m");
+    setText("friendProfileStreak", "0 days");
+    setText("friendProfileFriends", "0");
+    setText("friendProfileFRPoints", "0 FR Points");
+
+    // Load selected friend's profile
+    const { data: profile, error: profileError } = await supabaseClient
+        .from("profiles")
+        .select("id, username, avatar, created_at")
+        .eq("id", friendId)
+        .maybeSingle();
+
+    if (profileError || !profile) {
+        console.error("Friend profile error:", profileError);
+        setText("friendProfileUsername", "Profile unavailable");
+        return;
+    }
+
+    setText("friendProfileUsername", profile.username || "User");
+    setText("friendProfileAvatar", profile.avatar || "👤");
+
+    if (profile.created_at) {
+        const memberDate = new Date(profile.created_at);
+        const formattedDate = memberDate.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+
+        setText("friendProfileMemberSince", `Member since · ${formattedDate}`);
+    }
+
+    // Load friend's current streak
+    const { data: streakData, error: streakError } = await supabaseClient
+        .from("streaks")
+        .select("current_streak")
+        .eq("user_id", friendId)
+        .maybeSingle();
+
+    if (streakError) {
+        console.error("Friend streak error:", streakError);
+    }
+
+    const streak = Number(streakData?.current_streak) || 0;
+    setText("friendProfileStreak", `${streak} ${streak === 1 ? "day" : "days"}`);
+
+    // Load friend's accepted friends count
+    const { data: friendships, error: friendsError } = await supabaseClient
+        .from("friendships")
+        .select("id")
+        .or(`user_id.eq.${friendId},friend_id.eq.${friendId}`)
+        .eq("status", "accepted");
+
+    if (friendsError) {
+        console.error("Friend friends-count error:", friendsError);
+    } else {
+        setText("friendProfileFriends", friendships?.length ?? 0);
+    }
+
+    // Load friend's FR Points
+    const { data: pointsData, error: pointsError } = await supabaseClient
+        .from("fr_points")
+        .select("total_points")
+        .eq("user_id", friendId)
+        .maybeSingle();
+
+    if (pointsError) {
+        console.error("Friend FR Points error:", pointsError);
+    } else {
+        setText(
+            "friendProfileFRPoints",
+            `${Number(pointsData?.total_points) || 0} FR Points`
+        );
+    }
+
+    // Load friend's study sessions
+    const { data: sessions, error: sessionsError } = await supabaseClient
+        .from("study_sessions")
+        .select("study_date, duration_seconds")
+        .eq("user_id", friendId);
+
+    if (sessionsError) {
+        console.error("Friend study sessions error:", sessionsError);
+        return;
+    }
+
+    const now = new Date();
+    const todayString = getLocalDateString();
+
+    const monday = new Date(now);
+    monday.setHours(0, 0, 0, 0);
+
+    const weekday = monday.getDay();
+    monday.setDate(monday.getDate() - (weekday === 0 ? 6 : weekday - 1));
+
+    const weekStart = getLocalDateString(monday);
+
+    let weeklySeconds = 0;
+    (sessions || []).forEach(session => {
+        if (
+            session.study_date >= weekStart &&
+            session.study_date <= todayString
+        ) {
+            weeklySeconds += Number(session.duration_seconds) || 0;
+        }
+    });
+
+    const hours = Math.floor(weeklySeconds / 3600);
+    const minutes = Math.floor((weeklySeconds % 3600) / 60);
+
+    setText(
+        "friendProfileWeeklyFocus",
+        hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`
+    );
+}
