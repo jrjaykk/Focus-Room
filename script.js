@@ -3291,14 +3291,16 @@ function closeFRPointsPage() {
 
 
 /* ==============================
-   FR POINTS - DAILY CHECK-IN
+   FR POINTS - DAILY DATA
 ============================== */
 
 async function loadFRPointsData() {
     if (!currentUser) return;
 
-    // Claim today's check-in
-   
+    const balanceElement = document.getElementById("frPointsBalance");
+    const progress = document.getElementById("frPointsDailyProgress");
+    const fill = document.getElementById("frPointsProgressFill");
+
     // Load lifetime balance
     const { data: balanceData, error: balanceError } =
         await supabaseClient
@@ -3309,12 +3311,11 @@ async function loadFRPointsData() {
 
     if (balanceError) {
         console.error("Failed to load FR Points balance:", balanceError);
-    } else {
-        document.getElementById("frPointsBalance").textContent =
-            balanceData?.total_points ?? 0;
+    } else if (balanceElement) {
+        balanceElement.textContent = balanceData?.total_points ?? 0;
     }
 
-    // Load today's task claims
+    // Load today's claimed tasks
     const today = getLocalDateString();
 
     const { data: tasks, error: tasksError } =
@@ -3336,9 +3337,6 @@ async function loadFRPointsData() {
         0
     );
 
-    const progress = document.getElementById("frPointsDailyProgress");
-    const fill = document.getElementById("frPointsProgressFill");
-
     if (progress) {
         progress.textContent = `${dailyPoints} / 55`;
     }
@@ -3348,59 +3346,90 @@ async function loadFRPointsData() {
             `${Math.min((dailyPoints / 55) * 100, 100)}%`;
     }
 
-    // Update claim button states
-    const taskIds = [
-        "focus_session",
-        "study_hour",
-        "streak_builder",
-        "three_sessions",
-        "daily_checkin"
+    // Check today's saved study progress
+    const { data: sessions, error: sessionsError } =
+        await supabaseClient
+            .from("study_sessions")
+            .select("duration_seconds")
+            .eq("user_id", currentUser.id)
+            .eq("study_date", today);
+
+    if (sessionsError) {
+        console.error("Failed to load today's study sessions:", sessionsError);
+        return;
+    }
+
+    const savedSessions = sessions || [];
+
+    const totalSeconds = savedSessions.reduce(
+        (sum, session) => sum + Number(session.duration_seconds || 0),
+        0
+    );
+
+    const fullSessions = savedSessions.filter(
+        session => Number(session.duration_seconds || 0) >= 1500
+    ).length;
+
+    const taskConfig = [
+        {
+            id: "focus_session",
+            buttonId: "frTask1Button",
+            elementId: "frTask1",
+            points: 10,
+            eligible: fullSessions >= 1
+        },
+        {
+            id: "study_hour",
+            buttonId: "frTask2Button",
+            elementId: "frTask2",
+            points: 15,
+            eligible: totalSeconds >= 3600
+        },
+        {
+            id: "streak_builder",
+            buttonId: "frTask3Button",
+            elementId: "frTask3",
+            points: 10,
+            eligible: totalSeconds >= 600
+        },
+        {
+            id: "three_sessions",
+            buttonId: "frTask4Button",
+            elementId: "frTask4",
+            points: 15,
+            eligible: fullSessions >= 3
+        },
+        {
+            id: "daily_checkin",
+            buttonId: "frCheckinButton",
+            elementId: "frTask5",
+            points: 5,
+            eligible: true
+        }
     ];
 
-    taskIds.forEach((taskId, index) => {
-        const button = document.getElementById(
-            index === 4 ? "frCheckinButton" : `frTask${index + 1}Button`
-        );
+    taskConfig.forEach(task => {
+        const button = document.getElementById(task.buttonId);
+        const taskElement = document.getElementById(task.elementId);
 
         const claimed = claimedTasks.some(
-            task => task.task_id === taskId
+            item => item.task_id === task.id
         );
 
         if (button) {
-            button.disabled = claimed;
+            button.disabled = claimed || !task.eligible;
             button.textContent = claimed
                 ? "✓ Claimed"
-                : `Claim +${[10, 15, 10, 15, 5][index]}`;
+                : `Claim +${task.points}`;
         }
-
-        const taskElement = document.getElementById(
-            `frTask${index + 1}`
-        );
 
         if (taskElement) {
             taskElement.classList.toggle("completed", claimed);
         }
     });
-
-    // Mark Daily Check-in as claimed
-    const checkinClaimed = (tasks || []).some(
-        task => task.task_id === "daily_checkin"
-    );
-
-    const task5 = document.getElementById("frTask5");
-    const claimButton = document.getElementById("frCheckinButton");
-
-    if (task5) {
-        task5.classList.toggle("completed", checkinClaimed);
-    }
-
-    if (claimButton) {
-        claimButton.disabled = checkinClaimed;
-        claimButton.textContent = checkinClaimed
-            ? "✓ Claimed"
-            : "Claim +5";
-    }
 }
+
+
 
 
 async function claimFRPointsCheckin() {
