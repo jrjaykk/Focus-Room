@@ -5519,3 +5519,113 @@ position: relative;
         font-size: 19px;
     }
 }
+
+
+
+/* MY FRIENDS SEPARATE POPUP */
+
+.my-friends-popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.82);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.my-friends-popup-box {
+    width: 100%;
+    max-width: 460px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #0c0c0c;
+    color: #f5f5f5;
+    border: 1px solid #2d2d2d;
+    border-radius: 18px;
+    padding: 22px;
+    box-sizing: border-box;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.my-friends-popup-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.my-friends-popup-header h2 {
+    margin: 4px 0;
+    color: #fff;
+    font-size: 22px;
+}
+
+.my-friends-subtitle {
+    margin: 5px 0 0;
+    color: #888;
+    font-size: 13px;
+}
+
+.my-friends-close {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border: 1px solid #333;
+    border-radius: 10px;
+    background: #191919;
+    color: #fff;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.my-friends-popup-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.my-friends-popup-list .my-friend-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px;
+    background: #151515;
+    border: 1px solid #292929;
+    border-radius: 12px;
+    color: #fff;
+}
+
+.my-friends-popup-list .my-friend-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.my-friends-popup-list .my-friend-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow-wrap: anywhere;
+}
+
+.my-friends-popup-list .my-friend-info small {
+    color: #888;
+}
+
+@media (max-width: 480px) {
+    .my-friends-popup-box {
+        padding: 17px;
+        border-radius: 15px;
+    }
+
+    .my-friends-popup-list .my-friend-card {
+        padding: 10px;
+    }
+}
+
