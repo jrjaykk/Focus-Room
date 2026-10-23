@@ -5629,3 +5629,76 @@ position: relative;
     }
 }
 
+
+/* PREMIUM MY FRIENDS BUTTON */
+
+.my-friends-open-btn {
+    width: 100%;
+    min-height: 76px;
+    padding: 14px 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: linear-gradient(135deg, #202020, #111111);
+    border: 1px solid #3a3a3a;
+    border-radius: 15px;
+    color: #fff;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.my-friends-open-btn:hover {
+    background: #242424;
+    border-color: #666;
+}
+
+.my-friends-btn-left {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.my-friends-btn-icon {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #3a3a3a;
+    border-radius: 12px;
+    background: #292929;
+    color: #fff;
+    font-size: 25px;
+}
+
+.my-friends-btn-text {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.my-friends-btn-text strong {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.my-friends-btn-text small {
+    color: #999;
+    font-size: 12px;
+}
+
+.my-friends-arrow {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #3a3a3a;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 19px;
+}
+
