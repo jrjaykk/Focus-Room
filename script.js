@@ -3805,3 +3805,86 @@ async function openFriendProfile(friendId) {
         hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`
     );
 }
+
+
+
+function openMyFriends() {
+    const popup = document.getElementById("myFriendsPopup");
+
+    if (!popup) return;
+
+    popup.classList.remove("hidden");
+    popup.style.display = "flex";
+
+    loadMyFriendsPopup();
+}
+
+function closeMyFriends() {
+    const popup = document.getElementById("myFriendsPopup");
+
+    if (!popup) return;
+
+    popup.style.display = "none";
+    popup.classList.add("hidden");
+}
+
+async function loadMyFriendsPopup() {
+    const list = document.getElementById("myFriendsPopupList");
+    if (!list || !currentUser) return;
+
+    list.innerHTML = '<p class="friends-empty">Loading friends...</p>';
+
+    const { data: friendships, error } = await supabaseClient
+        .from("friendships")
+        .select("user_id, friend_id")
+        .or(`user_id.eq.${currentUser.id},friend_id.eq.${currentUser.id}`)
+        .eq("status", "accepted");
+
+    if (error) {
+        console.error("My Friends popup error:", error);
+        list.innerHTML = '<p class="friends-empty">Could not load friends.</p>';
+        return;
+    }
+
+    const friendIds = (friendships || []).map(friendship =>
+        friendship.user_id === currentUser.id
+            ? friendship.friend_id
+            : friendship.user_id
+    );
+
+    if (!friendIds.length) {
+        list.innerHTML = '<p class="friends-empty">You don\'t have any friends yet.</p>';
+        return;
+    }
+
+    const { data: profiles, error: profilesError } = await supabaseClient
+        .from("profiles")
+        .select("id, username, avatar")
+        .in("id", friendIds);
+
+    if (profilesError) {
+        console.error("My Friends profiles error:", profilesError);
+        list.innerHTML = '<p class="friends-empty">Could not load friend profiles.</p>';
+        return;
+    }
+
+    list.innerHTML = (profiles || []).map(profile => `
+        <div class="my-friend-card">
+            <div class="my-friend-left">
+                <div
+                    class="friend-avatar"
+                    role="button"
+                    tabindex="0"
+                    style="cursor:pointer"
+                    onclick="openFriendProfile('${profile.id}')"
+                    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFriendProfile('${profile.id}');}"
+                >${profile.avatar || (profile.username || "U").charAt(0).toUpperCase()}</div>
+                <div class="my-friend-info">
+                    <strong>${profile.username || "User"}</strong>
+                    <small>Focus Room friend</small>
+                </div>
+            </div>
+            <span class="friend-status">● Friends</span>
+        </div>
+    `).join("");
+}
