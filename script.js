@@ -3902,3 +3902,35 @@ async function loadMyFriendsPopup() {
         </div>
     `).join("");
 }
+
+
+// ================================
+// FOCUS ROOM - BACK NAVIGATION
+// ================================
+
+(function () {
+    if (window.focusRoomBackNavigationReady) return;
+    window.focusRoomBackNavigationReady = true;
+
+    const navigationStack = [];
+
+    window.focusRoomRegisterBack = function (id, closeFunction) {
+        if (!id || typeof closeFunction !== "function") return;
+
+        navigationStack.push({ id, closeFunction });
+    };
+
+    window.focusRoomRemoveBack = function (id) {
+        const index = navigationStack.map(item => item.id).lastIndexOf(id);
+        if (index !== -1) navigationStack.splice(index, 1);
+    };
+
+    window.addEventListener("popstate", function () {
+        const current = navigationStack.pop();
+
+        if (current) {
+            current.closeFunction();
+        }
+    });
+})();
+
