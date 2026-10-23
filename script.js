@@ -1369,6 +1369,8 @@ function openFriends() {
     if (modal) {
         modal.style.display = "flex";
 
+        window.focusRoomOpenLayer("friendsModal", closeFriends);
+
         loadFriendRequests();
         loadMyFriends();
     }
@@ -1378,6 +1380,8 @@ function openFriends() {
 function closeFriends() {
 
     const modal = document.getElementById("friendsModal");
+
+    window.focusRoomCloseLayer("friendsModal");
 
     if (modal) {
         modal.style.display = "none";
@@ -2776,6 +2780,8 @@ function openActivitiesPage() {
 
     page.classList.remove("hidden");
 
+    window.focusRoomOpenLayer("activitiesPage", closeActivitiesPage);
+
     if (typeof loadStudySessions === "function") {
         loadStudySessions();
     } else {
@@ -2788,6 +2794,9 @@ function openActivitiesPage() {
 
 function closeActivitiesPage() {
     const page = document.getElementById("activitiesPage");
+
+    window.focusRoomCloseLayer("activitiesPage");
+    
     if (page) {
         page.classList.add("hidden");
     }
@@ -2825,6 +2834,9 @@ async function openActivityDayPopup(day, chartSeconds) {
     const dateString = getLocalDateString(selectedDate);
 
     overlay.classList.add("active");
+
+    window.focusRoomOpenLayer("activityDayOverlay", closeActivityDayPopup);
+    
     overlay.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
 
@@ -2898,6 +2910,8 @@ async function openActivityDayPopup(day, chartSeconds) {
 
 function closeActivityDayPopup() {
     const overlay = document.getElementById("activityDayOverlay");
+
+    window.focusRoomCloseLayer("activityDayOverlay");
 
     if (!overlay) return;
 
@@ -3283,6 +3297,8 @@ function openFRPointsPage() {
 
     frPointsPage.classList.remove("hidden");
 
+    window.focusRoomOpenLayer("frPointsPage", closeFRPointsPage);
+
     loadFRPointsData();
 
     window.scrollTo(0, 0);
@@ -3292,6 +3308,7 @@ function closeFRPointsPage() {
     const dashboard = document.getElementById("dashboardPage");
     const frPointsPage = document.getElementById("frPointsPage");
 
+    window.focusRoomCloseLayer("frPointsPage");
     if (frPointsPage) frPointsPage.classList.add("hidden");
     if (dashboard) dashboard.classList.remove("hidden");
 
@@ -3532,6 +3549,8 @@ if (data?.success) {
 function closeConceptProfile() {
     const overlay = document.getElementById("conceptProfileOverlay");
 
+    window.focusRoomCloseLayer("conceptProfileOverlay");
+
     if (overlay) {
         overlay.style.display = "none";
     }
@@ -3543,6 +3562,8 @@ async function openConceptProfile() {
     if (!overlay) return;
 
     overlay.style.display = "flex";
+
+    window.focusRoomOpenLayer("conceptProfileOverlay", closeConceptProfile);
 
     await loadConceptProfileData();
 }
@@ -3915,9 +3936,15 @@ async function loadMyFriendsPopup() {
     const stack = [];
     let handlingBack = false;
 
-    function pushHistory() {
+    history.replaceState(
+        { ...(history.state || {}), focusRoomBase: true },
+        "",
+        location.href
+    );
+
+    function pushLayerHistory() {
         history.pushState(
-            { focusRoomNavigation: true },
+            { focusRoomLayer: true },
             "",
             location.href
         );
@@ -3926,8 +3953,11 @@ async function loadMyFriendsPopup() {
     window.focusRoomOpenLayer = function (id, closeFunction) {
         if (!id || typeof closeFunction !== "function") return;
 
+        // Prevent duplicate entries for the same open layer.
+        if (stack.some(item => item.id === id)) return;
+
         stack.push({ id, closeFunction });
-        pushHistory();
+        pushLayerHistory();
     };
 
     window.focusRoomCloseLayer = function (id) {
@@ -3936,30 +3966,23 @@ async function loadMyFriendsPopup() {
 
         stack.splice(index, 1);
 
-        if (!handlingBack) {
-            pushHistory();
-        }
+        // Manual close removes the layer from our stack.
+        // Do not push another history entry here.
     };
 
-    window.addEventListener("popstate", function () {
+    window.addEventListener("popstate", function (event) {
         if (handlingBack) return;
 
-        handlingBack = true;
-
-        const current = stack.pop();
+        const current = stack[stack.length - 1];
 
         if (current) {
+            handlingBack = true;
+            stack.pop();
+
             current.closeFunction();
+
+            handlingBack = false;
         }
-
-        handlingBack = false;
-
-        // Keep an in-app history entry so another Back
-        // press can be handled by Focus Room.
-        pushHistory();
     });
-
-    // Establish an initial in-app history entry.
-    pushHistory();
 })();
 
