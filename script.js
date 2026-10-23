@@ -3995,7 +3995,7 @@ async function loadMyFriendsPopup() {
 
         if (stack.some(item => item.id === id && !item.closed)) return;
 
-        const entryId = focus-room-${++entryNumber};
+        const entryId = `focus-room-${++entryNumber}`;
 
         const item = {
             id,
