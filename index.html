@@ -1163,22 +1163,23 @@
 
 <div class="my-friends">
 
-    <button
-        type="button"
-        class="my-friends-open-btn"
-        onclick="openMyFriends()"
-    >
-        <span>👥 My Friends</span>
-        <span class="my-friends-arrow">↗</span>
-    </button>
+   <button
+    type="button"
+    class="my-friends-open-btn"
+    onclick="openMyFriends()"
+>
+    <span class="my-friends-btn-left">
+        <span class="my-friends-btn-icon">♧</span>
+        <span class="my-friends-btn-text">
+            <strong>My Friends</strong>
+            <small>Your study circle</small>
+        </span>
+    </span>
 
-    <div id="friendsList">
-
-        <p class="friends-empty">
-            You don't have any friends yet.
-        </p>
-
-    </div>
+    <span class="my-friends-arrow">↗</span>
+</button>
+    
+    <div class="friends-list-hidden" id="friendsList" style="display: none;"></div>
 
 </div>
 
