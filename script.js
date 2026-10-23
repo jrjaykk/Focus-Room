@@ -3676,11 +3676,20 @@ function closeFriendProfile() {
 async function openFriendProfile(friendId) {
     if (!friendId || !currentUser || friendId === currentUser.id) return;
 
-    const overlay = document.getElementById("friendProfileOverlay");
-    if (!overlay) return;
+   const overlay = document.getElementById("friendProfileOverlay");
+if (!overlay) return;
 
-    overlay.style.display = "flex";
+// Close the My Friends popup while viewing a friend's profile
+const myFriendsPopup = document.getElementById("myFriendsPopup");
+if (myFriendsPopup) {
+    myFriendsPopup.style.display = "none";
+    myFriendsPopup.classList.add("hidden");
+}
 
+// Show the selected friend's profile
+overlay.style.display = "flex";
+
+    
     const setText = (id, value) => {
         const element = document.getElementById(id);
         if (element) element.textContent = value;
