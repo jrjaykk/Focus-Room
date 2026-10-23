@@ -3904,33 +3904,62 @@ async function loadMyFriendsPopup() {
 }
 
 
-// ================================
-// FOCUS ROOM - BACK NAVIGATION
-// ================================
+/* =====================================
+   FOCUS ROOM - UNIVERSAL BACK NAVIGATION
+===================================== */
 
 (function () {
     if (window.focusRoomBackNavigationReady) return;
     window.focusRoomBackNavigationReady = true;
 
-    const navigationStack = [];
+    const stack = [];
+    let handlingBack = false;
 
-    window.focusRoomRegisterBack = function (id, closeFunction) {
+    function pushHistory() {
+        history.pushState(
+            { focusRoomNavigation: true },
+            "",
+            location.href
+        );
+    }
+
+    window.focusRoomOpenLayer = function (id, closeFunction) {
         if (!id || typeof closeFunction !== "function") return;
 
-        navigationStack.push({ id, closeFunction });
+        stack.push({ id, closeFunction });
+        pushHistory();
     };
 
-    window.focusRoomRemoveBack = function (id) {
-        const index = navigationStack.map(item => item.id).lastIndexOf(id);
-        if (index !== -1) navigationStack.splice(index, 1);
+    window.focusRoomCloseLayer = function (id) {
+        const index = stack.map(item => item.id).lastIndexOf(id);
+        if (index === -1) return;
+
+        stack.splice(index, 1);
+
+        if (!handlingBack) {
+            pushHistory();
+        }
     };
 
     window.addEventListener("popstate", function () {
-        const current = navigationStack.pop();
+        if (handlingBack) return;
+
+        handlingBack = true;
+
+        const current = stack.pop();
 
         if (current) {
             current.closeFunction();
         }
+
+        handlingBack = false;
+
+        // Keep an in-app history entry so another Back
+        // press can be handled by Focus Room.
+        pushHistory();
     });
+
+    // Establish an initial in-app history entry.
+    pushHistory();
 })();
 
