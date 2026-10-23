@@ -3773,6 +3773,11 @@ overlay.style.display = "flex";
             `${Number(pointsData?.total_points) || 0} FR Points`
         );
     }
+    console.log("Friend points debug:", {
+    friendId,
+    pointsData,
+    pointsError
+});
 
     // Load friend's study sessions
     const { data: sessions, error: sessionsError } = await supabaseClient
