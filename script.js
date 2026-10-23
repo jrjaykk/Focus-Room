@@ -2302,27 +2302,29 @@ async function loadDashboardUsername() {
 // =========================
 
 function toggleProfileMenu() {
-
     const menu = document.getElementById("profileMenu");
-
     if (!menu) return;
 
     if (menu.style.display === "block") {
-        menu.style.display = "none";
+        closeProfileMenu();
     } else {
         menu.style.display = "block";
+
+        window.focusRoomOpenLayer(
+            "profileMenu",
+            closeProfileMenu
+        );
     }
 }
 
-
 function closeProfileMenu() {
-
     const menu = document.getElementById("profileMenu");
-
     if (!menu) return;
 
+    window.focusRoomCloseLayer("profileMenu");
     menu.style.display = "none";
 }
+
 
 
 // ==============================
@@ -2345,6 +2347,11 @@ function changeUsername() {
 
     modal.style.display = "flex";
 
+    window.focusRoomOpenLayer(
+    "usernameModal",
+    closeUsernameModal
+);
+
     setTimeout(() => {
         input.focus();
     }, 100);
@@ -2352,9 +2359,9 @@ function changeUsername() {
 
 
 function closeUsernameModal() {
+    const modal = document.getElementById("usernameModal");
 
-    const modal =
-        document.getElementById("usernameModal");
+    window.focusRoomCloseLayer("usernameModal");
 
     if (!modal) return;
 
@@ -3188,6 +3195,11 @@ async function openLifetimeSessions() {
     allWeeksPage.style.display = "none";
     page.style.display = "block";
 
+    window.focusRoomOpenLayer(
+    "lifetimeSessionsPage",
+    closeLifetimeSessions
+);
+
     document.body.style.overflow = "auto";
 
     const total = document.getElementById("lifetimeTotalTime");
@@ -3229,6 +3241,11 @@ async function openAllWeeks() {
     page.style.display = "none";
     allWeeksPage.style.display = "block";
 
+    window.focusRoomOpenLayer(
+    "allWeeksPage",
+    backToLifetimeSessions
+);
+
     const total = document.getElementById("allWeeksTotalTime");
     const list = document.getElementById("allWeeksHistoryList");
 
@@ -3260,6 +3277,8 @@ async function openAllWeeks() {
 }
 
 function backToLifetimeSessions() {
+    window.focusRoomCloseLayer("allWeeksPage");
+    
     const page = document.getElementById("lifetimeSessionsPage");
     const allWeeksPage = document.getElementById("allWeeksPage");
 
@@ -3268,6 +3287,8 @@ function backToLifetimeSessions() {
 }
 
 function closeLifetimeSessions() {
+    window.focusRoomCloseLayer("lifetimeSessionsPage");
+    
     const page = document.getElementById("lifetimeSessionsPage");
     const allWeeksPage = document.getElementById("allWeeksPage");
     const dashboard = document.getElementById("dashboardPage");
@@ -3688,7 +3709,8 @@ async function loadConceptProfileData() {
 
 function closeFriendProfile() {
     const overlay = document.getElementById("friendProfileOverlay");
-
+    window.focusRoomCloseLayer("friendProfileOverlay");
+    
     if (overlay) {
         overlay.style.display = "none";
     }
@@ -3709,6 +3731,10 @@ if (myFriendsPopup) {
 
 // Show the selected friend's profile
 overlay.style.display = "flex";
+    window.focusRoomOpenLayer(
+    "friendProfileOverlay",
+    closeFriendProfile
+);
 
     
     const setText = (id, value) => {
@@ -3851,12 +3877,15 @@ function openMyFriends() {
     popup.classList.remove("hidden");
     popup.style.display = "flex";
 
+    window.focusRoomOpenLayer("myFriendsPopup", closeMyFriends);
+
     loadMyFriendsPopup();
 }
 
 function closeMyFriends() {
     const popup = document.getElementById("myFriendsPopup");
-
+    window.focusRoomCloseLayer("myFriendsPopup");
+    
     if (!popup) return;
 
     popup.style.display = "none";
@@ -3934,54 +3963,120 @@ async function loadMyFriendsPopup() {
     window.focusRoomBackNavigationReady = true;
 
     const stack = [];
+    const entries = new Map();
+
+    let entryNumber = 0;
+    let currentEntryId = "base";
     let handlingBack = false;
 
     history.replaceState(
-        { ...(history.state || {}), focusRoomBase: true },
+        {
+            ...(history.state || {}),
+            focusRoomBase: true,
+            focusRoomEntryId: "base"
+        },
         "",
         location.href
     );
 
-    function pushLayerHistory() {
-        history.pushState(
-            { focusRoomLayer: true },
-            "",
-            location.href
-        );
-    }
+    history.pushState(
+        {
+            focusRoomGuard: true,
+            focusRoomEntryId: "guard"
+        },
+        "",
+        location.href
+    );
+
+    currentEntryId = "guard";
 
     window.focusRoomOpenLayer = function (id, closeFunction) {
         if (!id || typeof closeFunction !== "function") return;
 
-        // Prevent duplicate entries for the same open layer.
-        if (stack.some(item => item.id === id)) return;
+        if (stack.some(item => item.id === id && !item.closed)) return;
 
-        stack.push({ id, closeFunction });
-        pushLayerHistory();
+        const entryId = focus-room-${++entryNumber};
+
+        const item = {
+            id,
+            entryId,
+            closeFunction,
+            closed: false
+        };
+
+        stack.push(item);
+        entries.set(entryId, item);
+
+        history.pushState(
+            {
+                focusRoomLayer: id,
+                focusRoomEntryId: entryId
+            },
+            "",
+            location.href
+        );
+
+        currentEntryId = entryId;
     };
 
     window.focusRoomCloseLayer = function (id) {
-        const index = stack.map(item => item.id).lastIndexOf(id);
+        const index = stack.findLastIndex(
+            item => item.id === id && !item.closed
+        );
+
         if (index === -1) return;
 
+        const item = stack[index];
+        item.closed = true;
         stack.splice(index, 1);
 
-        // Manual close removes the layer from our stack.
-        // Do not push another history entry here.
+        if (!handlingBack && currentEntryId === item.entryId) {
+            history.back();
+        }
     };
 
     window.addEventListener("popstate", function (event) {
-        if (handlingBack) return;
+        const departedId = currentEntryId;
+        const destinationId =
+            event.state?.focusRoomEntryId || "base";
 
-        const current = stack[stack.length - 1];
+        currentEntryId = destinationId;
 
-        if (current) {
+        const departed = entries.get(departedId);
+
+        if (departed && !departed.closed) {
+            departed.closed = true;
+
+            const index = stack.indexOf(departed);
+            if (index !== -1) stack.splice(index, 1);
+
             handlingBack = true;
-            stack.pop();
 
-            current.closeFunction();
+            try {
+                departed.closeFunction();
+            } finally {
+                handlingBack = false;
+            }
+        }
 
-            handlingBack = false;
+        const destination = entries.get(destinationId);
+
+        if (destination?.closed) {
+            history.back();
+            return;
+        }
+
+        if (destinationId === "base" && stack.length === 0) {
+            history.pushState(
+                {
+                    focusRoomGuard: true,
+                    focusRoomEntryId: "guard"
+                },
+                "",
+                location.href
+            );
+
+            currentEntryId = "guard";
         }
     });
 })();
