@@ -1278,10 +1278,6 @@ async function restoreSession() {
 updateTimerDisplay();
 
 
-
-
-alert("JavaScript loaded");
-
 restoreSession();
 
 // ==============================
