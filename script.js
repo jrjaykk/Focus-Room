@@ -1260,6 +1260,17 @@ async function restoreSession() {
 
         currentUser = session.user;
 
+        document
+    .getElementById("landingPage")
+    .classList.add("hidden");
+
+document
+    .getElementById("dashboardPage")
+    .classList.remove("hidden");
+
+loadSavedAvatar();
+loadDashboardUsername();
+
         console.log(
             "Session restored:",
             currentUser
