@@ -5702,3 +5702,9 @@ position: relative;
     font-size: 19px;
 }
 
+
+/* Fix: Dashboard avatar white background */
+#profileAvatar {
+    background: transparent !important;
+}
+
