@@ -1,0 +1,12 @@
+{
+  "name": "Focus Room",
+  "short_name": "Focus Room",
+  "description": "Your Space to Focus & Grow",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": []
+}
