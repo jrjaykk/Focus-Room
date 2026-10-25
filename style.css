@@ -5864,3 +5864,67 @@ position: relative;
         width: 150px;
     }
 }
+
+
+/* FRIEND MENU — MOBILE POSITION FIX */
+
+.my-friends-popup-list .my-friend-card {
+    overflow: visible;
+}
+
+.my-friends-popup-list .my-friend-actions {
+    position: relative;
+    z-index: 5;
+}
+
+.my-friend-menu {
+    position: absolute;
+    top: auto;
+    right: 0;
+    bottom: calc(100% + 8px);
+
+    width: 190px;
+    max-width: calc(100vw - 64px);
+    box-sizing: border-box;
+
+    padding: 7px;
+    border: 1px solid #3a3a3a;
+    border-radius: 14px;
+
+    background: linear-gradient(145deg, #202020, #101010);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.8);
+
+    z-index: 10020;
+}
+
+.my-friend-menu button {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 12px;
+
+    box-sizing: border-box;
+    text-align: left;
+    white-space: nowrap;
+
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+
+    color: #f5f5f5;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.my-friend-menu button + button {
+    margin-top: 4px;
+}
+
+.my-friend-menu .my-friend-remove-option {
+    color: #ff7777;
+}
+
+.my-friend-menu.hidden {
+    display: none;
+}
+
