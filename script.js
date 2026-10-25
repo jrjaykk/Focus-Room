@@ -3807,7 +3807,7 @@ overlay.style.display = "flex";
     // Load friend's accepted friends count
     const { data: friendships, error: friendsError } = await supabaseClient
         .from("friendships")
-        .select("id")
+        .select("user_id, friend_id, status")
         .or(`user_id.eq.${friendId},friend_id.eq.${friendId}`)
         .eq("status", "accepted");
 
