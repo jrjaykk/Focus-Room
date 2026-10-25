@@ -1644,7 +1644,7 @@ async function loadFriendRequests() {
     const { data: profiles, error: profileError } =
         await supabaseClient
             .from("profiles")
-            .select("id, username")
+            .select("id, username, avatar")
             .in("id", userIds);
 
 
@@ -1673,8 +1673,8 @@ async function loadFriendRequests() {
         <div>
 
             <div class="friend-avatar">
-                ${(profile ? profile.username : "User").charAt(0).toUpperCase()}
-            </div>
+    ${profile?.avatar || (profile?.username || "U").charAt(0).toUpperCase()}
+</div>
 
             <div>
                 <strong>
