@@ -5736,3 +5736,131 @@ position: relative;
     justify-content: center;
 }
 
+/* =========================
+   PREMIUM MY FRIENDS CARDS
+========================= */
+
+.my-friends-popup-list .my-friend-card {
+    position: relative;
+    padding: 14px;
+    gap: 12px;
+    background: linear-gradient(145deg, #191919, #101010);
+    border: 1px solid #303030;
+    border-radius: 16px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.my-friends-popup-list .my-friend-card:hover {
+    border-color: #505050;
+    background: linear-gradient(145deg, #202020, #121212);
+}
+
+.my-friends-popup-list .my-friend-avatar {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: #252525;
+    border: 1px solid #555;
+    color: #fff;
+    font-size: 23px;
+    box-shadow: 0 0 14px rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+}
+
+.my-friend-actions {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.my-friend-menu-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #353535;
+    background: #202020;
+    color: #fff;
+    font-size: 23px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.my-friend-menu-btn:hover {
+    background: #303030;
+    border-color: #666;
+}
+
+.my-friend-menu {
+    position: absolute;
+    top: 42px;
+    right: 0;
+    width: 158px;
+    z-index: 20;
+    padding: 6px;
+    border: 1px solid #383838;
+    border-radius: 12px;
+    background: #191919;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+}
+
+.my-friend-menu button {
+    display: block;
+    width: 100%;
+    padding: 11px 10px;
+    text-align: left;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #eee;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.my-friend-menu button:hover {
+    background: #2a2a2a;
+}
+
+.my-friend-menu .my-friend-remove-option {
+    color: #ff7777;
+}
+
+.my-friend-menu.hidden {
+    display: none;
+}
+
+.remove-modal {
+    z-index: 10001;
+}
+
+.remove-modal-box {
+    background: linear-gradient(145deg, #1b1b1b, #101010);
+    border-color: #3b3b3b;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
+}
+
+.confirm-remove-btn {
+    background: #a92727;
+    border-color: #c43b3b;
+    color: #fff;
+}
+
+.confirm-remove-btn:hover {
+    background: #c42e2e;
+}
+
+@media (max-width: 480px) {
+    .my-friends-popup-list .my-friend-avatar {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+    }
+
+    .my-friend-menu {
+        width: 150px;
+    }
+}
