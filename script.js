@@ -3637,22 +3637,16 @@ async function loadConceptProfileData() {
         `${streak} ${streak === 1 ? "day" : "days"}`
     );
 
-    // Load accepted friends count
-    const { data: friendships, error: friendsError } = await supabaseClient
-        .from("friendships")
-        .select("id")
-        .or(`user_id.eq.${currentUser.id},friend_id.eq.${currentUser.id}`)
-        .eq("status", "accepted");
+   // Load accepted friends count
+    const { data: friendsCount, error: friendsError } =
+        await supabaseClient.rpc("get_accepted_friends_count", {
+            target_user_id: currentUser.id
+        });
 
     if (friendsError) {
         console.error("Profile popup friends error:", friendsError);
     } else {
-        setText("conceptProfileFriends", friendships?.length ?? 0);
-        console.log("Own profile friends debug:", {
-    userId: currentUser.id,
-    friendships,
-    count: friendships?.length
-});
+        setText("conceptProfileFriends", friendsCount ?? 0);
     }
 
     // Load FR Points balance
@@ -3805,23 +3799,16 @@ overlay.style.display = "flex";
     setText("friendProfileStreak", `${streak} ${streak === 1 ? "day" : "days"}`);
 
     // Load friend's accepted friends count
-    const { data: friendships, error: friendsError } = await supabaseClient
-        .from("friendships")
-        .select("user_id, friend_id, status")
-        .or(`user_id.eq.${friendId},friend_id.eq.${friendId}`)
-        .eq("status", "accepted");
+    const { data: friendsCount, error: friendsError } =
+        await supabaseClient.rpc("get_accepted_friends_count", {
+            target_user_id: friendId
+        });
 
     if (friendsError) {
         console.error("Friend friends-count error:", friendsError);
     } else {
-    setText("friendProfileFriends", friendships?.length ?? 0);
-
-    console.log("Friend profile friends debug:", {
-        friendId,
-        friendships,
-        count: friendships?.length
-    });
-}
+        setText("friendProfileFriends", friendsCount ?? 0);
+    }
 
     // Load friend's FR Points
     const { data: pointsData, error: pointsError } = await supabaseClient
