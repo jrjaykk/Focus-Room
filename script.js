@@ -3648,6 +3648,11 @@ async function loadConceptProfileData() {
         console.error("Profile popup friends error:", friendsError);
     } else {
         setText("conceptProfileFriends", friendships?.length ?? 0);
+        console.log("Own profile friends debug:", {
+    userId: currentUser.id,
+    friendships,
+    count: friendships?.length
+});
     }
 
     // Load FR Points balance
