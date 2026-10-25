@@ -3814,8 +3814,14 @@ overlay.style.display = "flex";
     if (friendsError) {
         console.error("Friend friends-count error:", friendsError);
     } else {
-        setText("friendProfileFriends", friendships?.length ?? 0);
-    }
+    setText("friendProfileFriends", friendships?.length ?? 0);
+
+    console.log("Friend profile friends debug:", {
+        friendId,
+        friendships,
+        count: friendships?.length
+    });
+}
 
     // Load friend's FR Points
     const { data: pointsData, error: pointsError } = await supabaseClient
