@@ -1267,10 +1267,11 @@ async function restoreSession() {
 document
     .getElementById("dashboardPage")
     .classList.remove("hidden");
-
-loadSavedAvatar();
-loadDashboardUsername();
-
+        
+        loadSavedAvatar();
+        loadDashboardUsername();
+        loadMyFriends();
+        
         console.log(
             "Session restored:",
             currentUser
