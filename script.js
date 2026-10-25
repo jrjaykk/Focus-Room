@@ -3944,6 +3944,36 @@ async function loadMyFriendsPopup() {
 }
 
 
+
+function toggleFriendMenu(event, friendId) {
+    event.stopPropagation();
+
+    const selectedMenu = document.getElementById(
+        `friendMenu-${friendId}`
+    );
+
+    if (!selectedMenu) return;
+
+    const wasOpen = !selectedMenu.classList.contains("hidden");
+
+    document.querySelectorAll(".my-friend-menu").forEach(menu => {
+        menu.classList.add("hidden");
+    });
+
+    if (!wasOpen) {
+        selectedMenu.classList.remove("hidden");
+    }
+}
+
+document.addEventListener("click", function (event) {
+    if (!event.target.closest(".my-friend-actions")) {
+        document.querySelectorAll(".my-friend-menu").forEach(menu => {
+            menu.classList.add("hidden");
+        });
+    }
+});
+
+
 /* =====================================
    FOCUS ROOM - UNIVERSAL BACK NAVIGATION
 ===================================== */
