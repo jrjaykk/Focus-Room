@@ -1901,75 +1901,34 @@ async function loadMyFriends() {
 }
 
 
-// =========================
-// REMOVE FRIEND
-// =========================
-
-async function removeFriend(friendId) {
-
-
-    const {
-        data: { user },
-        error: userError
-    } = await supabaseClient.auth.getUser();
-
-    if (userError || !user) {
-        return;
-    }
-
-    const { error } = await supabaseClient
-        .from("friendships")
-        .delete()
-        .or(
-            `and(user_id.eq.${user.id},friend_id.eq.${friendId}),and(user_id.eq.${friendId},friend_id.eq.${user.id})`
-        );
-
-    if (error) {
-
-        console.error(
-            "Remove friend error:",
-            error
-        );
-
-        showToast(
-            "Something went wrong",
-            "Could not remove friend."
-        );
-
-        return;
-    }
-
-    showToast(
-        "Friend Removed",
-        "Friend has been removed."
-    );
-
-    loadMyFriends();
-}
-
-// =========================
-// REMOVE FRIEND
-// =========================
+/* =========================
+   REMOVE FRIEND — SAFE VERSION
+========================= */
 
 let friendToRemove = null;
 
 function removeFriend(friendId) {
+    if (!friendId) return;
 
     friendToRemove = friendId;
 
-    const modal =
-        document.getElementById("removeFriendModal");
+    const modal = document.getElementById("removeFriendModal");
 
     if (modal) {
         modal.style.display = "flex";
+
+        // Back button closes confirmation first
+        window.focusRoomOpenLayer(
+            "removeFriendModal",
+            closeRemoveFriendModal
+        );
     }
 }
 
-
 function closeRemoveFriendModal() {
+    const modal = document.getElementById("removeFriendModal");
 
-    const modal =
-        document.getElementById("removeFriendModal");
+    window.focusRoomCloseLayer("removeFriendModal");
 
     if (modal) {
         modal.style.display = "none";
@@ -1978,12 +1937,8 @@ function closeRemoveFriendModal() {
     friendToRemove = null;
 }
 
-
 async function confirmRemoveFriend() {
-
-    if (!friendToRemove) {
-        return;
-    }
+    if (!friendToRemove || !currentUser) return;
 
     const friendId = friendToRemove;
 
@@ -1991,15 +1946,11 @@ async function confirmRemoveFriend() {
         .from("friendships")
         .delete()
         .or(
-            `and(user_id.eq.${(await supabaseClient.auth.getUser()).data.user.id},friend_id.eq.${friendId}),and(user_id.eq.${friendId},friend_id.eq.${(await supabaseClient.auth.getUser()).data.user.id})`
+            `and(user_id.eq.${currentUser.id},friend_id.eq.${friendId}),and(user_id.eq.${friendId},friend_id.eq.${currentUser.id})`
         );
 
     if (error) {
-
-        console.error(
-            "Remove friend error:",
-            error
-        );
+        console.error("Remove friend error:", error);
 
         closeRemoveFriendModal();
 
@@ -2018,9 +1969,12 @@ async function confirmRemoveFriend() {
         "Friend has been removed."
     );
 
-    loadMyFriends();
-}
+    loadMyFriendsPopup();
 
+    if (typeof loadMyFriends === "function") {
+        loadMyFriends();
+    }
+}
 
 // =========================
  // AVATAR PICKER
