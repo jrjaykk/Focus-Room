@@ -3892,24 +3892,55 @@ async function loadMyFriendsPopup() {
     }
 
     list.innerHTML = (profiles || []).map(profile => `
-        <div class="my-friend-card">
-            <div class="my-friend-left">
-                <div
-                    class="friend-avatar"
-                    role="button"
-                    tabindex="0"
-                    style="cursor:pointer"
-                    onclick="openFriendProfile('${profile.id}')"
-                    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFriendProfile('${profile.id}');}"
-                >${profile.avatar || (profile.username || "U").charAt(0).toUpperCase()}</div>
-                <div class="my-friend-info">
-                    <strong>${profile.username || "User"}</strong>
-                    <small>Focus Room friend</small>
-                </div>
+    <div class="my-friend-card">
+
+        <div class="my-friend-left">
+
+            <div
+                class="my-friend-avatar"
+                role="button"
+                tabindex="0"
+                onclick="openFriendProfile('${profile.id}')"
+                onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openFriendProfile('${profile.id}');}"
+            >${profile.avatar || (profile.username || "U").charAt(0).toUpperCase()}</div>
+
+            <div class="my-friend-info">
+                <strong>${profile.username || "User"}</strong>
+                <small>Focus Room friend</small>
             </div>
-            <span class="friend-status">● Friends</span>
+
         </div>
-    `).join("");
+
+        <div class="my-friend-actions">
+
+            <button
+                type="button"
+                class="my-friend-menu-btn"
+                aria-label="Friend options"
+                aria-haspopup="true"
+                onclick="toggleFriendMenu(event, '${profile.id}')"
+            >⋯</button>
+
+            <div
+                class="my-friend-menu hidden"
+                id="friendMenu-${profile.id}"
+            >
+                <button
+                    type="button"
+                    onclick="openFriendProfile('${profile.id}')"
+                >View Profile</button>
+
+                <button
+                    type="button"
+                    class="my-friend-remove-option"
+                    onclick="removeFriend('${profile.id}')"
+                >Remove Friend</button>
+            </div>
+
+        </div>
+
+    </div>
+`).join("");
 }
 
 
