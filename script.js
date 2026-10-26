@@ -185,6 +185,43 @@ currentUser = data.user;
     }, 700);
 }
 
+// ==============================
+// FORGOT PASSWORD
+// ==============================
+
+async function showForgotPassword() {
+
+    const email = document
+        .getElementById("loginEmail")
+        .value
+        .trim();
+
+    const message = document
+        .getElementById("authMessage");
+
+    if (!email) {
+        message.textContent =
+            "Please enter your email address first.";
+        return;
+    }
+
+    message.textContent =
+        "Sending password reset email...";
+
+    const { error } =
+        await supabaseClient.auth
+            .resetPasswordForEmail(email, {
+                redirectTo: window.location.origin
+            });
+
+    if (error) {
+        message.textContent = error.message;
+        return;
+    }
+
+    message.textContent =
+        "Password reset link sent! Check your email.";
+}
 
 // ==============================
 // SIGNUP
