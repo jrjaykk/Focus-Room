@@ -21,17 +21,18 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 
     console.log("Auth event:", event);
     
-    if (event === "PASSWORD_RECOVERY") {
+   if (event === "PASSWORD_RECOVERY") {
 
-        document
-            .getElementById("authOverlay")
-            .classList.add("hidden");
+    document
+        .getElementById("authOverlay")
+        .classList.add("hidden");
 
-        document
-            .getElementById("resetPasswordPage")
-            .classList.remove("hidden");
+    const resetPage = document.getElementById("resetPasswordPage");
 
-    }
+    resetPage.classList.remove("hidden");
+    resetPage.classList.add("active");
+
+}
 
 });
 
