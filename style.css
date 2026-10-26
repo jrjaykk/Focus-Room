@@ -5978,3 +5978,21 @@ position: relative;
     }
 }
 
+/* FORGOT PASSWORD */
+
+.forgot-password {
+    text-align: right;
+    margin: 8px 0 18px;
+    font-size: 14px;
+}
+
+.forgot-password span {
+    color: #bdbdbd;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.forgot-password span:hover {
+    color: #ffffff;
+}
+
