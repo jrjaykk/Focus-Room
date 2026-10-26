@@ -223,6 +223,56 @@ async function showForgotPassword() {
         "Password reset link sent! Check your email.";
 }
 
+
+// ==============================
+ // UPDATE FORGOTTEN PASSWORD
+ // ==============================
+
+async function updateForgottenPassword() {
+
+    const newPassword = document
+        .getElementById("newPassword")
+        .value;
+
+    const confirmPassword = document
+        .getElementById("confirmNewPassword")
+        .value;
+
+    const message = document
+        .getElementById("resetPasswordMessage");
+
+    if (!newPassword || !confirmPassword) {
+        message.textContent = "Please fill in both password fields.";
+        return;
+    }
+
+    if (newPassword.length < 6) {
+        message.textContent = "Password must be at least 6 characters.";
+        return;
+    }
+
+    if (newPassword !== confirmPassword) {
+        message.textContent = "Passwords do not match.";
+        return;
+    }
+
+    message.textContent = "Updating password...";
+
+    const { error } = await supabaseClient.auth.updateUser({
+        password: newPassword
+    });
+
+    if (error) {
+        message.textContent = error.message;
+        return;
+    }
+
+    message.textContent = "Password updated successfully! You can now log in.";
+
+    document.getElementById("newPassword").value = "";
+    document.getElementById("confirmNewPassword").value = "";
+}
+
 // ==============================
 // SIGNUP
 // ==============================
