@@ -1482,6 +1482,60 @@
         </div>
     </div>
 </div>
+
+    <!-- RESET PASSWORD PAGE -->
+
+<div id="resetPasswordPage" class="auth-overlay hidden">
+
+    <div class="auth-box">
+
+        <h2>Reset Password</h2>
+
+        <p class="auth-subtitle">
+            Create a new password for your account
+        </p>
+
+        <div class="password-box">
+            <input
+                type="password"
+                id="newPassword"
+                placeholder="New password"
+                autocomplete="new-password"
+            >
+
+            <button
+                type="button"
+                onclick="togglePassword('newPassword', this)"
+            >👁</button>
+        </div>
+
+        <div class="password-box">
+            <input
+                type="password"
+                id="confirmNewPassword"
+                placeholder="Confirm new password"
+                autocomplete="new-password"
+            >
+
+            <button
+                type="button"
+                onclick="togglePassword('confirmNewPassword', this)"
+            >👁</button>
+        </div>
+
+        <button
+            class="auth-submit"
+            onclick="updateForgottenPassword()"
+        >
+            Reset Password
+        </button>
+
+        <p id="resetPasswordMessage" class="auth-message"></p>
+
+    </div>
+
+</div>
+    
     
     <!-- SUPABASE -->
 
