@@ -13,6 +13,26 @@ const supabaseClient = supabase.createClient(
     SUPABASE_KEY
 );
 
+/* ==============================
+   PASSWORD RECOVERY LISTENER
+============================== */
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+
+    if (event === "PASSWORD_RECOVERY") {
+
+        document
+            .getElementById("authOverlay")
+            .classList.add("hidden");
+
+        document
+            .getElementById("resetPasswordPage")
+            .classList.remove("hidden");
+
+    }
+
+});
+
 let currentUser = null;
 
 
