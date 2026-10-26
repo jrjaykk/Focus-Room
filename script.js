@@ -19,6 +19,8 @@ const supabaseClient = supabase.createClient(
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
 
+    console.log("Auth event:", event);
+    
     if (event === "PASSWORD_RECOVERY") {
 
         document
